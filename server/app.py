@@ -3,7 +3,7 @@
 import shelve
 from subprocess import check_output
 import flask
-from flask import request
+from flask import request, url_for
 from os import environ
 
 app = flask.Flask(__name__)
@@ -30,23 +30,29 @@ def home():
 
 ###
 # Wiki Resource:
-# GET method will redirect to the resource stored by PUT, by default: Wikipedia.org
+# GET method will redirect to the short-url stored in db
 # POST/PUT method will update the redirect destination
 ###
-@app.route('/wiki', methods=['GET'])
-def wiki_get():
-    """Redirects to wikipedia."""
-    destination = db.get('wiki', 'http://en.wikipedia.org')
+@app.route('/short/<name>', methods=['GET'])
+def lengthen_url(name):
+    """Redirects to long url or Nothing"""
+    destination = db.get(str(name), url_for('error'))
     app.logger.debug("Redirecting to " + destination)
     return flask.redirect(destination)
 
-@app.route("/wiki", methods=['PUT', 'POST'])
-def wiki_put():
+@app.route('/error', methods=['GET'])
+def error():
+    abort(404)
+    
+
+@app.route("/shorts", methods=['PUT', 'POST'])
+def shorten_url():
     """Set or update the URL to which this resource redirects to. Uses the
     `url` key to set the redirect destination."""
-    wikipedia = request.form.get('url', 'http://en.wikipedia.org')
-    db['wiki'] = wikipedia
-    return "Stored wiki => " + wikipedia
+    short_url = str(request.form['short-url'])
+    long_url = str(request.form['long-url'])
+    db[short_url] = long_url
+    return "associated " + long_url + " with  " + short_url
 
 ###
 # i253 Resource:
