@@ -7,7 +7,34 @@
 	</head>
 	<body>
 		<div class="container">
-			Hello {{ name }}
+			<div class="vert-section">
+				<h1>Let's shorten some URL's!!!</h1>
+				<p>Hello {{ name }} <br><br>
+				   Copy a long url below and create a shorter version by typing 
+				   it into the short url text box below then submit! It's that 
+				   easy. 
+				</p>	
+			</div>
+			<div class="vert-section">
+				
+				<form 
+action="http://people.ischool.berkeley.edu/~derek/server/shorts" 
+				method="post">
+				<div class="url-input">
+					<label for="long-url">Long URL</label>
+					<input type="text" placeholder="Type or copy the url you 
+					want to shorten" id="long-url" />	
+				</div>
+				<!--<img src="arrow.png"/>-->
+				<div class="url-input">
+					<label for="short-url">Short URL</label>
+                                        <input type="text" placeholder="Type the short url you
+                                        want use" id="short-url" />
+				</div>
+					<input type="submit" value="Alacazam!" />
+				</form>
+				
+			</div>
 		</div>
 	</body>
 </html>
