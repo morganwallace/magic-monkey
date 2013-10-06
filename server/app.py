@@ -3,6 +3,7 @@
 import shelve
 from subprocess import check_output
 import flask
+import operator
 from flask import request, url_for
 from os import environ
 
@@ -20,15 +21,15 @@ db = shelve.open("shorten.db")
 @app.route('/home', methods=['GET'])
 def home():
     """Builds a template based on a GET request, with some default
-    arguements"""
-    index_title = request.args.get("title", "i253")
-    hello_name = request.args.get("name", "Jim")
+    arguements"""  
+    index_title = request.args.get("title", "URL Shortener")
+    app.logger.debug(db)
+    db_sorted = sorted(db.iteritems(), key=operator.itemgetter(1))
+    app.logger.debug(db_sorted)	
     return flask.render_template(
             'home.html',
             title=index_title,
-            name=hello_name)
-
-
+	    urls=db_sorted)
 
 # GET method will redirect to the short-url stored in db
 # POST/PUT method will update the redirect destination
@@ -51,17 +52,26 @@ def page_not_found(e):
 	return flask.render_template("404.html",page=e)
 
 
+@app.route('/reset', methods=['GET'])
+def reset():
+    for key in db:
+	del db[key]
+    app.logger.debug(url_for('home'))
+    return flask.redirect('home')
+
 
 @app.route("/shorts", methods=['PUT', 'POST'])
 def shorten_url():
     """Set or update the URL to which this resource redirects to. Uses the
     `url` key to set the redirect destination."""
     short_url = str(request.form['short-url'])
-    long_url = str(request.form['long-url'])
-    db[short_url] = long_url
-    return "associated " + long_url + " with  " + short_url
+    long_url = str( request.form['long-url'])
+    item =  len(db), long_url
+    db[short_url] = item
+    return flask.redirect(url_for('home'))
+    #"""return "associated " + long_url + " with  " + short_url"""
 
 
 
 if __name__ == "__main__":
-    app.run(port=int(environ['FLASK_PORT']),debug=True)
+    app.run(port=int(environ['FLASK_PORT']))

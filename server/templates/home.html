@@ -23,12 +23,21 @@
 				    
 					
 				</div>
-
 	
-			  <input class="btn btn-default" type="submit" value="Alacazam!" />
+			<input class="btn btn-default" type="submit" value="Alacazam!" />
 			</form>
-								<button class="btn btn-info" onclick="makeshort()">Randomize</button>
+		        <button class="btn btn-info" onclick="makeshort()">Randomize</button>
 
+				<div class="url-input">
+					<label for="short-url">Short URL</label>
+				
+			<ul>
+				{% for item in urls %}
+ 					 <li>{{item[0]}}  associated with {{item[1][0]}} entered {{item[1][1]}}</li>
+				{% endfor %}
+			</ul>	
+				
+		          
 		</div>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="./static/js/main.js"></script>
