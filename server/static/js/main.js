@@ -1,6 +1,6 @@
 function validate() {
 
-        var letters = /^[A-Za-z]+$/;  
+
         var longurl = $("input[name='long-url']").val();
         
             
@@ -43,8 +43,16 @@ function makeid()
     return text;
 }
 
+function geturl(){
+	var path=$(location).attr('href');
+/* 	alert(path) */
+	path=path.substring(0,path.indexOf("server")+7)+"short/"
+	$("#cur_path").html(path);
+}
+
 $(document).ready(function() {
         $("#url-shorten").submit(validate);
         $("#short-url").val(makeshort)
         console.log("ready!");
+        geturl();
 });

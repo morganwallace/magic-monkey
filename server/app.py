@@ -55,10 +55,9 @@ def page_not_found(e):
 @app.route('/reset', methods=['GET'])
 def reset():
     for key in db:
-	del db[key]
+		del db[key]
     app.logger.debug(url_for('home'))
     return flask.redirect('home')
-
 
 @app.route("/shorts", methods=['PUT', 'POST'])
 def shorten_url():
@@ -68,7 +67,7 @@ def shorten_url():
     long_url = str( request.form['long-url'])
     item =  len(db), long_url
     db[short_url] = item
-    return flask.redirect(url_for('home'))
+    return flask.redirect("http://people.ischool.berkeley.edu/~morgan/server/")
     #"""return "associated " + long_url + " with  " + short_url"""
 
 
