@@ -6,7 +6,7 @@
 		<link rel="stylesheet" href="static/css/default.css">
 	</head>
 	<body>
-		<div class="container">
+		<div id="container">
 			<div class="vert-section">
 				<h1>Let's shorten some URL's!!!</h1>
 				<p>Hello {{ name }} <br><br>
@@ -22,14 +22,14 @@
 				method="post" id="url-shorten">
 				<div class="url-input">
 					<label for="long-url">Long URL</label>
-					<input type="text" placeholder="Type or copy the url you 
-					want to shorten" id="long-url" name="long-url"/>	
+					<input type="text" placeholder="Type or copy the url you want to shorten" id="long-url" name="long-url"/>	
 				</div>
-				<!--<img src="arrow.png"/>-->
+				<div id="image">
+					<img src="arrow.png"/>
+				</div>
 				<div class="url-input">
 					<label for="short-url">Short URL</label>
-                                        <input type="text" placeholder="Type the short url you
-                                        want use" id="short-url" name="short-url" />
+                                        <input type="text" placeholder="Type the short url you want use" id="short-url" name="short-url" />
 				</div>
 					<input type="submit" value="Alacazam!" />
 				</form>

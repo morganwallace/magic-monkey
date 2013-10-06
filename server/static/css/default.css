@@ -1,3 +1,49 @@
 html {
 	color: rgba(0, 0, 0, 0.8);
 }
+
+#container {
+	width: 960px;
+	background-color: PowderBlue;
+	margin: auto;
+	border-radius: 10px;
+}
+
+.vert-section {
+	padding: 20px;
+	width: 920px;
+}
+
+.url-input {
+	position: relative;
+	float: left;
+	height: 75px;
+}
+
+.url-input:nth-of-type(1) {
+	width: 70%;
+	background-color: red;
+}
+
+.url-input:nth-of-type(3) {
+	width: 20%;
+	background-color: green;
+}
+#image {
+	position: relative;
+	float: left;
+	width: 75px;
+	height: 75px;
+	background-color: gray;
+}
+
+input[type="text"] {
+	width: 100%;
+}
+
+label {
+	display: block;
+}
+
+
+
