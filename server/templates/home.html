@@ -3,40 +3,35 @@
 	<head>
 		<meta charset="utf-8">
 		<title>URL Shortener</title>
+		<link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="static/css/default.css">
 	</head>
 	<body>
-		<div id="container">
-			<div class="vert-section">
-				<h1>Let's shorten some URL's!!!</h1>
-				<p>Hello {{ name }} <br><br>
-				   Copy a long url below and create a shorter version by typing 
-				   it into the short url text box below then submit! It's that 
-				   easy. 
-				</p>	
-			</div>
-			<div class="vert-section">
-				
-				<form 
-				action="./shorts" 
-				method="post" id="url-shorten">
-				<div class="url-input">
-					<label for="long-url">Long URL</label>
-					<input type="text" placeholder="Type or copy the url you want to shorten" id="long-url" name="long-url"/>	
+		<div class="container">
+		<h1>Let's shorten some URL's!!!</h1>
+
+			<form role="form" id="url-shorten">
+				<div class="form-group">
+				    <label for="long-url">Full URL</label>
+					    <input type="url" class="form-control input-lg" style="width:90%" id="long-url" placeholder="Full URL" name="long-url" required>
+				    
 				</div>
-				<div id="image">
-					<img src="arrow.png"/>
+	
+				<div class="col-lg-2 form-group">
+				    <label for="short-url">Shortened URL</label>
+					    <input type="url" class="form-control" id="short-url" placeholder="Small URL (Optional)" name="short-url">
+				    
+					
 				</div>
-				<div class="url-input">
-					<label for="short-url">Short URL</label>
-                                        <input type="text" placeholder="Type the short url you want use" id="short-url" name="short-url" />
-				</div>
-					<input type="submit" value="Alacazam!" />
-				</form>
-				
-			</div>
+
+	
+			  <input class="btn btn-default" type="submit" value="Alacazam!" />
+			</form>
+								<button class="btn btn-info" onclick="makeshort()">Randomize</button>
+
 		</div>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="./static/js/main.js"></script>
+	<script src="./static/bootstrap/js/bootstrap.min.js"></script>
 	</body>
 </html>
