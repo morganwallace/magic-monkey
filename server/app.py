@@ -20,12 +20,10 @@ db = shelve.open("shorten.db")
 def home():
     """Builds a template based on a GET request, with some default
     arguements"""
-    index_title = request.args.get("title", "i253")
-    hello_name = request.args.get("name", "Jim")
+    index_title = request.args.get("title", "URL Shortener")
     return flask.render_template(
             'home.html',
-            title=index_title,
-            name=hello_name)
+            title=index_title)
 
 
 ###
