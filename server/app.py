@@ -44,6 +44,12 @@ def lengthen_url(name):
 def error():
     abort(404)
     
+    
+@app.errorhandler(404)
+def page_not_found(e):
+	return flask.render_template("404.html",page=e)
+
+
 
 @app.route("/shorts", methods=['PUT', 'POST'])
 def shorten_url():
@@ -86,4 +92,4 @@ def i253():
 
 
 if __name__ == "__main__":
-    app.run(port=int(environ['FLASK_PORT']))
+    app.run(port=int(environ['FLASK_PORT']),debug=True)
