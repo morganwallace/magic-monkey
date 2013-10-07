@@ -12,10 +12,11 @@ function validate() {
        
         if (shorturl.match(letters)) {
         //all good
+        $("#short-url").parent().removeClass('has-error alert alert-danger');
         }
         else{
 			console.log("please enter something (letters only) for the short url");
-            $("#short-url").parent().toggleClass('has-error alert alert-danger');
+            $("#short-url").parent().addClass('has-error alert alert-danger');
         	error=true;
         }
             
@@ -23,8 +24,12 @@ function validate() {
             //error
 /*             alert("la") */
             console.log("Full URL must not be empty");
-            $("#long-url").parent().toggleClass('has-error alert alert-danger');
+            $("#long-url").parent().addClass('has-error alert alert-danger');
             error=true;
+		}
+		else{
+			//good - long url has more than 0 chars
+			$("#long-url").parent().removeClass('has-error alert alert-danger');
 		}
 
 
