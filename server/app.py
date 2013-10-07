@@ -67,7 +67,7 @@ def shorten_url():
     long_url = str( request.form['long-url'])
     item =  len(db), long_url
     db[short_url] = item
-    return flask.redirect("http://people.ischool.berkeley.edu/~morgan/server/")
+    return flask.redirect(url_for('home'))
     #"""return "associated " + long_url + " with  " + short_url"""
 
 

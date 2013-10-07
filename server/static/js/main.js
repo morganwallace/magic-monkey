@@ -1,26 +1,37 @@
+
+
 function validate() {
 
+		//initialize without errors
+		var error=false;
 
-        var longurl = $("input[name='long-url']").val();
+        var letters = /^[A-Za-z]+$/;  
         
+        var longurl = $("input[name='long-url']").val();
+        var shorturl = $("input[name=short-url]").val();
+       
+        if (shorturl.match(letters)) {
+        //all good
+        }
+        else{
+			console.log("please enter something (letters only) for the short url");
+            $("#short-url").parent().toggleClass('has-error alert alert-danger');
+        	error=true;
+        }
             
         if(longurl.length === 0){
             //error
 /*             alert("la") */
-            console.log("please enter something (letters only) for the short url");
-            $("#long-url").parent().toggleClass('has-error');
-            return false;
-	}
-        else {
-            if(longurl.match(letters)) {
-                //all good
-            }
-            else{
-                //error
-                console.log("please enter only letters for the short url");
-           	return false;
-	     }     
+            console.log("Full URL must not be empty");
+            $("#long-url").parent().toggleClass('has-error alert alert-danger');
+            error=true;
+		}
+
+
+        if (error == true){
+	        return false
         }
+        
 }
 
 //automatically create a shortened version of the url
