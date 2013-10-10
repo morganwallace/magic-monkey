@@ -1,0 +1,287 @@
+@charset "UTF-8";
+@font-face {
+	font-family: magicschoolone;
+	font-style: normal;
+	font-weight: normal;
+	src: local(magicschoolone), url('../fonts/magicschoolone.otf')
+}
+
+body {
+	background-color: black;
+	font-size: 1em;
+	line-height: 1.4em;
+}
+
+a {
+	color: #7a1823;	
+	text-decoration: none;
+}
+
+.clear {
+	clear: both;
+}
+
+/* ANIMATIONS */
+
+/* Monkey Blink */
+
+@keyframes monkeyBlink {
+	0% {background: url('../img/monkey_1.png');}
+	93% {background: url('../img/monkey_1.png');}
+	100% {background: url('../img/monkey_2.png');}
+}
+
+@-webkit-keyframes monkeyBlink {
+	0% {background: url('../img/monkey_1.png');}
+	93% {background: url('../img/monkey_1.png');}
+	100% {background: url('../img/monkey_2.png');}
+}
+
+/* Tail Wag */
+@keyframes tailWag {
+	0% {transform: rotate(-10deg);}
+	50% {transform: rotate(30deg);}
+	100% {transform: rotate(-10deg);}
+}
+
+@-webkit-keyframes tailWag {
+	0% {-webkit-transform: rotate(-10deg);}
+	50% {-webkit-transform: rotate(30deg);}
+	100% {-webkit-transform: rotate(-10deg);}	
+}
+
+/* Smoke Effect */
+
+@keyframes smoke {
+	0% {text-shadow: 0 0 0 rgba(122, 24, 35, 1);}
+	90% {text-shadow: 0 -120px 20px rgba(122, 24, 35, 0);}
+	100% {text-shadow: 0 0 0 rgba(0, 0, 0, 0);}
+}
+
+@-webkit-keyframes smoke {
+	0% {text-shadow: 0 0 0 rgba(122, 24, 35, 1);}
+	90% {text-shadow: 0 -120px 20px rgba(122, 24, 35, 0);}
+	100% {text-shadow: 0 0 0 rgba(0, 0, 0, 0);}
+}
+
+/* Fade-in Effect */
+
+@keyframes fadeIn {
+	0% {color: red;}
+	100% {color: black; opacity: 1;}
+}
+
+@-webkit-keyframes fadeIn {
+	0% {color: red; opacity: 0;}
+	100% {color: #464646; opacity: 1;}
+}
+
+
+/* PAGE ELEMENTS */
+
+#wrapper {
+	margin: 50px auto 0;
+	position: relative;
+	width: 650px;
+}
+
+#candle {
+	right: 0px;
+	position: absolute;
+	top: 50px;
+	z-index: -2;
+}
+
+/* Monkey Body Parts */
+
+#tail {
+	animation: tailWag 8s infinite;
+	-webkit-animation: tailWag 8s infinite;
+	-webkit-transform-origin: left bottom;
+	transform-origin: left bottom;
+	/* Animation Timing */
+	-webkit-transition: all 500ms cubic-bezier(0.425, 0, 0.265, 1);
+	-webkit-transition: all 500ms cubic-bezier(0.425, -0.240, 0.265, 1.650); 
+	-moz-transition: all 500ms cubic-bezier(0.425, -0.240, 0.265, 1.650); 
+	transition: all 500ms cubic-bezier(0.425, -0.240, 0.265, 1.650);
+	-webkit-transition-timing-function: cubic-bezier(0.425, 0, 0.265, 1);
+	-webkit-transition-timing-function: cubic-bezier(0.425, -0.240, 0.265, 1.650); 
+	-moz-transition-timing-function: cubic-bezier(0.425, -0.240, 0.265, 1.650); 
+	transition-timing-function: cubic-bezier(0.425, -0.240, 0.265, 1.650);
+	/* Basic Stuff */
+	background: url('../img/tail.png') no-repeat;
+	height: 279px;
+	position: absolute;
+	right: 0;
+	top: 0;	
+	width: 233px;
+	z-index: -1;
+}
+
+#monkey {
+	animation: monkeyBlink 3.2s infinite;
+	-webkit-animation: monkeyBlink 3.2s infinite;
+	background-image: url('../img/monkey_1.png');
+	height: 456px;
+	width: 630px;
+}
+
+/* Evaporating title */
+
+#smoke {
+	-moz-transform: rotate(-1deg);
+	-webkit-transform: rotate(-1deg);	
+	transition: all 0.8s;
+	-webkit-transition: all 0.8s;
+	-moz-transition: all 0.8s;	
+	color: #7a1823;
+	cursor: default;
+	font-family: magicschoolone, cursive;
+	font-size: 3.5em;
+	font-weight: normal;
+	margin: 340px auto 0;
+	text-align: center;
+}
+
+#smoke span {
+	margin: -7px;
+}
+
+#smoke:hover {
+	color: transparent;
+}
+
+#smoke:hover span {
+	-webkit-animation-name: smoke;
+	animation-name: smoke;
+}
+
+#smoke span:nth-child(n) {
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+}
+
+#smoke span:nth-child(2n) {
+	-webkit-animation-duration: 1.2s;
+	animation-duration: 1.2s;
+}
+
+#smoke span:nth-child(3n) {
+	-webkit-animation-duration: 1.4s;
+	animation-duration: 1.4s;
+}
+
+#smoke span:nth-child(4n) {
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+}
+
+#smoke span:nth-child(5n) {
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+}
+
+#smoke div {
+	-moz-transform: rotate(1deg);
+	-webkit-transform: rotate(1deg);	
+	cursor: default;
+	font-family: magicschoolone, cursive;
+	font-size: 0.5em;
+	line-height: 1.1em;
+	text-align: center;
+	margin-bottom: 30px;
+	margin-top: -35px;
+	visibility: hidden;
+}
+
+#smoke:hover div {
+	animation: fadeIn 2s;
+	-webkit-animation: fadeIn 2s;
+	-webkit-animation-fill-mode: forwards;
+	visibility: visible;
+}
+
+/* Scroll elements */
+
+#scroll_content {
+	background: url('../img/scroll_content.png') repeat-y;
+	margin: -2px 0 0 9px;
+	padding: 0px 60px 20px;
+	width: 496px;
+}
+
+#scroll_bottom {
+	background: url('../img/scroll_bottom.png') no-repeat;
+	height: 95px;
+	margin-bottom: 50px;
+	width: 629px;
+	z-index: 3;
+}
+
+/* Form Elements */
+
+form label {
+	color: #464646;
+}
+
+form input[type="text"] {
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	border: none;
+	background-color: transparent;
+	border-bottom: 1px gray dashed;
+	font-family: "Times New Roman", serif;
+	font-size: 1em;
+	line-height: 1.4em;
+	margin-bottom: 20px;
+	outline: none;
+	width: 100%;
+}
+
+#submit_wrapper {
+	float: right;
+	margin: 15px 0 25px;
+}
+
+form input[type="submit"] {
+	background-color: transparent;
+	border: 1px solid #7a1823;
+	border-radius: 7px;
+	color: #7a1823;
+	font-family: "Times New Roman", serif;
+	font-size: 1.2em;
+	font-weight: bold;
+	padding: 5px 60px;
+}
+
+form input[type="submit"]:hover {
+	transition: all 0.4s;
+	-webkit-transition: all 0.4s;
+	-moz-transition: all 0.4s;	
+	background-color: #7a1823;
+	color: white;
+}
+
+#randomize_wrapper {
+	float: left;
+	margin: 15px 0 25px;
+}
+
+form input[type="button"] {
+	background-color: transparent;
+	border: 1px solid #7a1823;
+	border-radius: 7px;
+	color: #7a1823;
+	font-family: "Times New Roman", serif;
+	font-size: 1.2em;
+	font-weight: bold;
+	padding: 5px 60px;
+}
+
+form input[type="button"]:hover {
+	transition: all 0.4s;
+	-webkit-transition: all 0.4s;
+	-moz-transition: all 0.4s;	
+	background-color: #7a1823;
+	color: white;
+}
