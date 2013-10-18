@@ -4,7 +4,7 @@ import shelve
 from subprocess import check_output
 import flask
 import operator
-from flask import request, url_for
+from flask import request, url_for, abort
 from os import environ
 
 app = flask.Flask(__name__)
@@ -17,7 +17,7 @@ db = shelve.open("shorten.db")
 # Home Resource:
 # Only supports the GET method, returns a homepage represented as HTML
 ###
-@app.route('/')
+@app.route('/', methods=['GET'])
 @app.route('/home', methods=['GET'])
 def home():
     """Builds a template based on a GET request, with some default
@@ -37,9 +37,13 @@ def home():
 @app.route('/short/<name>', methods=['GET'])
 def lengthen_url(name):
     """Redirects to long url or Nothing"""
-    destination = db.get(str(name), url_for('error'))
-    app.logger.debug("Redirecting to " + destination)
-    return flask.redirect(destination)
+    if not db.has_key(str(name)):    
+    	return flask.redirect(url_for('error', _external=True))
+    else:
+	destination = db.get(str(name))
+    	app.logger.debug("Redirecting to " + destination[1])
+    	return flask.redirect(destination[1])
+
 
 @app.route('/error', methods=['GET'])
 def error():
@@ -49,15 +53,14 @@ def error():
 @app.errorhandler(404)
 def page_not_found(e):
 	"""Handles all requests that the server can't handle"""
-	return flask.render_template("404.html",page=e)
+	return flask.render_template("404.html", page=e)
 
 
 @app.route('/reset', methods=['GET'])
 def reset():
     for key in db:
 		del db[key]
-    app.logger.debug(url_for('home'))
-    return flask.redirect('home')
+    return flask.redirect(url_for('home', _external=True))
 
 @app.route("/shorts", methods=['PUT', 'POST'])
 def shorten_url():
@@ -67,7 +70,8 @@ def shorten_url():
     long_url = str( request.form['long-url'])
     item =  len(db), long_url
     db[short_url] = item
-    return flask.redirect(url_for('home'))
+    #app.logger.debug(url_for('home', _external=True))
+    return flask.redirect(url_for('home', _external=True))
     #"""return "associated " + long_url + " with  " + short_url"""
 
 

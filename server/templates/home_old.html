@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta charset="utf-8">
+		<title>URL Shortener</title>
+		<link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="static/css/default.css">
+	</head>
+	<body>
+<!--
+		<blink>just kidding</blink> 
+-->
+		<div class="container">
+		<h1>Let's shorten some URL's!!!</h1>
+
+			<form role="form"  action="./shorts" method="post" id="url-shorten">
+				<div class="form-group">
+				    <label for="long-url">Full URL</label>
+					    <input type="url" class="form-control "  id="long-url" placeholder="e.g. http://google.com" name="long-url" required>
+				    
+				</div>
+	
+				<div class="form-group">
+				    <label for="short-url">Shortened URL</label>
+					    <span id="cur_path"></span><input type="url" class="form-control" id="short-url" placeholder="Small URL (Optional)" name="short-url">
+				    
+					
+				</div>
+	
+			<input class="btn btn-default" type="submit" value="Alacazam!" />
+			</form>
+
+		        <button class="btn btn-info" onclick="makeshort()">Randomize</button>
+
+
+				<div class="url-input">
+					<label for="short-url">Short URL</label>
+				
+			<ul>
+				{% for item in urls %}
+ 					 <li>{{item[0]}}  associated with {{item[1][0]}} entered {{item[1][1]}}</li>
+				{% endfor %}
+			</ul>	
+				
+		          
+		</div>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="./static/js/main.js"></script>
+	<script src="./static/bootstrap/js/bootstrap.min.js"></script>
+	</body>
+</html>

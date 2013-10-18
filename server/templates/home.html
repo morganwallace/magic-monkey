@@ -1,51 +1,79 @@
-<!DOCTYPE html>
 <html lang="en-us">
-	<head>
-		<meta charset="utf-8">
-		<title>URL Shortener</title>
-		<link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css">
-		<link rel="stylesheet" href="static/css/default.css">
-	</head>
-	<body>
-<!--
-		<blink>just kidding</blink> 
--->
-		<div class="container">
-		<h1>Let's shorten some URL's!!!</h1>
 
-			<form role="form"  action="./shorts" method="post" id="url-shorten">
-				<div class="form-group">
-				    <label for="long-url">Full URL</label>
-					    <input type="url" class="form-control "  id="long-url" placeholder="e.g. http://google.com" name="long-url" required>
-				    
+<head>
+	<meta charset="UTF-8">
+	<title>Magic Monkey Minifier</title>
+	<link rel="stylesheet" type="text/css" href="./static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="./static/css/stylesheet.css">
+</head>
+
+<body>
+	<div id="wrapper">
+		<img src="./static/img/candle.gif" id="candle" alt="candle">
+		<div id="tail"></div>		
+		<div id="monkey">&nbsp;
+			<div id="smoke">
+				<span>M</span>
+				<span>a</span>
+				<span>g</span>
+				<span>i</span>
+				<span>c</span>
+				<span>M</span>
+				<span>o</span>
+				<span>n</span>
+				<span>k</span>
+				<span>e</span>
+				<span>y</span>
+				<span>M</span>
+				<span>i</span>
+				<span>n</span>
+				<span>i</span>
+				<span>f</span>
+				<span>i</span>
+				<span>e</span>
+				<span>r</span>
+				<div>
+				Summoned by:<br>
+				<a href="http://people.ischool.berkeley.edu/~andrew/" target="_blank">Andrew Win</a>,
+				<a href="http://people.ischool.berkeley.edu/~derek/" target="_blank">Derek Kan</a>, 
+				<a href="http://www.morganwallace.com" target="_blank">Morgan Wallace</a> &amp; 
+				<a href="http://about.me/lazar" target="_blank">Lazar Stojković</a>
 				</div>
-	
-				<div class="form-group">
-				    <label for="short-url">Shortened URL</label>
-					    <span id="cur_path"></span><input type="url" class="form-control" id="short-url" placeholder="Small URL (Optional)" name="short-url">
-				    
-					
-				</div>
-	
-			<input class="btn btn-default" type="submit" value="Alacazam!" />
-			</form>
-
-		        <button class="btn btn-info" onclick="makeshort()">Randomize</button>
-
-
-				<div class="url-input">
-					<label for="short-url">Short URL</label>
-				
-			<ul>
-				{% for item in urls %}
- 					 <li>{{item[0]}}  associated with {{item[1][0]}} entered {{item[1][1]}}</li>
-				{% endfor %}
-			</ul>	
-				
-		          
+			</div>
 		</div>
+
+		<div id="scroll_content">
+			<form role="form" action="./shorts" method="post" id="url-shorten" name="shortener">
+				<label for="long-url">The Long URL</label>
+				<input type="text" id="long-url" name="long-url" placeholder="e.g. http://google.com" required autofocus>
+
+				<label for="short-url">The Short Path</label>
+				<input type="text" id="short-url" name="short-url" placeholder="A Short URL of your choosing (letters only)">
+				
+				<div id="submit_wrapper">
+					<input type="submit" value="Alacazam!">
+				</div>
+
+				<div id="randomize_wrapper">
+					<input type="button" value="Randomize" onclick="makeshort()">
+				</div>
+			</form>
+			<div class="clear"></div>
+
+			<!-- List of generated URLs goes here -->
+			{% for item in urls %}
+ 			<div class="link-history"> 
+				<p> You can now use <a href="./short/{{item[0]}}">{{item[0]}}</a> 
+instead of the long ass URL <a href={{item[1][1]}}>{{item[1][1]}}</a>. Voila! </p>
+			</div>
+			{% endfor %}
+		
+
+		</div>
+		<div id="scroll_bottom"></div>	
+	</div>
+</body>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="./static/js/main.js"></script>
 	<script src="./static/bootstrap/js/bootstrap.min.js"></script>
-	</body>
 </html>

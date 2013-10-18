@@ -3,19 +3,23 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Error 404 re:{{ page }}</title>
-		<link rel="stylesheet" href="static/css/default.css">
+		<link rel="stylesheet" href="static/css/stylesheet.css">
 	</head>
 	<body>
-		<div id="container">
-			<div class="vert-section">
-				<h1>Nothing </h1>
+		<div id="wrapper">
+			<div id="scroll_top">
+			</div>
+			<div id="scroll_content">
+				<h1>Nothing</h1>
 				<p>The page you requested, {{ page }}
 				    is without objective meaning, purpose, or intrinsic value. What are you, a nihilist?!
 				</p>	
-			</div>
-			<span class="return-home btn"><a href="../home">Return to URL shortener</a></span>
 			
-		</div>
+			<span class="return-home btn"><a href="./home">Return to URL shortener</a></span>
+			</div>
+			<div id="scroll_bottom"></div>		
+		</div>	
+	
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="./static/js/main.js"></script>
 	</body>
