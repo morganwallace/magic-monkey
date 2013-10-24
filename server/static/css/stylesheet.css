@@ -19,7 +19,14 @@ a {
 }
 
 h1 {
-	margin-top: 0px;
+	color: red;
+	cursor: default;
+	font-family: magicschoolone, cursive;
+	font-size: 6em;
+	font-weight: normal;
+	margin: 0 auto 70px 0;
+	text-align: center;
+	text-shadow: #7a1823 2px 2px;
 }
 
 .clear {
@@ -305,4 +312,27 @@ form input[type="button"]:hover {
 	-moz-transition: all 0.4s;	
 	background-color: #7a1823;
 	color: white;
+}
+
+/* 404 PAGE */
+
+#wrapper_404 {
+	margin: 100px auto 0;
+	position: relative;
+	width: 400px;
+}
+
+#wrapper_404 a:hover {
+	text-decoration: underline;
+}
+
+#text_404 {
+	margin-top: 50px;
+	color: white;
+	text-align: center;
+}
+
+#link_404 {
+	color: red;
+	margin: auto;
 }
