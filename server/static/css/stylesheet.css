@@ -15,7 +15,7 @@ body {
 a {
 	color: #7a1823;	
 	text-decoration: none;
-	max-width: 90%;
+	word-break: break-all;
 }
 
 h1 {
