@@ -29,8 +29,35 @@ h1 {
 	text-shadow: #7a1823 2px 2px;
 }
 
+h2 {
+	font-size: 1.3em;
+	font-weight: bold;
+	line-height: 1.4em;
+	margin-bottom: 4px;
+}
+
+h2:hover {
+	text-decoration: underline;
+}
+
+strong {
+	font-weight: bold;
+}
+
 .clear {
 	clear: both;
+}
+
+/* SELECTION */
+
+::-moz-selection {
+	background-color: #7a1823;
+	color: white;
+}
+
+::selection {
+	background-color: #7a1823;
+	color: white;
 }
 
 /* ANIMATIONS */
@@ -92,7 +119,8 @@ h1 {
 /* PAGE ELEMENTS */
 
 #wrapper {
-	margin: 50px auto 0;
+	margin-left: auto;
+	margin-right: auto;
 	position: relative;
 	width: 650px;
 }
@@ -102,6 +130,68 @@ h1 {
 	position: absolute;
 	top: 50px;
 	z-index: -2;
+}
+
+/* Login form */
+
+#login {
+	height: 30px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+#login input[type="text"] {
+	background: none;
+	border: 1px solid red;
+	color: white;
+	height: 30px;
+	outline-color: red;
+	padding: 5px;
+	width: 225px;	
+}
+
+#login input[type="text"]::-webkit-input-placeholder {color: white;}
+#login input[type="text"]:-moz-placeholder {color: white;} /* Firefox 18- */
+#login input[type="text"]::-moz-placeholder {color: white;} /* Firefox 19+ */
+#login input[type="text"]:-ms-input-placeholder {color: white;}
+
+#login input[type="password"] {
+	background: none;
+	border: 1px solid red;
+	color: white;
+	font-family: "Times New Roman", serif;
+	font-size: 1em;
+	height: 30px;
+	margin-left: 10px;
+	outline-color: red;
+	padding: 5px;
+	width: 225px;
+}
+
+#login input[type="password"]::-webkit-input-placeholder {color: white;}
+#login input[type="password"]:-moz-placeholder {color: white;} /* Firefox 18- */
+#login input[type="password"]::-moz-placeholder {color: white;} /* Firefox 19+ */
+#login input[type="password"]:-ms-input-placeholder {color: white;}
+
+#login input[type="submit"] {
+	background-color: #7a1823;
+	border: 1px solid red;
+	border-radius: 3px;
+	color: white;
+	cursor: pointer;
+	font-family: "Times New Roman", serif;
+	font-size: 1em;
+	font-weight: bold;
+	height: 30px;
+	margin-left: 10px;
+	width: 150px;
+}
+
+#login input[type="submit"]:hover {
+	transition: all 0.4s;
+	-moz-transition: all 0.4s;
+	-webkit-transition: all 0.4s;
+	background-color: red;
 }
 
 /* Monkey Body Parts */
@@ -125,7 +215,7 @@ h1 {
 	height: 279px;
 	position: absolute;
 	right: 0;
-	top: 0;	
+	top: 50px;	
 	width: 233px;
 	z-index: -1;
 }
@@ -142,7 +232,7 @@ h1 {
 
 #smoke {
 	-moz-transform: rotate(-1deg);
-	-webkit-transform: rotate(-1deg);	
+	-webkit-transform: rotate(-1deg);
 	transition: all 0.8s;
 	-webkit-transition: all 0.8s;
 	-moz-transition: all 0.8s;	
@@ -238,18 +328,11 @@ h1 {
 	z-index: 3;
 }
 
-.link-history {
-	margin: auto;
-	margin-bottom: 10px;
-	padding: 20px;
-	border: 1px dashed gray;
-	border-radius: 5px;
-}
-
 /* Form Elements */
 
 form label {
 	color: #464646;
+	font-weight: bold;
 }
 
 form input[type="text"] {
@@ -262,7 +345,6 @@ form input[type="text"] {
 	font-size: 1em;
 	line-height: 1.4em;
 	margin-bottom: 20px;
-	outline: none;
 	width: 100%;
 }
 
@@ -271,18 +353,19 @@ form input[type="text"] {
 	margin: 15px 0 25px;
 }
 
-form input[type="submit"] {
+#url-shorten input[type="submit"] {
 	background-color: transparent;
 	border: 1px solid #7a1823;
 	border-radius: 7px;
 	color: #7a1823;
+	cursor: pointer;
 	font-family: "Times New Roman", serif;
 	font-size: 1.2em;
 	font-weight: bold;
 	padding: 5px 60px;
 }
 
-form input[type="submit"]:hover {
+#url-shorten input[type="submit"]:hover {
 	transition: all 0.4s;
 	-webkit-transition: all 0.4s;
 	-moz-transition: all 0.4s;	
@@ -300,6 +383,7 @@ form input[type="button"] {
 	border: 1px solid #7a1823;
 	border-radius: 7px;
 	color: #7a1823;
+	cursor: pointer;
 	font-family: "Times New Roman", serif;
 	font-size: 1.2em;
 	font-weight: bold;
@@ -313,6 +397,36 @@ form input[type="button"]:hover {
 	background-color: #7a1823;
 	color: white;
 }
+
+#long-url {outline: none;}
+#short-url {outline: none;}
+
+/* Minified Links */
+
+.link-history {
+	color: #464646;
+	margin: auto;
+	padding: 20px 0px;
+}
+
+.minified {
+	transition: all 0.4s;
+	-moz-transition: all 0.4s;
+	-webkit-transition: all 0.4s;
+	border: 1px dashed #7a1823;
+	border-radius: 7px;
+	color: #7a1823;
+	display: inline-block;
+	font-weight: bold;
+	margin-top: 10px;
+	padding: 3px 8px;
+}
+
+.minified:hover {
+	background-color: #7a1823;
+	color: white;
+}
+
 
 /* 404 PAGE */
 

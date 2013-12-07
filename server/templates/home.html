@@ -9,6 +9,11 @@
 
 <body>
 	<div id="wrapper">
+		<form id="login">
+			<input type="text" name="username" placeholder="Username">
+			<input type="password" name="password" placeholder="Password">
+			<input type="submit" value="Log In">
+		</form>
 		<img src="./static/img/candle.gif" id="candle" alt="candle">
 		<div id="tail"></div>		
 		<div id="monkey">&nbsp;
@@ -44,11 +49,11 @@
 
 		<div id="scroll_content">
 			<form role="form" action="./shorts" method="post" id="url-shorten" name="shortener">
-				<label for="long-url">The Long URL</label>
-				<input type="text" id="long-url" name="long-url" placeholder="e.g. http://google.com" required autofocus>
+				<label for="long-url">The long URL</label>
+				<input type="text" id="long-url" name="long-url" placeholder="Example: http://google.com" required autofocus>
 
-				<label for="short-url">The Short Path</label>
-				<input type="text" id="short-url" name="short-url" placeholder="A Short URL of your choosing (letters only)">
+				<label for="short-url">The short path</label>
+				<input type="text" id="short-url" name="short-url" placeholder="A short URL of your choosing (letters only)">
 				
 				<div id="submit_wrapper">
 					<input type="submit" value="Alacazam!">
@@ -63,8 +68,10 @@
 			<!-- List of generated URLs goes here -->
 			{% for item in urls %}
  			<div class="link-history"> 
-				<p> You can now use <a href="./short/{{item[0]}}">{{item[0]}}</a> 
-instead of the long ass URL <a href={{item[1][1]}}>{{item[1][1]}}</a>. Voila! </p>
+				<h2><a href="{{item[1][1]}}">{{item[1][1]}}</a></h2>
+				<strong>Transmuted on: </strong>xx/yy/2013<br>
+				<strong>Times clicked:</strong> 0<br>
+				<a href="./short/{{item[0]}}" class="minified">/{{item[0]}}</a>
 			</div>
 			{% endfor %}
 		
