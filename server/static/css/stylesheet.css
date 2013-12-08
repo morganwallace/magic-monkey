@@ -89,6 +89,25 @@ strong {
 	100% {-webkit-transform: rotate(-10deg);}	
 }
 
+/* Candle Flame */
+@keyframes candleFlame {
+	0% {background-image: url('../img/candle_1.png');}
+	20% {background-image: url('../img/candle_2.png');}
+	40% {background-image: url('../img/candle_3.png');}
+	60% {background-image: url('../img/candle_4.png');}
+	80% {background-image: url('../img/candle_5.png');}
+	100% {background-image: url('../img/candle_6.png');}
+}
+
+@-webkit-keyframes candleFlame {
+	0% {background-image: url('../img/candle_1.png');}
+	20% {background-image: url('../img/candle_2.png');}
+	40% {background-image: url('../img/candle_3.png');}
+	60% {background-image: url('../img/candle_4.png');}
+	80% {background-image: url('../img/candle_5.png');}
+	100% {background-image: url('../img/candle_6.png');}
+}
+
 /* Smoke Effect */
 
 @keyframes smoke {
@@ -126,9 +145,15 @@ strong {
 }
 
 #candle {
+	animation: candleFlame 1.2s infinite;
+	-webkit-animation: candleFlame 1.2s infinite;
+	background-image: url("../img/candle_1.png");
+	display: block;
+	height: 280px;
 	right: 0px;
 	position: absolute;
-	top: 50px;
+	top: 90px;
+	width: 200px;
 	z-index: -2;
 }
 
