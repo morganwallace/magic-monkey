@@ -42,6 +42,7 @@ def home():
 ###
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+
 	if request.method == 'GET':
         	return flask.render_template('login.html')
 	else:
@@ -50,20 +51,19 @@ def login():
 	    #else hash password and create new row [USER_NAME, PASSWORD, LOGGED_IN]
 	
 
-
 ###
 # GET method will redirect to the short-url stored in db
 # POST/PUT method will update the redirect destination
-###
+#
 @app.route('/short/<name>', methods=['GET'])
 def lengthen_url(name):
     """Redirects to long url or Nothing"""
     if not db.has_key(str(name)):    
-    	return flask.redirect(url_for('error', _external=True))
+	return flask.redirect(url_for('error', _external=True))
     else:
 	destination = db.get(str(name))
-    	app.logger.debug("Redirecting to " + destination[1])
-    	return flask.redirect(destination[1])
+	app.logger.debug("Redirecting to " + destination[1])
+	return flask.redirect(destination[1])
 
 
 @app.route('/error', methods=['GET'])
