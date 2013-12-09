@@ -154,7 +154,7 @@ strong {
 	position: absolute;
 	top: 90px;
 	width: 200px;
-	z-index: -2;
+	z-index: -10;
 }
 
 /* Login form */
@@ -290,6 +290,45 @@ strong {
 	height: 456px;
 	width: 630px;
 }
+
+/* Miscellaneous Elements */
+
+#tarotDeath {
+	-moz-transform: rotate(-22deg);
+	-webkit-transform: rotate(-22deg);
+	background-image: url('../img/tarotDeath.png');
+	height: 463px;
+	left: -80px;
+	position: absolute;
+	top: 180px;
+	width: 267px;
+	z-index: -5;
+}
+
+#tarotDevil {
+	-moz-transform: rotate(24deg);
+	-webkit-transform: rotate(24deg);
+	background-image: url('../img/tarotDevil.png');
+	height: 463px;
+	right: -33px;
+	position: absolute;
+	top: 333px;
+	width: 258px;
+	z-index: -5;
+}
+
+#runes {
+	-moz-transform: rotate(18deg);
+	-webkit-transform: rotate(18deg);
+	background-image: url('../img/runes.png');
+	height: 500px;
+	left: -90px;
+	position: absolute;
+	top: 280px;
+	width: 354px;
+	z-index: -7;
+}
+
 
 /* Evaporating title */
 
