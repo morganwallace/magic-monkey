@@ -12,7 +12,9 @@ from flask.ext.sqlalchemy import SQLAlchemy
 # from flask.ext.gzip import Gzip
 from flask import Flask
 from flask.ext.compress import Compress
-
+from flask import request
+from flask import make_response
+import MySQLdb
 
 app = flask.Flask(__name__)
 Compress(app)
@@ -20,9 +22,9 @@ bcrypt = Bcrypt(app)
 # gzip = Gzip(app)
 
 app.debug = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://url_shortener:4w8in43@localhost/url_shortener' 
-db = SQLAlchemy(app)
-#db = shelve.open("shorten.db")
+db=MySQLdb.connect(host="localhost",user="url_shortener",
+                  passwd="4w8in43",db="url_shortener")
+cursor = db.cursor()
 
 
 ###
@@ -34,21 +36,46 @@ db = SQLAlchemy(app)
 def home():
     """Builds a template based on a GET request, with some default
     arguements"""  
-    index_title = request.args.get("title", "URL Shortener")
-    #app.logger.debug(db)
-    #db_sorted = sorted(db.iteritems(), key=operator.itemgetter(1))
-    #app.logger.debug(db_sorted)	
-    return flask.render_template(
+    if request.method == 'GET':
+    	username = request.cookies.get('username')
+        index_title = request.args.get("title", "URL Shortener")
+        #app.logger.debug(db)
+        #db_sorted = sorted(db.iteritems(), key=operator.itemgetter(1))
+        #app.logger.debug(db_sorted)        
+        return flask.render_template(
             'home.html',
             title=index_title)
-# 	    urls=db_sorted)
-
+    else:
+        if request.form['form_type'] == 'signup':
+			username = str(MySQLdb.escape_string(request.form['username']))
+			password = str(MySQLdb.escape_string(request.form['password']))
+			signup(username, password)
+			
+			#set cookie
+			resp = make_response(flask.render_template('home.html'))
+			resp.set_cookie('username', username)
+			return resp
+        else:
+            pass
+        return flask.render_template('home.html')
 
 
 ### 
 # Login Resource:
 ###
-@app.route('/login', methods=['GET', 'POST'])
+# @app.route('/login', methods=['GET', 'POST'])
+
+def signup(username, password):
+
+     #create new row in table USERS 
+     pw_hash = bcrypt.generate_password_hash(password)     
+     newEntry = [username, str(pw_hash), 1]
+     app.logger.debug("signup button clicked")
+     app.logger.debug(newEntry)
+     cursor.execute("""INSERT INTO USERS (USER_NAME, PASSWORD, LOGGED_IN) VALUES (%s, %s, %s)""", newEntry)
+     app.logger.debug(cursor._executed)
+     db.commit()
+
 def login():
 
 	if request.method == 'GET':
