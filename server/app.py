@@ -77,5 +77,5 @@ def shorten_url():
 
 
 if __name__ == "__main__":
-    #app.run(port=int(environ['FLASK_PORT']))
-    app.run()
+    app.run(port=int(environ['FLASK_PORT']))
+#     app.run()
