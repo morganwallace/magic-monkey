@@ -33,8 +33,8 @@ def home():
     #app.logger.debug(db_sorted)	
     return flask.render_template(
             'home.html',
-            title=index_title,
-	    urls=db_sorted)
+            title=index_title)
+	   # urls=db_sorted)
 
 ### 
 # Login Resource:

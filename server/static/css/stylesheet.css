@@ -411,46 +411,32 @@ form input[type="text"] {
 	width: 100%;
 }
 
+#randomize_wrapper {
+	float: left;
+	margin: 15px 0 25px;
+}
+
 #submit_wrapper {
 	float: right;
 	margin: 15px 0 25px;
 }
 
 #url-shorten input[type="submit"] {
-	background-color: transparent;
-	border: 1px solid #7a1823;
-	border-radius: 7px;
-	color: #7a1823;
+	background: none;
+	background: url("../img/alacazam.svg") no-repeat;
+	border: none;
 	cursor: pointer;
-	font-family: "Times New Roman", serif;
-	font-size: 1.2em;
-	font-weight: bold;
-	padding: 5px 60px;
+	height: 61px;
+	width: 168px;
 }
 
-#url-shorten input[type="submit"]:hover {
-	transition: all 0.4s;
-	-webkit-transition: all 0.4s;
-	-moz-transition: all 0.4s;	
-	background-color: #7a1823;
-	color: white;
-}
-
-#randomize_wrapper {
-	float: left;
-	margin: 15px 0 25px;
-}
-
-form input[type="button"] {
-	background-color: transparent;
-	border: 1px solid #7a1823;
-	border-radius: 7px;
-	color: #7a1823;
+#randomize {
+	background: none;
+	background: url("../img/randomize.svg") no-repeat;
+	border: none;
 	cursor: pointer;
-	font-family: "Times New Roman", serif;
-	font-size: 1.2em;
-	font-weight: bold;
-	padding: 5px 60px;
+	height: 61px;
+	width: 168px;
 }
 
 form input[type="button"]:hover {
