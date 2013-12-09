@@ -298,11 +298,23 @@ strong {
 	-webkit-transform: rotate(-22deg);
 	background-image: url('../img/tarotDeath.png');
 	height: 463px;
-	left: -80px;
+	left: -50px;
 	position: absolute;
 	top: 180px;
 	width: 267px;
 	z-index: -5;
+}
+
+#runes {
+	-moz-transform: rotate(18deg);
+	-webkit-transform: rotate(18deg);
+	background-image: url('../img/runes.png');
+	height: 500px;
+	left: -60px;
+	position: absolute;
+	top: 280px;
+	width: 354px;
+	z-index: -7;
 }
 
 #tarotDevil {
@@ -315,18 +327,6 @@ strong {
 	top: 333px;
 	width: 258px;
 	z-index: -5;
-}
-
-#runes {
-	-moz-transform: rotate(18deg);
-	-webkit-transform: rotate(18deg);
-	background-image: url('../img/runes.png');
-	height: 500px;
-	left: -90px;
-	position: absolute;
-	top: 280px;
-	width: 354px;
-	z-index: -7;
 }
 
 
