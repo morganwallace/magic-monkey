@@ -43,9 +43,10 @@ def home():
             title=index_title)
 # 	    urls=db_sorted)
 
+
+
 ### 
 # Login Resource:
-#
 ###
 @app.route('/login', methods=['GET', 'POST'])
 def login():
