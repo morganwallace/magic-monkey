@@ -9,9 +9,16 @@ from os import environ
 from flaskext.bcrypt import Bcrypt
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
+# from flask.ext.gzip import Gzip
+from flask import Flask
+from flask.ext.compress import Compress
+
 
 app = flask.Flask(__name__)
+Compress(app)
 bcrypt = Bcrypt(app)
+# gzip = Gzip(app)
+
 app.debug = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://url_shortener:4w8in43@localhost/url_shortener' 
 db = SQLAlchemy(app)
@@ -33,8 +40,8 @@ def home():
     #app.logger.debug(db_sorted)	
     return flask.render_template(
             'home.html',
-            title=index_title,
-	    urls=db_sorted)
+            title=index_title)
+# 	    urls=db_sorted)
 
 ### 
 # Login Resource:
