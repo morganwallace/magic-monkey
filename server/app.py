@@ -6,11 +6,16 @@ import flask
 import operator
 from flask import request, url_for, abort
 from os import environ
+from flaskext.bcrypt import Bcrypt
+from flask import Flask
+from flask.ext.sqlalchemy import SQLAlchemy
 
 app = flask.Flask(__name__)
+bcrypt = Bcrypt(app)
 app.debug = True
-
-db = shelve.open("shorten.db")
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://url_shortener:4w8in43@localhost/url_shortener' 
+db = SQLAlchemy(app)
+#db = shelve.open("shorten.db")
 
 
 ###
@@ -31,6 +36,20 @@ def home():
             title=index_title,
 	    urls=db_sorted)
 
+### 
+# Login Resource:
+#
+###
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+	if request.method == 'GET':
+        	return flask.render_template('login.html')
+        #if registered check username and password against db
+        #else hash password and create new row [USER_NAME, PASSWORD, LOGGED_IN]
+    #else:
+
+
+###
 # GET method will redirect to the short-url stored in db
 # POST/PUT method will update the redirect destination
 ###
