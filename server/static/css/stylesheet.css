@@ -160,6 +160,8 @@ strong {
 /* Login form */
 
 #login {
+	color: white;
+	font-size: 0.8em;
 	height: 30px;
 	margin-bottom: 10px;
 	margin-top: 10px;
@@ -169,28 +171,45 @@ strong {
 	background: none;
 	border: 1px solid red;
 	color: white;
+	float: left;
 	height: 30px;
 	outline-color: red;
 	padding: 5px;
-	width: 225px;	
+	width: 250px;	
 }
 
-#login input[type="text"]::-webkit-input-placeholder {color: white;}
-#login input[type="text"]:-moz-placeholder {color: white;} /* Firefox 18- */
-#login input[type="text"]::-moz-placeholder {color: white;} /* Firefox 19+ */
-#login input[type="text"]:-ms-input-placeholder {color: white;}
+#login input[type="text"]::-webkit-input-placeholder {
+	color: white;
+	font-size: 1em;
+}
+
+#login input[type="text"]:-moz-placeholder { /* Firefox 18- */
+	color: white;
+	font-size: 1em;
+}
+
+#login input[type="text"]::-moz-placeholder { /* Firefox 19+ */
+	color: white;
+	font-size: 1em;
+}
+
+#login input[type="text"]:-ms-input-placeholder {
+	color: white;
+	font-size: 1em;
+}
 
 #login input[type="password"] {
 	background: none;
 	border: 1px solid red;
 	color: white;
+	float: left;
 	font-family: "Times New Roman", serif;
 	font-size: 1em;
 	height: 30px;
 	margin-left: 10px;
 	outline-color: red;
 	padding: 5px;
-	width: 225px;
+	width: 250px;
 }
 
 #login input[type="password"]::-webkit-input-placeholder {color: white;}
@@ -204,12 +223,14 @@ strong {
 	border-radius: 3px;
 	color: white;
 	cursor: pointer;
+	float: left;
 	font-family: "Times New Roman", serif;
 	font-size: 1em;
 	font-weight: bold;
 	height: 30px;
 	margin-left: 10px;
-	width: 150px;
+	margin-right: 20px;
+	width: 110px;
 }
 
 #login input[type="submit"]:hover {
@@ -218,6 +239,23 @@ strong {
 	-webkit-transition: all 0.4s;
 	background-color: red;
 }
+
+#login a {color: red;}
+#login a:hover {text-decoration: underline;}
+
+#no-account {
+	font-size: 1em;
+	font-style: italic;
+	left: 0;
+	position: absolute;
+	top: 33px;
+}
+
+#toggleLoginRegister {
+	color: red;
+	cursor: pointer;
+}
+
 
 /* Monkey Body Parts */
 
