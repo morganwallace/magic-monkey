@@ -28,9 +28,9 @@ def home():
     """Builds a template based on a GET request, with some default
     arguements"""  
     index_title = request.args.get("title", "URL Shortener")
-    app.logger.debug(db)
-    db_sorted = sorted(db.iteritems(), key=operator.itemgetter(1))
-    app.logger.debug(db_sorted)	
+    #app.logger.debug(db)
+    #db_sorted = sorted(db.iteritems(), key=operator.itemgetter(1))
+    #app.logger.debug(db_sorted)	
     return flask.render_template(
             'home.html',
             title=index_title,
@@ -58,13 +58,14 @@ def login():
 @app.route('/short/<name>', methods=['GET'])
 def lengthen_url(name):
     """Redirects to long url or Nothing"""
+    """
     if not db.has_key(str(name)):    
 	return flask.redirect(url_for('error', _external=True))
     else:
 	destination = db.get(str(name))
 	app.logger.debug("Redirecting to " + destination[1])
 	return flask.redirect(destination[1])
-
+    """
 
 @app.route('/error', methods=['GET'])
 def error():
@@ -76,12 +77,13 @@ def page_not_found(e):
 	"""Handles all requests that the server can't handle"""
 	return flask.render_template("404.html", page=e)
 
-
+"""
 @app.route('/reset', methods=['GET'])
 def reset():
     for key in db:
 		del db[key]
     return flask.redirect(url_for('home', _external=True))
+"""
 
 @app.route("/shorts", methods=['PUT', 'POST'])
 def shorten_url():
@@ -89,8 +91,9 @@ def shorten_url():
     `url` key to set the redirect destination."""
     short_url = str(request.form['short-url'])
     long_url = str( request.form['long-url'])
-    item =  len(db), long_url
-    db[short_url] = item
+    # insert url guys to mysql database
+    # // item =  len(db), long_url
+    # // db[short_url] = item
     #app.logger.debug(url_for('home', _external=True))
     return flask.redirect(url_for('home', _external=True))
     #"""return "associated " + long_url + " with  " + short_url"""
@@ -98,5 +101,5 @@ def shorten_url():
 
 
 if __name__ == "__main__":
-#    app.run(port=int(environ['FLASK_PORT']))
-     app.run()
+     app.run(port=int(environ['FLASK_PORT']))
+     #app.run()
