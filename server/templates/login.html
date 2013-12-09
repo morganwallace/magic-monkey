@@ -1,0 +1,73 @@
+<html lang="en-us">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Magic Monkey Minifier</title>
+	<link rel="stylesheet" type="text/css" href="./static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="./static/css/stylesheet.css">
+</head>
+
+<body>
+	<div id="wrapper">
+		<img src="./static/img/candle.gif" id="candle" alt="candle">
+		<div id="tail"></div>		
+		<div id="monkey">&nbsp;
+			<div id="smoke">
+				<span>M</span>
+				<span>a</span>
+				<span>g</span>
+				<span>i</span>
+				<span>c</span>
+				<span>M</span>
+				<span>o</span>
+				<span>n</span>
+				<span>k</span>
+				<span>e</span>
+				<span>y</span>
+				<span>M</span>
+				<span>i</span>
+				<span>n</span>
+				<span>i</span>
+				<span>f</span>
+				<span>i</span>
+				<span>e</span>
+				<span>r</span>
+				<div>
+				Summoned by:<br>
+				<a href="http://people.ischool.berkeley.edu/~andrew/" target="_blank">Andrew Win</a>,
+				<a href="http://people.ischool.berkeley.edu/~derek/" target="_blank">Derek Kan</a>, 
+				<a href="http://www.morganwallace.com" target="_blank">Morgan Wallace</a> &amp; 
+				<a href="http://about.me/lazar" target="_blank">Lazar Stojković</a>
+				</div>
+			</div>
+		</div>
+
+		<div id="scroll_content">
+			<form role="form" action="./login" method="post" id="login" name="login">
+				<label for="username">Username</label>
+				<input type="text" id="username" name="username" placeholder="Houdini" required autofocus>
+
+				<label for="password">Password</label>
+				<input type="text" id="password" name="password" placeholder="At least 8 characters">
+				<input type="hidden" name="login_type" value="login">
+
+				<div id="submit_wrapper">
+					<input type="submit" value="Login">
+				</div>
+
+                       <form role="form" action="./login" method="post" id="register" name="register">
+				<div id="register_wrapper">
+					<input type="hidden" name="login_type" value="register">
+					<input type="submit" value="Register">
+				</div>
+			</form>
+			<div class="clear"></div>		
+
+		</div>
+		<div id="scroll_bottom"></div>	
+	</div>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="./static/js/main.js"></script>
+	<script src="./static/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
