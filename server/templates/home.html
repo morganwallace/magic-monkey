@@ -12,12 +12,20 @@
 
 <body>
 	<div id="wrapper">
-		<form id="login">
+		<form id="login" method="post" action=./home name="login" >
 			<input type="text" name="username" placeholder="Username">
 			<input type="password" name="password" placeholder="Password">
+                        <input type="hidden" name="form_type" value="login">
 			<input type="submit" value="Log In">
 			<div id="no-account">Don't have an account yet? <span id="toggleLoginRegister">Create one here.</span></div>
 		</form>
+                <form id="signup" method="post" action=./home name="signup" >
+			<input type="text" name="username" placeholder="Username">
+			<input type="password" name="password" placeholder="Password">
+                        <input type="hidden" name="form_type" value="signup">
+			<input type="submit" value="Sign Up">
+		</form>
+                
 		<div id="candle"></div>
 		<div id="tail"></div>		
 		<div id="monkey">&nbsp;
