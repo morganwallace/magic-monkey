@@ -46,7 +46,7 @@ def login():
         	return flask.render_template('login.html')
 	else:
 	    #if registered check username and password against db
-		
+		pass
 	    #else hash password and create new row [USER_NAME, PASSWORD, LOGGED_IN]
 	
 
@@ -98,5 +98,5 @@ def shorten_url():
 
 
 if __name__ == "__main__":
-    app.run(port=int(environ['FLASK_PORT']))
-#     app.run()
+#    app.run(port=int(environ['FLASK_PORT']))
+     app.run()
