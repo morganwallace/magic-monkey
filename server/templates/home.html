@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Magic Monkey Minifier</title>
 	<link rel="icon" href="../static/img/favicon.ico">
+	<link rel="shortcut icon" href="../static/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="./static/css/reset.css">
 	<link rel="stylesheet" type="text/css" href="./static/css/stylesheet.css">
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
@@ -12,6 +13,14 @@
 
 <body>
 	<div id="wrapper">
+               <form id="signup" method="post" action=./home name="signup" >
+			<input type="text" name="username" placeholder="Username">
+			<input type="password" name="password" placeholder="Password">
+                        <input type="hidden" name="form_type" value="signup">
+			<input type="submit" value="Sign Up">
+		</form>
+                
+
 		<form id="login" method="post" action=./home name="login" >
 			<input type="text" name="username" placeholder="Username">
 			<input type="password" name="password" placeholder="Password">
@@ -19,6 +28,7 @@
 			<input type="submit" value="Log In">
 			<div id="no-account">Don't have an account yet? <span id="toggleLoginRegister">Create one here.</span></div>
 		</form>
+<<<<<<< Updated upstream
                 <form id="signup" method="post" action=./home name="signup" >
 			<input type="text" name="username" placeholder="Username">
 			<input type="password" name="password" placeholder="Password">
@@ -27,7 +37,14 @@
 		</form>
                 
 		<div id="candle"></div>
+		<div id="tail"></div>
+		<div id="tarotDeath"></div>
+		<div id="tarotDevil"></div>
+		<div id="runes"></div>
+=======
+                		<div id="candle"></div>
 		<div id="tail"></div>		
+>>>>>>> Stashed changes
 		<div id="monkey">&nbsp;
 			<div id="smoke">
 				<span>M</span>
@@ -68,11 +85,11 @@
 				<input type="text" id="short-url" name="short-url" placeholder="A short URL of your choosing (letters only)">
 				
 				<div id="submit_wrapper">
-					<input type="submit" value="Alacazam!">
+					<input type="submit" id="alacazam" value="">
 				</div>
 
 				<div id="randomize_wrapper">
-					<input type="button" value="Randomize" onclick="makeshort()">
+					<input type="button" id="randomize" onclick="makeshort()">
 				</div>
 			</form>
 			<div class="clear"></div>

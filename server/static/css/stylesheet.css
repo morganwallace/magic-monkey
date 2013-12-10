@@ -154,12 +154,12 @@ strong {
 	position: absolute;
 	top: 90px;
 	width: 200px;
-	z-index: -2;
+	z-index: -10;
 }
 
 /* Login form */
 
-#login {
+#login, #signup {
 	color: white;
 	font-size: 0.8em;
 	height: 30px;
@@ -167,7 +167,7 @@ strong {
 	margin-top: 10px;
 }
 
-#login input[type="text"] {
+#login input[type="text"], #signup input[type="text"] {
 	background: none;
 	border: 1px solid red;
 	color: white;
@@ -178,27 +178,27 @@ strong {
 	width: 250px;	
 }
 
-#login input[type="text"]::-webkit-input-placeholder {
+#login input[type="text"]::-webkit-input-placeholder, #signup input[type="text"]::-webkit-input-placeholder {
 	color: white;
 	font-size: 1em;
 }
 
-#login input[type="text"]:-moz-placeholder { /* Firefox 18- */
+#login input[type="text"]:-moz-placeholder, #signup input[type="text"]:-moz-placeholder { /* Firefox 18- */
 	color: white;
 	font-size: 1em;
 }
 
-#login input[type="text"]::-moz-placeholder { /* Firefox 19+ */
+#login input[type="text"]::-moz-placeholder, #signup input[type="text"]::-moz-placeholder { /* Firefox 19+ */
 	color: white;
 	font-size: 1em;
 }
 
-#login input[type="text"]:-ms-input-placeholder {
+#login input[type="text"]:-ms-input-placeholder, #signup input[type="text"]:-ms-input-placeholder {
 	color: white;
 	font-size: 1em;
 }
 
-#login input[type="password"] {
+#login input[type="password"], #signup input[type="password"] {
 	background: none;
 	border: 1px solid red;
 	color: white;
@@ -212,12 +212,12 @@ strong {
 	width: 250px;
 }
 
-#login input[type="password"]::-webkit-input-placeholder {color: white;}
-#login input[type="password"]:-moz-placeholder {color: white;} /* Firefox 18- */
-#login input[type="password"]::-moz-placeholder {color: white;} /* Firefox 19+ */
-#login input[type="password"]:-ms-input-placeholder {color: white;}
+#login input[type="password"]::-webkit-input-placeholder, #signup input[type="password"]::-webkit-input-placeholder {color: white;}
+#login input[type="password"]:-moz-placeholder, #signup input[type="password"]:-moz-placeholder {color: white;} /* Firefox 18- */
+#login input[type="password"]::-moz-placeholder, #signup input[type="password"]::-moz-placeholder {color: white;} /* Firefox 19+ */
+#login input[type="password"]:-ms-input-placeholder, #signup input[type="password"]:-ms-input-placeholder {color: white;}
 
-#login input[type="submit"] {
+#login input[type="submit"], #signup input[type="submit"] {
 	background-color: #7a1823;
 	border: 1px solid red;
 	border-radius: 3px;
@@ -233,15 +233,15 @@ strong {
 	width: 110px;
 }
 
-#login input[type="submit"]:hover {
+#login input[type="submit"]:hover, #signup input[type="submit"]:hover {
 	transition: all 0.4s;
 	-moz-transition: all 0.4s;
 	-webkit-transition: all 0.4s;
 	background-color: red;
 }
 
-#login a {color: red;}
-#login a:hover {text-decoration: underline;}
+#login  a {color: red;}
+#login  a:hover {text-decoration: underline;}
 
 #no-account {
 	font-size: 1em;
@@ -249,6 +249,7 @@ strong {
 	left: 0;
 	position: absolute;
 	top: 33px;
+	width: 100%;
 }
 
 #toggleLoginRegister {
@@ -290,6 +291,45 @@ strong {
 	height: 456px;
 	width: 630px;
 }
+
+/* Miscellaneous Elements */
+
+#tarotDeath {
+	-moz-transform: rotate(-22deg);
+	-webkit-transform: rotate(-22deg);
+	background-image: url('../img/tarotDeath.png');
+	height: 463px;
+	left: -50px;
+	position: absolute;
+	top: 180px;
+	width: 267px;
+	z-index: -5;
+}
+
+#runes {
+	-moz-transform: rotate(18deg);
+	-webkit-transform: rotate(18deg);
+	background-image: url('../img/runes.png');
+	height: 500px;
+	left: -60px;
+	position: absolute;
+	top: 280px;
+	width: 354px;
+	z-index: -7;
+}
+
+#tarotDevil {
+	-moz-transform: rotate(24deg);
+	-webkit-transform: rotate(24deg);
+	background-image: url('../img/tarotDevil.png');
+	height: 463px;
+	right: -33px;
+	position: absolute;
+	top: 333px;
+	width: 258px;
+	z-index: -5;
+}
+
 
 /* Evaporating title */
 
@@ -411,46 +451,32 @@ form input[type="text"] {
 	width: 100%;
 }
 
+#randomize_wrapper {
+	float: left;
+	margin: 15px 0 25px;
+}
+
 #submit_wrapper {
 	float: right;
 	margin: 15px 0 25px;
 }
 
 #url-shorten input[type="submit"] {
-	background-color: transparent;
-	border: 1px solid #7a1823;
-	border-radius: 7px;
-	color: #7a1823;
+	background: none;
+	background: url("../img/alacazam.svg") no-repeat;
+	border: none;
 	cursor: pointer;
-	font-family: "Times New Roman", serif;
-	font-size: 1.2em;
-	font-weight: bold;
-	padding: 5px 60px;
+	height: 61px;
+	width: 168px;
 }
 
-#url-shorten input[type="submit"]:hover {
-	transition: all 0.4s;
-	-webkit-transition: all 0.4s;
-	-moz-transition: all 0.4s;	
-	background-color: #7a1823;
-	color: white;
-}
-
-#randomize_wrapper {
-	float: left;
-	margin: 15px 0 25px;
-}
-
-form input[type="button"] {
-	background-color: transparent;
-	border: 1px solid #7a1823;
-	border-radius: 7px;
-	color: #7a1823;
+#randomize {
+	background: none;
+	background: url("../img/randomize.svg") no-repeat;
+	border: none;
 	cursor: pointer;
-	font-family: "Times New Roman", serif;
-	font-size: 1.2em;
-	font-weight: bold;
-	padding: 5px 60px;
+	height: 61px;
+	width: 168px;
 }
 
 form input[type="button"]:hover {
