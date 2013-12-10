@@ -71,7 +71,7 @@
 		</div>
 
 		<div id="scroll_content">
-			<form role="form" action="./shorts" method="post" id="url-shorten" name="shortener">
+			<form role="form" id="url-shorten" name="shortener">
 				<label for="long-url">The long URL</label>
 				<input type="text" id="long-url" name="long-url" placeholder="Example: http://google.com" required autofocus>
 
@@ -88,16 +88,19 @@
 			</form>
 			<div class="clear"></div>
 
+                        <div id="links-wrapper">
+
 			<!-- List of generated URLs goes here -->
-			{% for item in urls %}
- 			<div class="link-history"> 
-				<h2><a href="{{item[1][1]}}">{{item[1][1]}}</a></h2>
-				<strong>Transmuted on: </strong>xx/yy/2013<br>
-				<strong>Times clicked:</strong> 0<br>
-				<a href="./short/{{item[0]}}" class="minified">/{{item[0]}}</a>
-			</div>
-			{% endfor %}
-		
+			<!--	
+				{% for item in urls %}
+ 				<div class="link-history"> 
+					<h2><a href="{{item[1][1]}}">{{item[1][1]}}</a></h2>
+					<strong>Transmuted on: </strong>xx/yy/2013<br>
+					<strong>Times clicked:</strong> 0<br>
+					<a href="./short/{{item[0]}}" class="minified">/{{item[0]}}</a>
+				</div>
+				{% endfor %}-->
+			</div>		
 
 		</div>
 		<div id="scroll_bottom"></div>	
@@ -123,22 +126,22 @@
  			signup();
 			e.preventDefault();
 		});
-                function signup(){
+                
+		function signup(){
 
 	        	$.post("./signup",
 				$("#signup").serialize(),
 				function(data){
 					console.log(data);
 			});
-
 			return false;
 		}
+		
 		$("#login").on('submit',function(e){
- 			//your code
-			//alert("submit button clicked, hooray");
  			login();
 			e.preventDefault();
 		});
+
                 function login(){
 
 	        	$.post("./login",
@@ -146,10 +149,34 @@
 				function(data){
 					console.log(data);
 			});
-
 			return false;
 		}
 		
+		$("#url-shorten").on('submit',function(e){
+ 			addShortUrl();
+			e.preventDefault();
+		});
+
+                function addShortUrl(){
+
+	        	$.post("./shorts",
+				$("#url-shorten").serialize(),
+				function(data){
+					console.log(data);
+					appendLinkToList(data);
+			});
+			return false;
+		}
+
+		function appendLinkToList(data){
+
+			var detailsBlock = "<h2><a href='" + data.longUrl + "'>" + data.longUrl + "</a></h2><strong>Transmuted on: </strong>" + data.timeStamp + "<br><strong>Times clicked:</strong>" + data.clickCount + "<br><a href='./short/" + data.shortUrl + "' class=minified>" + data.shortUrl + "</a>"; 
+
+			$("#links-wrapper").append("<div class='link-history'></div>");
+			curLinkHistory = $("#link-history").last();
+			curLinkHistory.append(detailsBlock);
+		}
+
 	</script>
 </body>
 </html>

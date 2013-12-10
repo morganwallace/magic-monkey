@@ -15,6 +15,7 @@ from flask import request
 from flask import make_response
 import MySQLdb
 import datetime
+import json
 
 app = flask.Flask(__name__)
 Compress(app)
@@ -34,31 +35,14 @@ cursor = db.cursor()
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET','POST'])
 def home():
-    userId = request.cookies.get('userId')
+    
     """Builds a template based on a GET request, with some default
     arguements"""  
     if request.method == 'GET':
-    	username = request.cookies.get('username')
         index_title = request.args.get("title", "URL Shortener")
-        #app.logger.debug(db)
-        #db_sorted = sorted(db.iteritems(), key=operator.itemgetter(1))
-        #app.logger.debug(db_sorted)        
         return flask.render_template(
             'home.html',
             title=index_title)
-"""
-     else:
-              # if request.form['form_type'] == 'signup':
-		#signup(username, password)
-			
-		#set cookie
-		resp = make_response(flask.render_template('home.html'))
-		resp.set_cookie('username', username)
-		return resp
-        else:
-            login(username, password)
-        return flask.render_template('home.html')
-"""
 
 ### 
 # Signup Resource:
@@ -125,6 +109,7 @@ def login():
          if bcrypt.check_password_hash(pw_hash, password): 
              app.logger.debug("password found")
              #setLoginStatus(userId, 1)
+	     jsonLinks = dbLinksToJSON(str(row[0]))
              resp = make_response(jsonify(success=True))
 	     resp.set_cookie('userId', str(row[0]))
 	     return resp
@@ -163,20 +148,23 @@ def setLoginStatus(userId,loginStatus):
    db.commit()
 
 def dbLinksToJSON(userId):
-   urls = {}
-   cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s""", userID);
+   cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s""", userId);
    app.logger.debug(cursor._executed)
    db.commit()
    rows = cursor.fetchall()
-   for row in rows:
-       app.logger.debug(row)
-       pass#construct urls to pass to home.html templete for rendering
-   return urls
+   #for row in rows:
+    #   app.logger.debug(row)
+   links = json.dumps(rows) 
+   app.logger.debug(links)   
+   return links
 
 def addNewLinkToDB(userId, shortUrl, longUrl, clickCount, timeStamp):
-    cursor.execute("""INSERT INTO LINKS (USER_ID, SHORT_URL, LONG_URL, CLICK_COUNT, TIME_STAMP) VALUES (%s, %s, %s, %s, %s)""", [userID, shortUrl, longUrl, clickCount, timeStamp])
+    userId = str(MySQLdb.escape_string(userId))
+    shortUrl = str(MySQLdb.escape_string(shortUrl))
+    clickCount = str(MySQLdb.escape_string(str(clickCount)))
+    #timestamp generated at server, escape not necessary
+    cursor.execute("""INSERT INTO LINKS (USER_ID, SHORT_URL, LONG_URL, CLICK_COUNT, TIME_STAMP) VALUES (%s, %s, %s, %s, %s)""", [userId, shortUrl, longUrl, clickCount, timeStamp])
     db.commit()   
-
 
 def addNewUserToDB( username, password, loggedIn):
      cursor.execute("""INSERT INTO USERS (USER_NAME, PASSWORD, LOGGED_IN) VALUES (%s, %s, %s)""", [username,password,loggedIn])
@@ -228,21 +216,19 @@ def reset():
 def shorten_url():
     """Set or update the URL to which this resource redirects to. Uses the
     `url` key to set the redirect destination."""
-    #if  user is logged in
-    user_id = ""#get user id from cookie?   
-    short_url = str(request.form['short-url'])
-    long_url = str( request.form['long-url'])
-    timestamp = datetime.datetime.now()    
-    click_count = 0
+    if  'userId' in request.cookies:
+        user_id = request.cookies['userId']   
+        short_url = str(request.form['short-url'])
+        long_url = str( request.form['long-url'])
+        timestamp = datetime.datetime.now()    
+        click_count = 0
         
         # insert url guys to mysql database
-    addNewLinkToDB(user_id, short_url, long_url, timestamp, click_count) 
-        #return json as response
-    #else    
+        addNewLinkToDB(user_id, short_url, long_url, timestamp, click_count) 
+        return jsonify(succss=True, shortUrl=short_url, longUrl=long_url, timeStamp=timestamp, clickCount=click_count) 
+    else:    
         #return indication that user needs to sign in operation failed
-    
-    return flask.redirect(url_for('home', _external=True))
-
+	return jsonify(success=False, reason="user not logged in")
 
 
 if __name__ == "__main__":
