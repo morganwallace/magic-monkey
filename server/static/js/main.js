@@ -65,7 +65,15 @@ function geturl(){
 	path=path.substring(0,path.indexOf("server")+7)+"short/"
 	$("#cur_path").html(path);
 }
-
+/*
+function signup(){
+	$.post( "/signup", 
+               $( "#signup" ).serialize(), 
+               function(data){
+                   console.log(data);
+        });
+}
+*/
 $(document).ready(function() {
         $("#url-shorten").submit(validate);
         $("#short-url").val(makeshort)

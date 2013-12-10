@@ -9,42 +9,47 @@
 	<link rel="stylesheet" type="text/css" href="./static/css/stylesheet.css">
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="../static/js/mmm.js"></script>
+        <script>
+                function signup(){
+/*
+	        	$.post("./signup",
+				$("#signup").serialize(),
+				function(data){
+					console.log(data);
+			});
+*/
+			alert("submit button clicked");
+			return false;
+		}
+	</script>
 </head>
 
 <body>
 	<div id="wrapper">
-               <form id="signup" method="post" action=./home name="signup" >
+               <div id="signup-wrapper">
+                   <form id="signup"  name="signup" method="post" action="./signup">
 			<input type="text" name="username" placeholder="Username">
 			<input type="password" name="password" placeholder="Password">
                         <input type="hidden" name="form_type" value="signup">
 			<input type="submit" value="Sign Up">
-		</form>
-                
+		    </form>
+                </div>
 
-		<form id="login" method="post" action=./home name="login" >
+		<div id="login-wrapper">
+		    <form id="login" method="post" action=./home name="login" >
 			<input type="text" name="username" placeholder="Username">
 			<input type="password" name="password" placeholder="Password">
                         <input type="hidden" name="form_type" value="login">
 			<input type="submit" value="Log In">
 			<div id="no-account">Don't have an account yet? <span id="toggleLoginRegister">Create one here.</span></div>
-		</form>
-<<<<<<< Updated upstream
-                <form id="signup" method="post" action=./home name="signup" >
-			<input type="text" name="username" placeholder="Username">
-			<input type="password" name="password" placeholder="Password">
-                        <input type="hidden" name="form_type" value="signup">
-			<input type="submit" value="Sign Up">
-		</form>
-                
+		    </form>
+ 		</div>               
+ 
 		<div id="candle"></div>
 		<div id="tail"></div>
 		<div id="tarotDeath"></div>
 		<div id="tarotDevil"></div>
 		<div id="runes"></div>
-=======
-                		<div id="candle"></div>
-		<div id="tail"></div>		
->>>>>>> Stashed changes
 		<div id="monkey">&nbsp;
 			<div id="smoke">
 				<span>M</span>

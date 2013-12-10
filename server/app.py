@@ -40,27 +40,23 @@ def home():
     if request.method == 'GET':
     	username = request.cookies.get('username')
         index_title = request.args.get("title", "URL Shortener")
-        #app.logger.debug(db)
-        #db_sorted = sorted(db.iteritems(), key=operator.itemgetter(1))
-        #app.logger.debug(db_sorted)        
         return flask.render_template(
             'home.html',
             title=index_title)
+"""
     else:
-        username = str(MySQLdb.escape_string(request.form['username']))
-        password = str(MySQLdb.escape_string(request.form['password']))
-
-        if request.form['form_type'] == 'signup':
-		signup(username, password)
+      
+        #if request.form['form_type'] == 'signup':
+	    #signup(username, password)
 			
-		#set cookie
-		resp = make_response(flask.render_template('home.html'))
-		resp.set_cookie('username', username)
-		return resp
+	    #set cookie
+	    resp = make_response(flask.render_template('home.html'))
+	    resp.set_cookie('username', username)
+	    return resp
         else:
             login(username, password)
         return flask.render_template('home.html')
-
+"""
 
 ### 
 # Signup Resource:
@@ -69,28 +65,28 @@ def home():
 ###
 
 @app.route('/signup', methods=['POST'])
-def signup(username, password):
-     
+def signup():
+     app.logger.debug("signup button clicked")
+         
+     username = str(MySQLdb.escape_string(request.form['username']))
+     password = str(MySQLdb.escape_string(request.form['password']))
+     resp = make_response()
+
      #check if username exists
-     cursor.execute("""SELECT * FROM USERS WHERE USER_NAME = %s""", username)
-     app.logger.debug(cursor._executed)
-     db.commit()
-     row = cursor.fetchall()
-     app.logger.debug(row)
-     if not row:
+     app.logger.debug(userNameExists(username))
+     if not userNameExists(username):
          #create new row in table USERS 
          pw_hash = bcrypt.generate_password_hash(password)     
-         newEntry = [username, str(pw_hash), 1]
-         app.logger.debug("signup button clicked")
-         app.logger.debug(newEntry)
-         cursor.execute("""INSERT INTO USERS (USER_NAME, PASSWORD, LOGGED_IN) VALUES (%s, %s, %s)""", newEntry)
-         app.logger.debug(cursor._executed)
-         db.commit()
+         addNewUserToDB(username, pw_hash, 1)
          app.logger.debug("Signup successful")
-         return True
+         
+         userId = getUserId(username)
+         #set cookie to indicate user logged in     
+         #resp.set_cookie('userId',userId) 
+         return jsonify(success=True)
      else:
-         app.logger.debug("Username already created")
-         return flask.response.write(False)
+         app.logger.debug("Username already exists")
+         return jsonify(success=False)
 """
 basic setting a cookie example useing flask
 
@@ -105,8 +101,10 @@ basic setting a cookie example useing flask
 # 
 ###
 
-@app.route('/login', methods=['POST'])
-def login(username, password):
+#@app.route('/login', methods=['POST'])
+def login():
+     username = str(MySQLdb.escape_string(request.form['username']))
+     password = str(MySQLdb.escape_string(request.form['password']))
 
      app.logger.debug("login button clicked")
      #check for existing user record in table USERS 
@@ -133,6 +131,22 @@ def login(username, password):
          app.logger.debug("username not found in database")
          return False
 
+def userNameExists(username):
+    cursor.execute("""SELECT * FROM USERS WHERE USER_NAME = %s""", username)
+    app.logger.debug(cursor._executed)
+    db.commit()
+    row = cursor.fetchall()
+    if row:
+       return True
+    else:
+       return False    
+ 
+
+def getUserId(username):
+    cursor.execute("""SELECT USER_ID FROM USERS WHERE USER_NAME = %s""", username)
+    db.commit()
+    userId = cursor.fetchone()
+    return userId
 
 def getLoginStatus(userId):
    cursor.execute("""SELECT LOGGED_IN FROM USERS WHERE USER_ID = %s""", userID)
@@ -156,8 +170,15 @@ def dbLinksToJSON(userId):
    return urls
 
 def addNewLinkToDB(userId, shortUrl, longUrl, clickCount, timeStamp):
-    cursor.execute("""INSERT INTO LINKS (USER_ID, SHORT_URL, LONG_URL, CLICK_COUNT, TIME_STAMP) VALUES (%s, %s, %s, %s, %s)""", userID, shortUrl, longUrl, clickCount, timeStamp)
+    cursor.execute("""INSERT INTO LINKS (USER_ID, SHORT_URL, LONG_URL, CLICK_COUNT, TIME_STAMP) VALUES (%s, %s, %s, %s, %s)""", [userID, shortUrl, longUrl, clickCount, timeStamp])
     db.commit()   
+
+
+def addNewUserToDB( username, password, loggedIn):
+     cursor.execute("""INSERT INTO USERS (USER_NAME, PASSWORD, LOGGED_IN) VALUES (%s, %s, %s)""", [username,password,loggedIn])
+     app.logger.debug(cursor._executed)
+     db.commit()
+         
 
 ###
 # GET method will redirect to the short-url stored in db
@@ -194,34 +215,31 @@ def reset():
 		del db[key]
     return flask.redirect(url_for('home', _external=True))
 """
+###
+# Shorten URL Resource
+# should return json object user AJAX so we don't have to redirect/reload /home
+###
 
 @app.route("/shorts", methods=['PUT', 'POST'])
 def shorten_url():
     """Set or update the URL to which this resource redirects to. Uses the
     `url` key to set the redirect destination."""
     #if  user is logged in
-        user_id = ""#get user id from cookie?   
-        short_url = str(request.form['short-url'])
-        long_url = str( request.form['long-url'])
-        timestamp = datetime.datetime.now()    
-        click_count = 0
-        addNewLinkToDB(user_id, short_url, long_url, timestamp, click_count) 
-
+    user_id = ""#get user id from cookie?   
+    short_url = str(request.form['short-url'])
+    long_url = str( request.form['long-url']) 
+    timestamp = datetime.datetime.now()    
+    click_count = 0
+        
+        # insert url guys to mysql database
+    addNewLinkToDB(user_id, short_url, long_url, timestamp, click_count) 
+        #return json as response
     #else    
-    # insert url guys to mysql database
-    # // item =  len(db), long_url
-    # // db[short_url] = item
-    #app.logger.debug(url_for('home', _external=True))
+        #return indication that user needs to sign in operation failed
     
-    #should return json object user AJAX so we don't have to redirect/reload /home
     return flask.redirect(url_for('home', _external=True))
-    #"""return "associated " + long_url + " with  " + short_url"""
 
 
 
 if __name__ == "__main__":
-     #session = loadSession()
-     #res = session.query(Users).all()
-     #res[1]
      app.run(port=int(environ['FLASK_PORT']))
-     #app.run()
