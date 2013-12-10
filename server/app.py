@@ -3,16 +3,12 @@
 from subprocess import check_output
 import flask
 import operator
-from flask import request, url_for, abort, jsonify
+from flask import request, url_for, abort, jsonify, Flask, Response, make_response
 from os import environ
 from flaskext.bcrypt import Bcrypt
-from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 # from flask.ext.gzip import Gzip
-from flask import Flask
 from flask.ext.compress import Compress
-from flask import request
-from flask import make_response
 import MySQLdb
 import datetime
 import json
@@ -103,8 +99,12 @@ def login():
          if bcrypt.check_password_hash(pw_hash, password): 
              app.logger.debug("password found")
              #setLoginStatus(userId, 1)
-	     #jsonLinks = dbLinksToJSON(str(row[0]))
-             resp = make_response(jsonify(success=True, username=username))
+	     jsonResponse = {}
+             jsonResponse['links'] =  dbLinksToDict(str(row[0]))
+             jsonResponse['success'] = True
+             
+             resp = Response(json.dumps(jsonResponse), mimetype='application/json')
+             #resp = jsonify(success=True, username=username, links=jsonLinks))
 	     resp.set_cookie('userId', str(row[0]))
 	     return resp
          else:
@@ -157,15 +157,24 @@ def setLoginStatus(userId,loginStatus):
    cursor.execute("""INSERT INTO USERS (LOGGED_IN) VALUES (%s)""",loginStatus)
    db.commit()
 
-def dbLinksToJSON(userId):
+def dbLinksToDict(userId):
    cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s""", userId);
    app.logger.debug(cursor._executed)
    db.commit()
    rows = cursor.fetchall()
-   #for row in rows:
-    #   app.logger.debug(row)
-   links = json.dumps(rows) 
+   links = []
+   for row in rows:
+       rowDummy = {}
+       rowDummy['shortUrl'] = row[1];
+       rowDummy['longUrl'] = row[2];
+       rowDummy['clickCount'] = row[3];
+       rowDummy['timeStamp'] = row[4].strftime("%Y-%d-%m %H:%M:%S")
+       app.logger.debug(rowDummy)
+       app.logger.debug(row)
+       links.append(rowDummy) 
+   #jsonLinks = json.dumps(links) 
    app.logger.debug(links)   
+   #app.logger.debug(jsonLinks)
    return links
 
 def addNewLinkToDB(userId, shortUrl, longUrl, clickCount, timeStamp):
