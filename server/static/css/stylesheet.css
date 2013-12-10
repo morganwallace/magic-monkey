@@ -159,7 +159,7 @@ strong {
 
 /* Login form */
 
-#login, #signup {
+#login, #signup, #welcome {
 	color: white;
 	font-size: 0.8em;
 	height: 30px;
@@ -243,7 +243,7 @@ strong {
 #login  a {color: red;}
 #login  a:hover {text-decoration: underline;}
 
-#no-account, #account {
+#no-account, #account, #welcome {
 	font-size: 1em;
 	font-style: italic;
 	left: 0;
@@ -252,7 +252,7 @@ strong {
 	width: 100%;
 }
 
-#toggleLoginRegister, #toggleLogin {
+#toggleLoginRegister, #toggleLogin, #logout {
 	color: red;
 	cursor: pointer;
 }

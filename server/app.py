@@ -67,7 +67,7 @@ def signup():
          
          userId = getUserId(username)
          #set cookie to indicate user logged in     
-	 resp = make_response(jsonify(success=True))
+	 resp = make_response(jsonify(success=True, username=username))
          #app.logger.debug(userId)
 	 resp.set_cookie('userId', str(userId)) 
          return resp
@@ -75,13 +75,7 @@ def signup():
          app.logger.debug("Username already exists")
          resp = make_response(jsonify(success=False))
 	 return resp
-"""
-basic setting a cookie example useing flask
 
-    resp = make_response(render_template(...))
-    resp.set_cookie('username', 'the username')
-    return resp
-"""
 
 ### 
 # Login Resource:
@@ -109,8 +103,8 @@ def login():
          if bcrypt.check_password_hash(pw_hash, password): 
              app.logger.debug("password found")
              #setLoginStatus(userId, 1)
-	     jsonLinks = dbLinksToJSON(str(row[0]))
-             resp = make_response(jsonify(success=True))
+	     #jsonLinks = dbLinksToJSON(str(row[0]))
+             resp = make_response(jsonify(success=True, username=username))
 	     resp.set_cookie('userId', str(row[0]))
 	     return resp
          else:
@@ -119,6 +113,22 @@ def login():
      else:
          app.logger.debug("username not found in database")
          return make_response(jsonify(success=False, reason="bad username"))
+
+####
+# Logout
+#
+###
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    if 'userId' in request.cookies:
+        resp = make_response(jsonify(success=True, type='logout'))
+        resp.set_cookie('userId', '')
+        return resp
+    else:
+        resp = make_response(jsonify(success=False, type='logout'))
+        return resp     
+
 
 def userNameExists(username):
     cursor.execute("""SELECT * FROM USERS WHERE USER_NAME = %s""", username)
@@ -163,6 +173,7 @@ def addNewLinkToDB(userId, shortUrl, longUrl, clickCount, timeStamp):
     shortUrl = str(MySQLdb.escape_string(shortUrl))
     clickCount = str(MySQLdb.escape_string(str(clickCount)))
     #timestamp generated at server, escape not necessary
+    timeStamp = timeStamp.strftime("%Y-%m-%d %H:%M:%S")
     cursor.execute("""INSERT INTO LINKS (USER_ID, SHORT_URL, LONG_URL, CLICK_COUNT, TIME_STAMP) VALUES (%s, %s, %s, %s, %s)""", [userId, shortUrl, longUrl, clickCount, timeStamp])
     db.commit()   
 
@@ -218,14 +229,17 @@ def shorten_url():
     `url` key to set the redirect destination."""
     if  'userId' in request.cookies:
         user_id = request.cookies['userId']   
-        short_url = str(request.form['short-url'])
-        long_url = str( request.form['long-url'])
-        timestamp = datetime.datetime.now()    
-        click_count = 0
+        if user_id != "":
+            short_url = str(request.form['short-url'])
+            long_url = str( request.form['long-url'])
+            timestamp = datetime.datetime.now()    
+            click_count = 0
         
-        # insert url guys to mysql database
-        addNewLinkToDB(user_id, short_url, long_url, timestamp, click_count) 
-        return jsonify(succss=True, shortUrl=short_url, longUrl=long_url, timeStamp=timestamp, clickCount=click_count) 
+            # insert url guys to mysql database
+            addNewLinkToDB(user_id, short_url, long_url, click_count, timestamp) 
+            return jsonify(succss=True, shortUrl=short_url, longUrl=long_url, timeStamp=timestamp, clickCount=click_count)
+        else:
+            return jsonify(success=False, reason="user not logged in") 
     else:    
         #return indication that user needs to sign in operation failed
 	return jsonify(success=False, reason="user not logged in")

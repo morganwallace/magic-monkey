@@ -34,7 +34,11 @@
 		    </form>
  		</div>               
  
-		<div id="candle"></div>
+ 		<div id="welcome-wrapper">
+			<div id="welcome">Welcome, <span id="username"></span>! <span id="logout">Logout when you're done.</span></div>
+		</div>		
+
+ 		<div id="candle"></div>
 		<div id="tail"></div>
 		<div id="tarotDeath"></div>
 		<div id="tarotDevil"></div>
@@ -109,7 +113,27 @@
 	<script src="./static/js/main.js"></script>
 	<script src="./static/bootstrap/js/bootstrap.min.js"></script>
         <script>
+		$("#logout").click(function(e){
+			$("#login-wrapper").show();
+			$("#signup-wrapper").hide();
+			$("#welcome-wrapper").hide();
+			logout();
+			e.preventDefault();
+		});
 
+		function logout(){
+
+	        	$.post("./logout",
+				null,
+				function(data){
+					console.log(data);
+					//remove users links from page 
+					$("#username").text("");
+					$("#login-wrapper").show();
+			});
+			return false;
+		}
+			
 		$("#toggleLogin").click(function(){
 			$("#signup-wrapper").hide();
 			$("#login-wrapper").show();			
@@ -133,6 +157,10 @@
 				$("#signup").serialize(),
 				function(data){
 					console.log(data);
+					console.log(data.username);
+					$("#username").text(data.username);
+					$("#signup-wrapper").hide();
+					$("#welcome-wrapper").show();
 			});
 			return false;
 		}
@@ -148,6 +176,10 @@
 				$("#login").serialize(),
 				function(data){
 					console.log(data);
+					//add users links to page 
+					$("#username").text(data.username);
+					$("#login-wrapper").hide();
+					$("#welcome-wrapper").show();
 			});
 			return false;
 		}
@@ -173,7 +205,7 @@
 			var detailsBlock = "<h2><a href='" + data.longUrl + "'>" + data.longUrl + "</a></h2><strong>Transmuted on: </strong>" + data.timeStamp + "<br><strong>Times clicked:</strong>" + data.clickCount + "<br><a href='./short/" + data.shortUrl + "' class=minified>" + data.shortUrl + "</a>"; 
 
 			$("#links-wrapper").append("<div class='link-history'></div>");
-			curLinkHistory = $("#link-history").last();
+			curLinkHistory = $(".link-history").last();
 			curLinkHistory.append(detailsBlock);
 		}
 
