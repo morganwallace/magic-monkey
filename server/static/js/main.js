@@ -75,7 +75,9 @@ function signup(){
 }
 */
 $(document).ready(function() {
-        $("#url-shorten").submit(validate);
+        $("#signup-wrapper").hide();
+	$("#login-wrapper").show();
+	$("#url-shorten").submit(validate);
         $("#short-url").val(makeshort)
         console.log("ready!");
         geturl();

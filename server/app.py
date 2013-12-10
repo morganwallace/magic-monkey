@@ -40,19 +40,21 @@ def home():
     if request.method == 'GET':
     	username = request.cookies.get('username')
         index_title = request.args.get("title", "URL Shortener")
+        #app.logger.debug(db)
+        #db_sorted = sorted(db.iteritems(), key=operator.itemgetter(1))
+        #app.logger.debug(db_sorted)        
         return flask.render_template(
             'home.html',
             title=index_title)
 """
-    else:
-      
-        #if request.form['form_type'] == 'signup':
-	    #signup(username, password)
+     else:
+              # if request.form['form_type'] == 'signup':
+		#signup(username, password)
 			
-	    #set cookie
-	    resp = make_response(flask.render_template('home.html'))
-	    resp.set_cookie('username', username)
-	    return resp
+		#set cookie
+		resp = make_response(flask.render_template('home.html'))
+		resp.set_cookie('username', username)
+		return resp
         else:
             login(username, password)
         return flask.render_template('home.html')
@@ -70,7 +72,6 @@ def signup():
          
      username = str(MySQLdb.escape_string(request.form['username']))
      password = str(MySQLdb.escape_string(request.form['password']))
-     resp = make_response()
 
      #check if username exists
      app.logger.debug(userNameExists(username))
@@ -82,11 +83,14 @@ def signup():
          
          userId = getUserId(username)
          #set cookie to indicate user logged in     
-         #resp.set_cookie('userId',userId) 
-         return jsonify(success=True)
+	 resp = make_response(jsonify(success=True))
+         #app.logger.debug(userId)
+	 resp.set_cookie('userId', str(userId)) 
+         return resp
      else:
          app.logger.debug("Username already exists")
-         return jsonify(success=False)
+         resp = make_response(jsonify(success=False))
+	 return resp
 """
 basic setting a cookie example useing flask
 
@@ -101,7 +105,7 @@ basic setting a cookie example useing flask
 # 
 ###
 
-#@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST'])
 def login():
      username = str(MySQLdb.escape_string(request.form['username']))
      password = str(MySQLdb.escape_string(request.form['password']))
@@ -115,21 +119,21 @@ def login():
 
      row = cursor.fetchone()
      app.logger.debug(row) 
-     pw_hash = row[2]
-     app.logger.debug(pw_hash)  
      if row:
-         pass
-         #check if password matches
+         pw_hash = row[2]
+	 #check if password matches
          if bcrypt.check_password_hash(pw_hash, password): 
              app.logger.debug("password found")
              #setLoginStatus(userId, 1)
-             return True
+             resp = make_response(jsonify(success=True))
+	     resp.set_cookie('userId', str(row[0]))
+	     return resp
          else:
              app.logger.debug("password not found")
-             return False
+	     return make_response(jsonify(success=False, reason="bad password"))
      else:
          app.logger.debug("username not found in database")
-         return False
+         return make_response(jsonify(success=False, reason="bad username"))
 
 def userNameExists(username):
     cursor.execute("""SELECT * FROM USERS WHERE USER_NAME = %s""", username)
@@ -146,7 +150,7 @@ def getUserId(username):
     cursor.execute("""SELECT USER_ID FROM USERS WHERE USER_NAME = %s""", username)
     db.commit()
     userId = cursor.fetchone()
-    return userId
+    return userId[0]
 
 def getLoginStatus(userId):
    cursor.execute("""SELECT LOGGED_IN FROM USERS WHERE USER_ID = %s""", userID)
@@ -227,7 +231,7 @@ def shorten_url():
     #if  user is logged in
     user_id = ""#get user id from cookie?   
     short_url = str(request.form['short-url'])
-    long_url = str( request.form['long-url']) 
+    long_url = str( request.form['long-url'])
     timestamp = datetime.datetime.now()    
     click_count = 0
         

@@ -243,7 +243,7 @@ strong {
 #login  a {color: red;}
 #login  a:hover {text-decoration: underline;}
 
-#no-account {
+#no-account, #account {
 	font-size: 1em;
 	font-style: italic;
 	left: 0;
@@ -252,7 +252,7 @@ strong {
 	width: 100%;
 }
 
-#toggleLoginRegister {
+#toggleLoginRegister, #toggleLogin {
 	color: red;
 	cursor: pointer;
 }

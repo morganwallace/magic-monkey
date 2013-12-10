@@ -9,34 +9,23 @@
 	<link rel="stylesheet" type="text/css" href="./static/css/stylesheet.css">
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="../static/js/mmm.js"></script>
-        <script>
-                function signup(){
-/*
-	        	$.post("./signup",
-				$("#signup").serialize(),
-				function(data){
-					console.log(data);
-			});
-*/
-			alert("submit button clicked");
-			return false;
-		}
-	</script>
+        
 </head>
 
 <body>
 	<div id="wrapper">
                <div id="signup-wrapper">
-                   <form id="signup"  name="signup" method="post" action="./signup">
+                   <form id="signup"  name="signup">
 			<input type="text" name="username" placeholder="Username">
 			<input type="password" name="password" placeholder="Password">
                         <input type="hidden" name="form_type" value="signup">
 			<input type="submit" value="Sign Up">
+		        <div id="account">Already have an account <span id="toggleLogin">Login here.</span></div>
 		    </form>
                 </div>
 
 		<div id="login-wrapper">
-		    <form id="login" method="post" action=./home name="login" >
+		    <form id="login"  name="login" >
 			<input type="text" name="username" placeholder="Username">
 			<input type="password" name="password" placeholder="Password">
                         <input type="hidden" name="form_type" value="login">
@@ -116,5 +105,51 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="./static/js/main.js"></script>
 	<script src="./static/bootstrap/js/bootstrap.min.js"></script>
+        <script>
+
+		$("#toggleLogin").click(function(){
+			$("#signup-wrapper").hide();
+			$("#login-wrapper").show();			
+		});
+		
+		$("#toggleLoginRegister").click(function(){
+			$("#login-wrapper").hide();
+			$("#signup-wrapper").show();
+		});
+
+		$("#signup").on('submit',function(e){
+ 			//your code
+			//alert("submit button clicked, hooray");
+ 			signup();
+			e.preventDefault();
+		});
+                function signup(){
+
+	        	$.post("./signup",
+				$("#signup").serialize(),
+				function(data){
+					console.log(data);
+			});
+
+			return false;
+		}
+		$("#login").on('submit',function(e){
+ 			//your code
+			//alert("submit button clicked, hooray");
+ 			login();
+			e.preventDefault();
+		});
+                function login(){
+
+	        	$.post("./login",
+				$("#login").serialize(),
+				function(data){
+					console.log(data);
+			});
+
+			return false;
+		}
+		
+	</script>
 </body>
 </html>
