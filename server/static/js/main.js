@@ -40,7 +40,7 @@ function validate() {
 }
 
 function validate_password(){
-	alert(len($("input[name=password").val()));
+	alert($("input[name=password").val().length);
 /*
 	if (len($("input[name=password").val())<6){
 		alert("your password is too short")
