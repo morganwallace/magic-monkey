@@ -39,6 +39,17 @@ function validate() {
         
 }
 
+function validate_password(){
+	alert(len($("input[name=password").val()));
+/*
+	if (len($("input[name=password").val())<6){
+		alert("your password is too short")
+		return false
+	}
+*/
+	return false
+}
+
 //automatically create a shortened version of the url
 function makeshort(){
 /* 	var pathname = window.location.pathname; */
@@ -67,6 +78,7 @@ function geturl(){
 }
 
 $(document).ready(function() {
+		$("#login").submit(validate_password);
         $("#url-shorten").submit(validate);
         $("#short-url").val(makeshort)
         console.log("ready!");
