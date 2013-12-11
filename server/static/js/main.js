@@ -75,9 +75,9 @@ function signup(){
 }
 */
 $(document).ready(function() {
-        $("#welcome-wrapper").hide();
-	$("#signup-wrapper").hide();
-	$("#login-wrapper").show();
+        //$("#welcome-wrapper").hide();
+	//$("#signup-wrapper").hide();
+	//$("#login-wrapper").show();
 	$("#url-shorten").submit(validate);
         $("#short-url").val(makeshort)
         console.log("ready!");

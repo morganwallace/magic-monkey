@@ -14,7 +14,7 @@
 
 <body>
 	<div id="wrapper">
-               <div id="signup-wrapper">
+               <div id="signup-wrapper" >
                    <form id="signup"  name="signup">
 			<input type="text" name="username" placeholder="Username">
 			<input type="password" name="password" placeholder="Password">
@@ -35,7 +35,7 @@
  		</div>               
  
  		<div id="welcome-wrapper">
-			<div id="welcome">Welcome, <span id="username"></span>! <span id="logout">Logout when you're done.</span></div>
+			<div id="welcome">Welcome, <span id="username">{{username}}</span>! <span id="logout">Logout when you're done.</span></div>
 		</div>		
 
  		<div id="candle"></div>
@@ -95,28 +95,40 @@
                         <div id="links-wrapper">
 
 			<!-- List of generated URLs goes here -->
-			<!--	
-				{% for item in urls %}
+				
+				{% for item in links %}
  				<div class="link-history"> 
-					<h2><a href="{{item[1][1]}}">{{item[1][1]}}</a></h2>
-					<strong>Transmuted on: </strong>xx/yy/2013<br>
-					<strong>Times clicked:</strong> 0<br>
-					<a href="./short/{{item[0]}}" class="minified">/{{item[0]}}</a>
+					<h2><a href="{{item['longUrl']}}">{{item['longUrl']}}</a></h2>
+					<strong>Transmuted on: </strong>{{item['timeStamp']}}<br>
+					<strong>Times clicked:</strong> {{item['clickCount']}}<br>
+					<a href="./short/{{item['shortUrl']}}" class="minified">/{{item['shortUrl']}}</a>
 				</div>
-				{% endfor %}-->
+				{% endfor %}
 			</div>		
 
 		</div>
 		<div id="scroll_bottom"></div>	
 	</div>
+        {% if username != "" %}
+          <style>
+	    #signup-wrapper {display: none;}
+            #login-wrapper {display: none;}
+	  </style>
+        {% else %}
+          <style>
+            #signup-wrapper {display: none;}
+            #welcome-wrapper {display: none;}
+          </style>
+        {% endif %}
+
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="./static/js/main.js"></script>
 	<script src="./static/bootstrap/js/bootstrap.min.js"></script>
         <script>
-		$("#logout").click(function(e){
-			$("#login-wrapper").show();
-			$("#signup-wrapper").hide();
-			$("#welcome-wrapper").hide();
+
+                $("#logout").click(function(e){
+			$("#signup-wrapper").hide();//css('visibility', 'hidden');
+			$("#welcome-wrapper").hide();//css('visibility', 'hidden');
 			logout();
 			e.preventDefault();
 		});
@@ -128,14 +140,19 @@
 				function(data){
 					console.log(data);
 					//remove users links from page 
-					$("#username").text("");
-					$("#login-wrapper").show();
+					$(".link-history").each(function(){
+					    this.remove();
+					});
+                         		$("#username").text("");
+                                        $("input[name='password']").val('');
+                                        $("input[name='username']").val('');
+                                        $("#login-wrapper").show();
 			});
 			return false;
 		}
 			
 		$("#toggleLogin").click(function(){
-			$("#signup-wrapper").hide();
+			$("#signup-wrapper").hide();//css('visibility', 'hidden');
 			$("#login-wrapper").show();			
 		});
 		
@@ -210,7 +227,7 @@
 			var detailsBlock = "<h2><a href='" + data.longUrl + "'>" + data.longUrl + "</a></h2><strong>Transmuted on: </strong>" + data.timeStamp + "<br><strong>Times clicked:</strong>" + data.clickCount + "<br><a href='./short/" + data.shortUrl + "' class=minified>" + data.shortUrl + "</a>"; 
 
 			$("#links-wrapper").append("<div class='link-history'></div>");
-			curLinkHistory = $(".link-history").last();
+			curLinkHistory = $(".link-history").first();
 			curLinkHistory.append(detailsBlock);
 		}
 

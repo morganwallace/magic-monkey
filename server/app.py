@@ -35,10 +35,20 @@ def home():
     """Builds a template based on a GET request, with some default
     arguements"""  
     if request.method == 'GET':
-        index_title = request.args.get("title", "URL Shortener")
+        
+        if 'userId' in request.cookies:
+            if request.cookies['userId'] != "":
+                userLinks = dbLinksToDict(request.cookies['userId']) 
+                username = str(getUsername(request.cookies['userId']))
+                return flask.render_template(
+                    'home.html',
+                    username=username,
+                    links=userLinks) 
+
         return flask.render_template(
             'home.html',
-            title=index_title)
+            username="",
+            links=[])
 
 ### 
 # Signup Resource:
@@ -102,7 +112,7 @@ def login():
 	     jsonResponse = {}
              jsonResponse['links'] =  dbLinksToDict(str(row[0]))
              jsonResponse['success'] = True
-             
+             jsonResponse['username'] = str(row[1])            
              resp = Response(json.dumps(jsonResponse), mimetype='application/json')
              #resp = jsonify(success=True, username=username, links=jsonLinks))
 	     resp.set_cookie('userId', str(row[0]))
@@ -140,6 +150,11 @@ def userNameExists(username):
     else:
        return False    
  
+def getUsername(userId):
+    cursor.execute("""SELECT USER_NAME FROM USERS WHERE USER_ID = %s""", userId)
+    db.commit()
+    username = cursor.fetchone()
+    return username[0]
 
 def getUserId(username):
     cursor.execute("""SELECT USER_ID FROM USERS WHERE USER_NAME = %s""", username)
