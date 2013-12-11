@@ -12,6 +12,8 @@ from flask.ext.compress import Compress
 import MySQLdb
 import datetime
 import json
+from lxml import html
+from urllib import urlopen
 
 app = flask.Flask(__name__)
 Compress(app)
@@ -193,13 +195,17 @@ def dbLinksToDict(userId):
    return links
 
 def addNewLinkToDB(userId, shortUrl, longUrl, clickCount, timeStamp):
-    userId = str(MySQLdb.escape_string(userId))
-    shortUrl = str(MySQLdb.escape_string(shortUrl))
-    clickCount = str(MySQLdb.escape_string(str(clickCount)))
-    #timestamp generated at server, escape not necessary
-    timeStamp = timeStamp.strftime("%Y-%m-%d %H:%M:%S")
-    cursor.execute("""INSERT INTO LINKS (USER_ID, SHORT_URL, LONG_URL, CLICK_COUNT, TIME_STAMP) VALUES (%s, %s, %s, %s, %s)""", [userId, shortUrl, longUrl, clickCount, timeStamp])
-    db.commit()   
+	userId = str(MySQLdb.escape_string(userId))
+	shortUrl = str(MySQLdb.escape_string(shortUrl))
+	clickCount = str(MySQLdb.escape_string(str(clickCount)))
+	html_file = urlopen(longUrl)
+	doc = html.parse(html_file).getroot()
+	title=str(MySQLdb.escape_string(doc.xpath('/html/head/title/text()')[0]))
+	#timestamp generated at server, escape not necessary
+	timeStamp = timeStamp.strftime("%Y-%m-%d %H:%M:%S")
+	cursor.execute("""INSERT INTO LINKS (USER_ID, SHORT_URL, LONG_URL, CLICK_COUNT, TIME_STAMP, PAGE_TITLE) VALUES (%s, %s, %s, %s, %s)""", [userId, shortUrl, longUrl, clickCount, timeStamp, title])
+	app.logger.debug(cursor._executed)
+	db.commit()   
 
 def addNewUserToDB( username, password, loggedIn):
      cursor.execute("""INSERT INTO USERS (USER_NAME, PASSWORD, LOGGED_IN) VALUES (%s, %s, %s)""", [username,password,loggedIn])
