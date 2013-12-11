@@ -207,6 +207,10 @@ def addNewUserToDB( username, password, loggedIn):
      db.commit()
          
 
+def incrementClickCountDB(shortUrl):
+    cursor.execute("""UPDATE LINKS SET  CLICK_COUNT = CLICK_COUNT + 1 WHERE SHORT_URL = %s""", shortUrl)
+    db.commit()
+
 ###
 # GET method will redirect to the short-url stored in db
 # POST/PUT method will update the redirect destination
@@ -218,11 +222,12 @@ def lengthen_url(name):
     db.commit() 
     long_url = cursor.fetchone()
 
+    incrementClickCountDB(name)
     if not long_url:    
 	return flask.redirect(url_for('error', _external=True))
     else:
-	app.logger.debug("Redirecting to " + long_url)
-	return flask.redirect(long_url)
+	app.logger.debug("Redirecting to " + long_url[0])
+	return flask.redirect(long_url[0])
 
 
 @app.route('/error', methods=['GET'])
