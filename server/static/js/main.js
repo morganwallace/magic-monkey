@@ -40,11 +40,7 @@ function validate() {
 }
 
 function validate_password(){
-<<<<<<< Updated upstream
 	alert($("input[name=password").val().length);
-=======
-	alert(($("input[name=password").val().length));
->>>>>>> Stashed changes
 /*
 	if (len($("input[name=password").val())<6){
 		alert("your password is too short")
