@@ -76,10 +76,21 @@ function geturl(){
 	path=path.substring(0,path.indexOf("server")+7)+"short/"
 	$("#cur_path").html(path);
 }
-
+/*
+function signup(){
+	$.post( "/signup", 
+               $( "#signup" ).serialize(), 
+               function(data){
+                   console.log(data);
+        });
+}
+*/
 $(document).ready(function() {
-		$("#login").submit(validate_password);
-        $("#url-shorten").submit(validate);
+	$("#login").submit(validate_password);
+        //$("#welcome-wrapper").hide();
+	//$("#signup-wrapper").hide();
+	//$("#login-wrapper").show();
+	$("#url-shorten").submit(validate);
         $("#short-url").val(makeshort)
         console.log("ready!");
         geturl();

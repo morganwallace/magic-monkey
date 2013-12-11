@@ -159,7 +159,7 @@ strong {
 
 /* Login form */
 
-#login {
+#login, #signup, #welcome {
 	color: white;
 	font-size: 0.8em;
 	height: 30px;
@@ -167,7 +167,7 @@ strong {
 	margin-top: 10px;
 }
 
-#login input[type="text"] {
+#login input[type="text"], #signup input[type="text"] {
 	background: none;
 	border: 1px solid red;
 	color: white;
@@ -178,27 +178,27 @@ strong {
 	width: 250px;	
 }
 
-#login input[type="text"]::-webkit-input-placeholder {
+#login input[type="text"]::-webkit-input-placeholder, #signup input[type="text"]::-webkit-input-placeholder {
 	color: white;
 	font-size: 1em;
 }
 
-#login input[type="text"]:-moz-placeholder { /* Firefox 18- */
+#login input[type="text"]:-moz-placeholder, #signup input[type="text"]:-moz-placeholder { /* Firefox 18- */
 	color: white;
 	font-size: 1em;
 }
 
-#login input[type="text"]::-moz-placeholder { /* Firefox 19+ */
+#login input[type="text"]::-moz-placeholder, #signup input[type="text"]::-moz-placeholder { /* Firefox 19+ */
 	color: white;
 	font-size: 1em;
 }
 
-#login input[type="text"]:-ms-input-placeholder {
+#login input[type="text"]:-ms-input-placeholder, #signup input[type="text"]:-ms-input-placeholder {
 	color: white;
 	font-size: 1em;
 }
 
-#login input[type="password"] {
+#login input[type="password"], #signup input[type="password"] {
 	background: none;
 	border: 1px solid red;
 	color: white;
@@ -212,12 +212,12 @@ strong {
 	width: 250px;
 }
 
-#login input[type="password"]::-webkit-input-placeholder {color: white;}
-#login input[type="password"]:-moz-placeholder {color: white;} /* Firefox 18- */
-#login input[type="password"]::-moz-placeholder {color: white;} /* Firefox 19+ */
-#login input[type="password"]:-ms-input-placeholder {color: white;}
+#login input[type="password"]::-webkit-input-placeholder, #signup input[type="password"]::-webkit-input-placeholder {color: white;}
+#login input[type="password"]:-moz-placeholder, #signup input[type="password"]:-moz-placeholder {color: white;} /* Firefox 18- */
+#login input[type="password"]::-moz-placeholder, #signup input[type="password"]::-moz-placeholder {color: white;} /* Firefox 19+ */
+#login input[type="password"]:-ms-input-placeholder, #signup input[type="password"]:-ms-input-placeholder {color: white;}
 
-#login input[type="submit"] {
+#login input[type="submit"], #signup input[type="submit"] {
 	background-color: #7a1823;
 	border: 1px solid red;
 	border-radius: 3px;
@@ -233,25 +233,26 @@ strong {
 	width: 110px;
 }
 
-#login input[type="submit"]:hover {
+#login input[type="submit"]:hover, #signup input[type="submit"]:hover {
 	transition: all 0.4s;
 	-moz-transition: all 0.4s;
 	-webkit-transition: all 0.4s;
 	background-color: red;
 }
 
-#login a {color: red;}
-#login a:hover {text-decoration: underline;}
+#login  a {color: red;}
+#login  a:hover {text-decoration: underline;}
 
-#no-account {
+#no-account, #account, #welcome {
 	font-size: 1em;
 	font-style: italic;
 	left: 0;
 	position: absolute;
 	top: 33px;
+	width: 100%;
 }
 
-#toggleLoginRegister {
+#toggleLoginRegister, #toggleLogin, #logout {
 	color: red;
 	cursor: pointer;
 }

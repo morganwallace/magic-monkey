@@ -9,17 +9,36 @@
 	<link rel="stylesheet" type="text/css" href="./static/css/stylesheet.css">
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="../static/js/mmm.js"></script>
+        
 </head>
 
 <body>
 	<div id="wrapper">
-		<form id="login">
+               <div id="signup-wrapper" >
+                   <form id="signup"  name="signup">
 			<input type="text" name="username" placeholder="Username">
 			<input type="password" name="password" placeholder="Password">
+                        <input type="hidden" name="form_type" value="signup">
+			<input type="submit" value="Sign Up">
+		        <div id="account">Already have an account <span id="toggleLogin">Login here.</span></div>
+		    </form>
+                </div>
+
+		<div id="login-wrapper">
+		    <form id="login"  name="login" >
+			<input type="text" name="username" placeholder="Username">
+			<input type="password" name="password" placeholder="Password">
+                        <input type="hidden" name="form_type" value="login">
 			<input type="submit" value="Log In">
 			<div id="no-account">Don't have an account yet? <span id="toggleLoginRegister">Create one here.</span></div>
-		</form>
-		<div id="candle"></div>
+		    </form>
+ 		</div>               
+ 
+ 		<div id="welcome-wrapper">
+			<div id="welcome">Welcome, <span id="username">{{username}}</span>! <span id="logout">Logout when you're done.</span></div>
+		</div>		
+
+ 		<div id="candle"></div>
 		<div id="tail"></div>
 		<div id="tarotDeath"></div>
 		<div id="tarotDevil"></div>
@@ -56,7 +75,7 @@
 		</div>
 
 		<div id="scroll_content">
-			<form role="form" action="./shorts" method="post" id="url-shorten" name="shortener">
+			<form role="form" id="url-shorten" name="shortener">
 				<label for="long-url">The long URL</label>
 				<input type="text" id="long-url" name="long-url" placeholder="Example: http://google.com" required autofocus>
 
@@ -73,22 +92,145 @@
 			</form>
 			<div class="clear"></div>
 
+                        <div id="links-wrapper">
+
 			<!-- List of generated URLs goes here -->
-			{% for item in urls %}
- 			<div class="link-history"> 
-				<h2><a href="{{item[1][1]}}">{{item[1][1]}}</a></h2>
-				<strong>Transmuted on: </strong>xx/yy/2013<br>
-				<strong>Times clicked:</strong> 0<br>
-				<a href="./short/{{item[0]}}" class="minified">/{{item[0]}}</a>
-			</div>
-			{% endfor %}
-		
+				
+				{% for item in links %}
+ 				<div class="link-history"> 
+					<h2><a href="{{item['longUrl']}}">{{item['longUrl']}}</a></h2>
+					<strong>Transmuted on: </strong>{{item['timeStamp']}}<br>
+					<strong>Times clicked:</strong> {{item['clickCount']}}<br>
+					<a href="./short/{{item['shortUrl']}}" class="minified">/{{item['shortUrl']}}</a>
+				</div>
+				{% endfor %}
+			</div>		
 
 		</div>
 		<div id="scroll_bottom"></div>	
 	</div>
+        {% if username != "" %}
+          <style>
+	    #signup-wrapper {display: none;}
+            #login-wrapper {display: none;}
+	  </style>
+        {% else %}
+          <style>
+            #signup-wrapper {display: none;}
+            #welcome-wrapper {display: none;}
+          </style>
+        {% endif %}
+
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="./static/js/main.js"></script>
 	<script src="./static/bootstrap/js/bootstrap.min.js"></script>
+        <script>
+
+                $("#logout").click(function(e){
+			$("#signup-wrapper").hide();//css('visibility', 'hidden');
+			$("#welcome-wrapper").hide();//css('visibility', 'hidden');
+			logout();
+			e.preventDefault();
+		});
+
+		function logout(){
+
+	        	$.post("./logout",
+				null,
+				function(data){
+					console.log(data);
+					//remove users links from page 
+					$(".link-history").each(function(){
+					    this.remove();
+					});
+                         		$("#username").text("");
+                                        $("input[name='password']").val('');
+                                        $("input[name='username']").val('');
+                                        $("#login-wrapper").show();
+			});
+			return false;
+		}
+			
+		$("#toggleLogin").click(function(){
+			$("#signup-wrapper").hide();//css('visibility', 'hidden');
+			$("#login-wrapper").show();			
+		});
+		
+		$("#toggleLoginRegister").click(function(){
+			$("#login-wrapper").hide();
+			$("#signup-wrapper").show();
+		});
+
+		$("#signup").on('submit',function(e){
+ 			//your code
+			//alert("submit button clicked, hooray");
+ 			signup();
+			e.preventDefault();
+		});
+                
+		function signup(){
+
+	        	$.post("./signup",
+				$("#signup").serialize(),
+				function(data){
+					console.log(data);
+					console.log(data.username);
+					$("#username").text(data.username);
+					$("#signup-wrapper").hide();
+					$("#welcome-wrapper").show();
+			});
+			return false;
+		}
+		
+		$("#login").on('submit',function(e){
+ 			login();
+			e.preventDefault();
+		});
+
+                function login(){
+
+	        	$.post("./login",
+				$("#login").serialize(),
+				function(data){
+					console.log(data);
+					//add users links to page 
+					console.log(data.links);
+  					for (var i=0; i < data.links.length; i++) {
+						console.log(data.links[i]);
+						appendLinkToList(data.links[i]);
+					}
+					$("#username").text(data.username);
+					$("#login-wrapper").hide();
+					$("#welcome-wrapper").show();
+			});
+			return false;
+		}
+		
+		$("#url-shorten").on('submit',function(e){
+ 			addShortUrl();
+			e.preventDefault();
+		});
+
+                function addShortUrl(){
+
+	        	$.post("./shorts",
+				$("#url-shorten").serialize(),
+				function(data){
+					console.log(data);
+					appendLinkToList(data);
+			});
+			return false;
+		}
+
+		function appendLinkToList(data){
+			console.log(data);
+			var detailsBlock = "<h2><a href='" + data.longUrl + "'>" + data.longUrl + "</a></h2><strong>Transmuted on: </strong>" + data.timeStamp + "<br><strong>Times clicked:</strong>" + data.clickCount + "<br><a href='./short/" + data.shortUrl + "' class=minified>" + data.shortUrl + "</a>"; 
+
+			$("#links-wrapper").append("<div class='link-history'></div>");
+			curLinkHistory = $(".link-history").first();
+			curLinkHistory.append(detailsBlock);
+		}
+
+	</script>
 </body>
 </html>
