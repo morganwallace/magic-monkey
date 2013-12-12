@@ -101,7 +101,8 @@
 					<h2><a href="{{item['longUrl']}}">{{item['longUrl']}}</a></h2>
 					<strong>Transmuted on: </strong>{{item['timeStamp']}}<br>
 					<strong>Times clicked:</strong> {{item['clickCount']}}<br>
-					<a href="./short/{{item['shortUrl']}}" class="minified">/{{item['shortUrl']}}</a>
+					<a href="./short/{{item['shortUrl']}}" class="minified">{{item['shortUrl']}}</a><br>
+ 					<span class="delete">Delete</span>
 				</div>
 				{% endfor %}
 			</div>		
@@ -150,6 +151,19 @@
 			});
 			return false;
 		}
+		
+		$(".delete").click(function(){
+			shortUrl = $(this).siblings('.minified').html();
+			console.log(shortUrl);
+			$(this).parent().remove();	
+			$.post("./delete",
+				{ short_url: shortUrl },
+				function(data){
+					console.log(data);
+			});
+			return false;
+		
+		});
 			
 		$("#toggleLogin").click(function(){
 			$("#signup-wrapper").hide();//css('visibility', 'hidden');

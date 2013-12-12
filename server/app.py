@@ -207,6 +207,11 @@ def addNewLinkToDB(userId, shortUrl, longUrl, clickCount, timeStamp):
 	app.logger.debug(cursor._executed)
 	db.commit()   
 
+def deleteLinkFromDB(shortUrl):
+    cursor.execute("""DELETE FROM LINKS WHERE SHORT_URL = %s""",shortUrl)
+    db.commit()
+    app.logger.debug(cursor_execute)
+
 def addNewUserToDB( username, password, loggedIn):
      cursor.execute("""INSERT INTO USERS (USER_NAME, PASSWORD, LOGGED_IN) VALUES (%s, %s, %s)""", [username,password,loggedIn])
      app.logger.debug(cursor._executed)
@@ -216,6 +221,17 @@ def addNewUserToDB( username, password, loggedIn):
 def incrementClickCountDB(shortUrl):
     cursor.execute("""UPDATE LINKS SET  CLICK_COUNT = CLICK_COUNT + 1 WHERE SHORT_URL = %s""", shortUrl)
     db.commit()
+
+
+####
+# Delete route
+#
+###
+@app.route('/delete', methods=['POST'])
+def delete():
+    app.logger.debug(request.form['short_url'])
+    deleteLinkFromDB(request.form['short_url'])	
+    return jsonify(success=True)
 
 ###
 # GET method will redirect to the short-url stored in db
