@@ -222,6 +222,7 @@
 		
 		$("#url-shorten").on('submit',function(e){
  			addShortUrl();
+			$("#long-url").val("");
 			e.preventDefault();
 		});
 
@@ -238,13 +239,18 @@
 
 		function appendLinkToList(data){
 			console.log(data);
-			var detailsBlock = "<h2><a href='" + data.longUrl + "'>" + data.longUrl + "</a></h2><strong>Transmuted on: </strong>" + data.timeStamp + "<br><strong>Times clicked:</strong>" + data.clickCount + "<br><a href='./short/" + data.shortUrl + "' class=minified>" + data.shortUrl + "</a>"; 
+			var detailsBlock = "<h2><a href='" + data.longUrl + "'>" + data.longUrl + "</a></h2><strong>Transmuted on: </strong>" + data.timeStamp + "<br><strong>Times clicked:</strong>" + data.clickCount + "<br><a href='./short/" + data.shortUrl + "' class=minified>" + data.shortUrl + "</a><br><span class='delete'>Delete</span>"; 
 
 			$("#links-wrapper").append("<div class='link-history'></div>");
 			curLinkHistory = $(".link-history").first();
-			curLinkHistory.append(detailsBlock);
+			curLinkHistory.prepend(detailsBlock);
 		}
 
+		function clearLinkHistory(){
+			$(".link-history").each(function(){
+				$(this).remove();
+			});
+		}
 	</script>
 </body>
 </html>

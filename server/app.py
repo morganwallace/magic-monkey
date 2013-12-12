@@ -110,7 +110,7 @@ def login():
 	 #check if password matches
          if bcrypt.check_password_hash(pw_hash, password): 
              app.logger.debug("password found")
-             #setLoginStatus(userId, 1)
+             setLoginStatus(str(row[0]), 1)
 	     jsonResponse = {}
              jsonResponse['links'] =  dbLinksToDict(str(row[0]))
              jsonResponse['success'] = True
@@ -132,12 +132,13 @@ def login():
 ###
 
 @app.route('/logout', methods=['POST'])
-def logout():
-    if 'userId' in request.cookies:
+def logout():  
+   if 'userId' in request.cookies:  
+        setLoginStatus(request.cookies['userId'], 0)
         resp = make_response(jsonify(success=True, type='logout'))
         resp.set_cookie('userId', '')
         return resp
-    else:
+   else:
         resp = make_response(jsonify(success=False, type='logout'))
         return resp     
 
@@ -171,11 +172,11 @@ def getLoginStatus(userId):
    return loginStatus 
 
 def setLoginStatus(userId,loginStatus):
-   cursor.execute("""INSERT INTO USERS (LOGGED_IN) VALUES (%s)""",loginStatus)
+   cursor.execute("""UPDATE USERS SET LOGGED_IN = %s WHERE USER_ID = %s""",[loginStatus, userId])
    db.commit()
 
-def dbLinksToDict(userId):
-   cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s""", userId);
+def dbLinksToDict(userId,col="TIME_STAMP", order="DESC" ):
+   cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s ORDER BY %s %s """, [userId,col,order]);
    app.logger.debug(cursor._executed)
    db.commit()
    rows = cursor.fetchall()
@@ -198,14 +199,27 @@ def addNewLinkToDB(userId, shortUrl, longUrl, clickCount, timeStamp):
 	userId = str(MySQLdb.escape_string(userId))
 	shortUrl = str(MySQLdb.escape_string(shortUrl))
 	clickCount = str(MySQLdb.escape_string(str(clickCount)))
-	html_file = urlopen(longUrl)
-	doc = html.parse(html_file).getroot()
-	title=str(MySQLdb.escape_string(doc.xpath('/html/head/title/text()')[0]))
-	#timestamp generated at server, escape not necessary
+	title = ""
+        try:
+            html_file = urlopen(longUrl)
+	    doc = html.parse(html_file).getroot()
+ 	    title=str(MySQLdb.escape_string(doc.xpath('/html/head/title/text()')[0]))
+	except:
+            app.logger.debug("Error trying to get title for long url")
+        #timestamp generated at server, escape not necessary
 	timeStamp = timeStamp.strftime("%Y-%m-%d %H:%M:%S")
-	cursor.execute("""INSERT INTO LINKS (USER_ID, SHORT_URL, LONG_URL, CLICK_COUNT, TIME_STAMP, PAGE_TITLE) VALUES (%s, %s, %s, %s, %s)""", [userId, shortUrl, longUrl, clickCount, timeStamp, title])
+	cursor.execute("""INSERT INTO LINKS (USER_ID, SHORT_URL, LONG_URL, CLICK_COUNT, TIME_STAMP, PAGE_TITLE) VALUES (%s, %s, %s, %s, %s, %s)""", [userId, shortUrl, longUrl, clickCount, timeStamp, title])
 	app.logger.debug(cursor._executed)
 	db.commit()   
+
+def checkUniqueShortUrl(shortUrl):
+    cursor.execute("""SELECT SHORT_URL FROM LINKS WHERE SHORT_URL = %s""", shortUrl)
+    db.commit()
+    check = cursor.fetchone()
+    if check:
+       return False#short url is not unique
+    else:
+       return True#short url is unique 
 
 def deleteLinkFromDB(shortUrl):
     cursor.execute("""DELETE FROM LINKS WHERE SHORT_URL = %s""",shortUrl)
@@ -278,17 +292,21 @@ def reset():
 def shorten_url():
     """Set or update the URL to which this resource redirects to. Uses the
     `url` key to set the redirect destination."""
+    #user can only add links if logged 
     if  'userId' in request.cookies:
         user_id = request.cookies['userId']   
         if user_id != "":
-            short_url = str(request.form['short-url'])
-            long_url = str( request.form['long-url'])
+            short_url = str(MySQLdb.escape_string(request.form['short-url']))
+            long_url = str(MySQLdb.escape_string(request.form['long-url']))
             timestamp = datetime.datetime.now()    
             click_count = 0
-        
-            # insert url guys to mysql database
-            addNewLinkToDB(user_id, short_url, long_url, click_count, timestamp) 
-            return jsonify(succss=True, shortUrl=short_url, longUrl=long_url, timeStamp=timestamp, clickCount=click_count)
+            #check if short url is unique 
+            if checkUniqueShortUrl(short_url):
+                # insert url guys to mysql database
+                addNewLinkToDB(user_id, short_url, long_url, click_count, timestamp) 
+                return jsonify(succss=True, shortUrl=short_url, longUrl=long_url, timeStamp=timestamp, clickCount=click_count)
+            else:
+                return jsonify(success=False, reason="short url not unique")
         else:
             return jsonify(success=False, reason="user not logged in") 
     else:    
