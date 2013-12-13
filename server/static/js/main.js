@@ -51,7 +51,7 @@ function validate() {
 		else{ //good - long url has more than 0 chars
 			
 			//make sure that the long url has http:// otherwise it appends to people.ischool
-			if (longurl.substring(0, 6)!="http://"){
+			if (longurl.substring(0, 4)!="http"){
 				$("#long-url").val("http://"+longurl);
 			}
 /* 			$("#long-url").parent().removeClass('has-error alert alert-danger'); */
