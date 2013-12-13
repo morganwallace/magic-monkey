@@ -103,8 +103,10 @@ function geturl(){
 }
 
 function hide_sorters(){
+	console.log("hide_sorters was called");
 	$("#order-links-wrapper").hide();
-	if($("#link-history").children.length>1){
+	console.log($("#links-wrapper > div").size());
+	if($("#links-wrapper > div").size() >1){
 		$("#order-links-wrapper").show();
 	}
 }

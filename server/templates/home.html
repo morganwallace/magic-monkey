@@ -111,7 +111,6 @@
 
 			<div class="clear"></div>
 
-
                         <div id="links-wrapper">
 
 			<!-- List of generated URLs goes here -->
@@ -179,6 +178,7 @@
 			$("#signup-wrapper").hide();
 			$("#welcome-wrapper").hide();
 			logout();
+			//hide_sorters();
 			e.preventDefault();
 		});
 
@@ -192,6 +192,7 @@
 					$(".link-history").each(function(){
 					    this.remove();
 					});
+					hide_sorters();
 			});
                          
 			$("#username").text("");
@@ -212,18 +213,9 @@
 				function(data){
 					console.log(data);
 			});
-
+			hide_sorters();
 			e.preventDefault();	
 		});
-		/*
-		function delete(){
-			$.post("./delete",
-				{ short_url: shortUrl },
-				function(data){
-					console.log(data);
-			});
-			return false;	
-		}*/
 	
 		$("#toggleLogin").click(function(){
 			$("#signup-wrapper").hide();//css('visibility', 'hidden');
@@ -241,6 +233,7 @@
  			//your code
 			//alert("submit button clicked, hooray");
  			signup();
+			//hide_sorters();
 			e.preventDefault();
 		});
                 
@@ -261,12 +254,14 @@
 						console.log(data.reason);
 						$("#error-message").text(data.reason);
 					}
+				hide_sorters();
 			});
 			return false;
 		}
 		
 		$("#login").on('submit',function(e){
  			login();
+			//hide_sorters();
 			e.preventDefault();
 		});
 
@@ -286,6 +281,7 @@
 					else {
 						$("#error-message").text(data.reason);
 					}
+				hide_sorters();
 			});
 
 	
@@ -294,7 +290,7 @@
 
 		function createLinkHistory(data){
 
-			console.log(data);
+			//console.log(data);
 			//add users links to page 
 			//console.log(data.links);
   			for (var i=0; i < data.links.length; i++) {
@@ -306,7 +302,7 @@
 		$("#url-shorten").on('submit',function(e){
  			addShortUrl();
 			e.preventDefault();
-			
+			hide_sorters();
 			//randomize the short path after 
 			$("#short-url").val(makeid());
 		});
@@ -317,6 +313,7 @@
 							$("#url-shorten").serialize(),
 							function(data){
 								console.log(data);
+								console.log(data.success);
 								if(data.success == true){
 									appendLinkToList(data);
 								}
