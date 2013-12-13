@@ -7,7 +7,8 @@
 	<link rel="shortcut icon" href="../static/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="./static/css/reset.css">
 	<link rel="stylesheet" type="text/css" href="./static/css/stylesheet.css">
-	
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script src="../static/js/mmm.js"></script>
         
 </head>
 
@@ -90,7 +91,13 @@
 				</div>
 			</form>
 			<div class="clear"></div>
-
+			<div id="order-links-wrapper">
+			    <p>Order by: </p>
+			    <button id="ascending-click-count" type='button'>ASC Click Count</button>
+			    <button id="descending-click-count" type='button'>DESC Click count</button>
+			    <button id="ascending-time" type='button'>Most Recent Last</button>
+			    <button id="decenting-time" type='button'>Most Recent First</button>
+			</div>
                         <div id="links-wrapper">
 
 			<!-- List of generated URLs goes here -->
@@ -120,13 +127,29 @@
             #welcome-wrapper {display: none;}
           </style>
         {% endif %}
-</body>
-	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="./static/js/main.js"></script>
 	<script src="./static/bootstrap/js/bootstrap.min.js"></script>
         <script>
+		$('#ascending-click-count').on('click', function(){
+			
+		});
+		
+		$('#descending-click-count').on('click', function(){
+		
+		});
 
+		$('#ascending-time').on('click', function(){
+		
+		});
+
+		$('#descending-time').on('click', function(){
+		
+		});
+
+			
+		
                 $("#logout").click(function(e){
 			$("#signup-wrapper").hide();//css('visibility', 'hidden');
 			$("#welcome-wrapper").hide();//css('visibility', 'hidden');
@@ -241,10 +264,11 @@
 
 		function appendLinkToList(data){
 			console.log(data);
-			var detailsBlock = "<div class='link-history'><h2><a href='" + data.longUrl + "'>" + data.longUrl + "</a></h2><strong>Transmuted on: </strong>" + data.timeStamp + "<br><strong>Times clicked:</strong>" + data.clickCount + "<br><a href='./short/" + data.shortUrl + "' class=minified>" + data.shortUrl + "</a><br><span class='delete'>Delete</span></div>"; 
+			var detailsBlock = "<h2><a href='" + data.longUrl + "'>" + data.longUrl + "</a></h2><strong>Transmuted on: </strong>" + data.timeStamp + "<br><strong>Times clicked:</strong>" + data.clickCount + "<br><a href='./short/" + data.shortUrl + "' class=minified>" + data.shortUrl + "</a><br><span class='delete'>Delete</span>"; 
 
-/* 			curLinkHistory = $(".link-history").first(); */
-			$('#links-wrapper').prepend(detailsBlock);
+			$("#links-wrapper").append("<div class='link-history'></div>");
+			curLinkHistory = $(".link-history").first();
+			curLinkHistory.prepend(detailsBlock);
 		}
 
 		function clearLinkHistory(){
@@ -252,14 +276,6 @@
 				$(this).remove();
 			});
 		}
-		
-
-
-    $('#toggleLoginRegister').click(function() {
-    	$('#login').hide();
-    });
-
-		
 	</script>
-
+</body>
 </html>

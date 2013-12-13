@@ -1,4 +1,3 @@
-# -*- coding: utf8 -*-
 #!/usr/bin/env python
 
 from subprocess import check_output
@@ -180,7 +179,6 @@ def dbLinksToDict(userId):
    app.logger.debug(cursor._executed)
    db.commit()
    rows = cursor.fetchall()
-   app.logger.debug(rows)
    links = []
    for row in rows:
        rowDummy = {}
@@ -213,11 +211,10 @@ def addNewLinkToDB(userId, shortUrl, longUrl, clickCount, timeStamp):
 	userId = str(MySQLdb.escape_string(userId))
 	shortUrl = str(MySQLdb.escape_string(shortUrl))
 	clickCount = str(MySQLdb.escape_string(str(clickCount)))
-# 	app.logger.debug(longUrl)
+	
 	title=get_url_title(longUrl)
 	title=str(MySQLdb.escape_string(title))
 
-	#timestamp generated at server, escape not necessary
 	timeStamp = timeStamp.strftime("%Y-%m-%d %H:%M:%S")
 	cursor.execute("""INSERT INTO LINKS (USER_ID, SHORT_URL, LONG_URL, CLICK_COUNT, TIME_STAMP, PAGE_TITLE) VALUES (%s, %s, %s, %s, %s, %s)""", [userId, shortUrl, longUrl, clickCount, timeStamp, title])
 	app.logger.debug(cursor._executed)
