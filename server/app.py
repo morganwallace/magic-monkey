@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf8 -*-
 
 from subprocess import check_output
 import flask
@@ -75,14 +76,14 @@ def signup():
          
          userId = getUserId(username)
          #set cookie to indicate user logged in     
-	 resp = make_response(jsonify(success=True, username=username))
+         resp = make_response(jsonify(success=True, username=username))
          #app.logger.debug(userId)
-	 resp.set_cookie('userId', str(userId)) 
+         resp.set_cookie('userId', str(userId)) 
          return resp
      else:
          app.logger.debug("Username already exists")
          resp = make_response(jsonify(success=False))
-	 return resp
+         return resp
 
 
 ### 
@@ -107,21 +108,21 @@ def login():
      app.logger.debug(row) 
      if row:
          pw_hash = row[2]
-	 #check if password matches
+         #check if password matches
          if bcrypt.check_password_hash(pw_hash, password): 
              app.logger.debug("password found")
-             #setLoginStatus(userId, 1)
-	     jsonResponse = {}
+             setLoginStatus(str(row[0]), 1)
+             jsonResponse = {}
              jsonResponse['links'] =  dbLinksToDict(str(row[0]))
              jsonResponse['success'] = True
              jsonResponse['username'] = str(row[1])            
              resp = Response(json.dumps(jsonResponse), mimetype='application/json')
              #resp = jsonify(success=True, username=username, links=jsonLinks))
-	     resp.set_cookie('userId', str(row[0]))
-	     return resp
+             resp.set_cookie('userId', str(row[0]))
+             return resp
          else:
              app.logger.debug("password not found")
-	     return make_response(jsonify(success=False, reason="bad password"))
+             return make_response(jsonify(success=False, reason="bad password"))
      else:
          app.logger.debug("username not found in database")
          return make_response(jsonify(success=False, reason="bad username"))
@@ -132,12 +133,13 @@ def login():
 ###
 
 @app.route('/logout', methods=['POST'])
-def logout():
-    if 'userId' in request.cookies:
+def logout():  
+   if 'userId' in request.cookies:  
+        setLoginStatus(request.cookies['userId'], 0)
         resp = make_response(jsonify(success=True, type='logout'))
         resp.set_cookie('userId', '')
         return resp
-    else:
+   else:
         resp = make_response(jsonify(success=False, type='logout'))
         return resp     
 
@@ -171,11 +173,11 @@ def getLoginStatus(userId):
    return loginStatus 
 
 def setLoginStatus(userId,loginStatus):
-   cursor.execute("""INSERT INTO USERS (LOGGED_IN) VALUES (%s)""",loginStatus)
+   cursor.execute("""UPDATE USERS SET LOGGED_IN = %s WHERE USER_ID = %s""",[loginStatus, userId])
    db.commit()
 
-def dbLinksToDict(userId):
-   cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s""", userId);
+def dbLinksToDict(userId,col="TIME_STAMP", order="DESC" ):
+   cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s ORDER BY %s %s """, [userId,col,order]);
    app.logger.debug(cursor._executed)
    db.commit()
    rows = cursor.fetchall()
@@ -186,7 +188,6 @@ def dbLinksToDict(userId):
        rowDummy['longUrl'] = row[2];
        rowDummy['clickCount'] = row[3];
        rowDummy['timeStamp'] = row[4].strftime("%Y-%d-%m %H:%M:%S")
-       rowDummy['title']= row[5]
        app.logger.debug(rowDummy)
        app.logger.debug(row)
        links.append(rowDummy) 
@@ -196,29 +197,42 @@ def dbLinksToDict(userId):
    return links
 
 def get_url_title(longUrl):
-	try:
-		html_file = urlopen(longUrl)
-		doc = html.parse(html_file).getroot()
-		title=doc.xpath('/html/head/title/text()')[0]	
-		title=title.decode("utf-8").encode('ascii',"ignore")
-	except:
-		title=longUrl
-		app.logger.debug(title)
-	return title
+        try:
+                html_file = urlopen(longUrl)
+                doc = html.parse(html_file).getroot()
+                title=doc.xpath('/html/head/title/text()')[0]        
+                title=title.decode("utf-8").encode('ascii',"ignore")
+        except:
+                title=longUrl
+                app.logger.debug(title)
+        return title
 
 
 def addNewLinkToDB(userId, shortUrl, longUrl, clickCount, timeStamp):
-	userId = str(MySQLdb.escape_string(userId))
-	shortUrl = str(MySQLdb.escape_string(shortUrl))
-	clickCount = str(MySQLdb.escape_string(str(clickCount)))
-	
-	title=get_url_title(longUrl)
-	title=str(MySQLdb.escape_string(title))
+        userId = str(MySQLdb.escape_string(userId))
+        shortUrl = str(MySQLdb.escape_string(shortUrl))
+        clickCount = str(MySQLdb.escape_string(str(clickCount)))
+        title=get_url_title(longUrl)
+        title=str(MySQLdb.escape_string(title))
+        #timestamp generated at server, escape not necessary
+        timeStamp = timeStamp.strftime("%Y-%m-%d %H:%M:%S")
+        cursor.execute("""INSERT INTO LINKS (USER_ID, SHORT_URL, LONG_URL, CLICK_COUNT, TIME_STAMP, PAGE_TITLE) VALUES (%s, %s, %s, %s, %s, %s)""", [userId, shortUrl, longUrl, clickCount, timeStamp, title])
+        app.logger.debug(cursor._executed)
+        db.commit()   
 
-	timeStamp = timeStamp.strftime("%Y-%m-%d %H:%M:%S")
-	cursor.execute("""INSERT INTO LINKS (USER_ID, SHORT_URL, LONG_URL, CLICK_COUNT, TIME_STAMP, PAGE_TITLE) VALUES (%s, %s, %s, %s, %s, %s)""", [userId, shortUrl, longUrl, clickCount, timeStamp, title])
-	app.logger.debug(cursor._executed)
-	db.commit()   
+def checkUniqueShortUrl(shortUrl):
+    cursor.execute("""SELECT SHORT_URL FROM LINKS WHERE SHORT_URL = %s""", shortUrl)
+    db.commit()
+    check = cursor.fetchone()
+    if check:
+       return False#short url is not unique
+    else:
+       return True#short url is unique 
+
+def deleteLinkFromDB(shortUrl):
+    cursor.execute("""DELETE FROM LINKS WHERE SHORT_URL = %s""",shortUrl)
+    db.commit()
+    app.logger.debug(cursor_execute)
 
 def addNewUserToDB( username, password, loggedIn):
      cursor.execute("""INSERT INTO USERS (USER_NAME, PASSWORD, LOGGED_IN) VALUES (%s, %s, %s)""", [username,password,loggedIn])
@@ -229,6 +243,17 @@ def addNewUserToDB( username, password, loggedIn):
 def incrementClickCountDB(shortUrl):
     cursor.execute("""UPDATE LINKS SET  CLICK_COUNT = CLICK_COUNT + 1 WHERE SHORT_URL = %s""", shortUrl)
     db.commit()
+
+
+####
+# Delete route
+#
+###
+@app.route('/delete', methods=['POST'])
+def delete():
+    app.logger.debug(request.form['short_url'])
+    deleteLinkFromDB(request.form['short_url'])        
+    return jsonify(success=True)
 
 ###
 # GET method will redirect to the short-url stored in db
@@ -243,10 +268,10 @@ def lengthen_url(name):
 
     incrementClickCountDB(name)
     if not long_url:    
-	return flask.redirect(url_for('error', _external=True))
+        return flask.redirect(url_for('error', _external=True))
     else:
-	app.logger.debug("Redirecting to " + long_url[0])
-	return flask.redirect(long_url[0])
+        app.logger.debug("Redirecting to " + long_url[0])
+        return flask.redirect(long_url[0])
 
 
 @app.route('/error', methods=['GET'])
@@ -256,10 +281,16 @@ def error():
     
 @app.errorhandler(404)
 def page_not_found(e):
-	"""Handles all requests that the server can't handle"""
-	return flask.render_template("404.html", page=e)
+        """Handles all requests that the server can't handle"""
+        return flask.render_template("404.html", page=e)
 
-
+"""
+@app.route('/reset', methods=['GET'])
+def reset():
+    for key in db:
+                del db[key]
+    return flask.redirect(url_for('home', _external=True))
+"""
 ###
 # Shorten URL Resource
 # should return json object user AJAX so we don't have to redirect/reload /home
@@ -267,24 +298,30 @@ def page_not_found(e):
 
 @app.route("/shorts", methods=['PUT', 'POST'])
 def shorten_url():
-	"""Set or update the URL to which this resource redirects to. Uses the
-	`url` key to set the redirect destination."""
-	if  'userId' in request.cookies:
-		user_id = request.cookies['userId']   
-		if user_id != "":
-			short_url = str(request.form['short-url'])
-			long_url = str( request.form['long-url'])
-			timestamp = datetime.datetime.now()    
-			click_count = 0
-			title=get_url_title(long_url)
-			# insert url guys to mysql database
-			addNewLinkToDB(user_id, short_url, long_url, click_count, timestamp) 
-			return jsonify(succss=True, shortUrl=short_url, longUrl=long_url, timeStamp=timestamp, clickCount=click_count, page_title=title)
-		else:
-			return jsonify(success=False, reason="user not logged in") 
-	else:    
-	    #return indication that user needs to sign in operation failed
-		return jsonify(success=False, reason="user not logged in")
+    """Set or update the URL to which this resource redirects to. Uses the
+    `url` key to set the redirect destination."""
+    #user can only add links if logged 
+    if  'userId' in request.cookies:
+        user_id = request.cookies['userId']   
+        if user_id != "":
+            short_url = str(MySQLdb.escape_string(request.form['short-url']))
+            long_url = str(MySQLdb.escape_string(request.form['long-url']))
+            timestamp = datetime.datetime.now()    
+            click_count = 0
+            title=get_url_title(long_url)
+          
+            #check if short url is unique 
+            if checkUniqueShortUrl(short_url):
+                # insert url guys to mysql database
+                addNewLinkToDB(user_id, short_url, long_url, click_count, timestamp) 
+            return jsonify(succss=True, shortUrl=short_url, longUrl=long_url, timeStamp=timestamp, clickCount=click_count, page_title=title)
+            else:
+                return jsonify(success=False, reason="short url not unique")
+        else:
+            return jsonify(success=False, reason="user not logged in") 
+    else:    
+        #return indication that user needs to sign in operation failed
+        return jsonify(success=False, reason="user not logged in")
 
 
 if __name__ == "__main__":
