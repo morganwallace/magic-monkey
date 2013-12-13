@@ -199,7 +199,7 @@ def dbLinksToDict(userId,col="TIME_STAMP", order="DESC" ):
        rowDummy['shortUrl'] = row[1];
        rowDummy['longUrl'] = row[2];
        rowDummy['clickCount'] = row[3];
-       rowDummy['timeStamp'] = row[4].strftime("%Y-%d-%m %H:%M:%S")
+       rowDummy['timeStamp'] = row[4].strftime("%b %d, %Y at %I:%M %p")
        rowDummy['title'] = row[5]
        app.logger.debug(rowDummy)
        app.logger.debug(row)
