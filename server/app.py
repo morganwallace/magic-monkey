@@ -82,7 +82,7 @@ def signup():
          return resp
      else:
          app.logger.debug("Username already exists")
-         resp = make_response(jsonify(success=False))
+         resp = make_response(jsonify(success=False, reason="Username already exists, choose another username"))
          return resp
 
 
@@ -122,10 +122,10 @@ def login():
              return resp
          else:
              app.logger.debug("password not found")
-             return make_response(jsonify(success=False, reason="bad password"))
+             return make_response(jsonify(success=False, reason="Password does not match our records"))
      else:
          app.logger.debug("username not found in database")
-         return make_response(jsonify(success=False, reason="bad username"))
+         return make_response(jsonify(success=False, reason="Username does not match our records"))
 
 ####
 # Logout

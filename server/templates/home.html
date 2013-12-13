@@ -37,6 +37,10 @@
 			<div id="welcome">Welcome, <span id="username">{{username}}</span>! <span id="logout">Logout when you're done.</span></div>
 		</div>		
 
+		<div id="error-wrapper">
+			<p id="error-message"></p>
+		</div>
+
  		<div id="candle"></div>
 		<div id="tail"></div>
 		<div id="tarotDeath"></div>
@@ -150,13 +154,13 @@
 			$.post("./order", 
 				{col: column, order: order_by},
 				function(data){
-					createLinkHistory(data)
+					createLinkHistory(data);
 			});
 		}		
 		
                 $("#logout").click(function(e){
-			$("#signup-wrapper").hide();//css('visibility', 'hidden');
-			$("#welcome-wrapper").hide();//css('visibility', 'hidden');
+			$("#signup-wrapper").hide();
+			$("#welcome-wrapper").hide();
 			logout();
 			e.preventDefault();
 		});
@@ -171,35 +175,49 @@
 					$(".link-history").each(function(){
 					    this.remove();
 					});
-                         		$("#username").text("");
-                                        $("input[name='password']").val('');
-                                        $("input[name='username']").val('');
-                                        $("#login-wrapper").show();
 			});
+                         
+			$("#username").text("");
+                        $("input[name='password']").val('');
+                        $("input[name='username']").val('');
+                        $("#login-wrapper").show();
+		
 			return false;
 		}
 		
-		$(".delete").click(function(){
+		$(".delete").click(function(e){
 			shortUrl = $(this).siblings('.minified').html();
 			console.log(shortUrl);
-			$(this).parent().remove();	
+			$(this).parent().remove();
+			//delete();
 			$.post("./delete",
 				{ short_url: shortUrl },
 				function(data){
 					console.log(data);
 			});
-			return false;
-		
+
+			e.preventDefault();	
 		});
-			
+		/*
+		function delete(){
+			$.post("./delete",
+				{ short_url: shortUrl },
+				function(data){
+					console.log(data);
+			});
+			return false;	
+		}*/
+	
 		$("#toggleLogin").click(function(){
 			$("#signup-wrapper").hide();//css('visibility', 'hidden');
-			$("#login-wrapper").show();			
+			$("#login-wrapper").show();				
+			$("#error-message").text("");
 		});
 		
 		$("#toggleLoginRegister").click(function(){
 			$("#login-wrapper").hide();
 			$("#signup-wrapper").show();
+			$("#error-message").text("");
 		});
 
 		$("#signup").on('submit',function(e){
@@ -216,9 +234,16 @@
 				function(data){
 					console.log(data);
 					console.log(data.username);
-					$("#username").text(data.username);
-					$("#signup-wrapper").hide();
-					$("#welcome-wrapper").show();
+					if(data.success == true){
+						$("#username").text(data.username);
+						$("#signup-wrapper").hide();
+						$("#welcome-wrapper").show();
+						$("#error-message").text("");
+					}
+					else {
+						console.log(data.reason);
+						$("#error-message").text(data.reason);
+					}
 			});
 			return false;
 		}
@@ -233,13 +258,20 @@
 	        	$.post("./login",
 				$("#login").serialize(),
 				function(data){ 
-					createLinkHistory(data)			
+					
+				        if(data.success == true) {
+					        createLinkHistory(data);
+						$("#username").text(data.username);
+						$("#error-message").text("");
+						$("#login-wrapper").hide();
+						$("#welcome-wrapper").show();
+					}				
+					else {
+						$("#error-message").text(data.reason);
+					}
 			});
 
-			$("#username").text(data.username);
-			$("#login-wrapper").hide();
-			$("#welcome-wrapper").show();
-		
+	
 			return false;
 		}
 
@@ -268,7 +300,9 @@
 							$("#url-shorten").serialize(),
 							function(data){
 								console.log(data);
-								appendLinkToList(data);
+								if(data.success == true){
+									appendLinkToList(data);
+								}
 							}
 						);
 				$("#long-url").val("");
