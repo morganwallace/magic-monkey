@@ -1,4 +1,3 @@
-# -*- coding: utf8 -*-
 #!/usr/bin/env python
 
 from subprocess import check_output
@@ -181,7 +180,6 @@ def dbLinksToDict(userId,col="TIME_STAMP", order="DESC" ):
    app.logger.debug(cursor._executed)
    db.commit()
    rows = cursor.fetchall()
-   app.logger.debug(rows)
    links = []
    for row in rows:
        rowDummy = {}
@@ -189,7 +187,6 @@ def dbLinksToDict(userId,col="TIME_STAMP", order="DESC" ):
        rowDummy['longUrl'] = row[2];
        rowDummy['clickCount'] = row[3];
        rowDummy['timeStamp'] = row[4].strftime("%Y-%d-%m %H:%M:%S")
-#        rowDummy['title']=
        app.logger.debug(rowDummy)
        app.logger.debug(row)
        links.append(rowDummy) 
@@ -202,18 +199,14 @@ def addNewLinkToDB(userId, shortUrl, longUrl, clickCount, timeStamp):
 	userId = str(MySQLdb.escape_string(userId))
 	shortUrl = str(MySQLdb.escape_string(shortUrl))
 	clickCount = str(MySQLdb.escape_string(str(clickCount)))
-# 	app.logger.debug(longUrl)
-	html_file = urlopen(longUrl)
-	doc = html.parse(html_file).getroot()
-	title=doc.xpath('/html/head/title/text()')[0]
-	try:
-		title=title.decode("utf-8").encode('ascii',"ignore")
+	title = ""
+        try:
+            html_file = urlopen(longUrl)
+	    doc = html.parse(html_file).getroot()
+ 	    title=str(MySQLdb.escape_string(doc.xpath('/html/head/title/text()')[0]))
 	except:
-		title=longUrl
-	app.logger.debug(title)
-	title=str(MySQLdb.escape_string(title))
-
-	#timestamp generated at server, escape not necessary
+            app.logger.debug("Error trying to get title for long url")
+        #timestamp generated at server, escape not necessary
 	timeStamp = timeStamp.strftime("%Y-%m-%d %H:%M:%S")
 	cursor.execute("""INSERT INTO LINKS (USER_ID, SHORT_URL, LONG_URL, CLICK_COUNT, TIME_STAMP, PAGE_TITLE) VALUES (%s, %s, %s, %s, %s, %s)""", [userId, shortUrl, longUrl, clickCount, timeStamp, title])
 	app.logger.debug(cursor._executed)
