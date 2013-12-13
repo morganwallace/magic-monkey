@@ -1,4 +1,5 @@
 flask-bcrypt
 sqlalchemy
 lxml
-MySQL-python
+MySQLdb-python
+Flask
