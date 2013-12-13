@@ -7,8 +7,7 @@
 	<link rel="shortcut icon" href="static/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="static/css/reset.css">
 	<link rel="stylesheet" type="text/css" href="static/css/stylesheet.css">
-	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="../static/js/mmm.js"></script>
+	
         
 </head>
 
@@ -37,6 +36,10 @@
  		<div id="welcome-wrapper">
 			<div id="welcome">Welcome, <span id="username">{{username}}</span>! <span id="logout">Logout when you're done.</span></div>
 		</div>		
+
+		<div id="error-wrapper">
+			<p id="error-message"></p>
+		</div>
 
  		<div id="candle"></div>
 		<div id="tail"></div>
@@ -91,6 +94,7 @@
 				</div>
 			</form>
 			<div class="clear"></div>
+<<<<<<< HEAD
 			<div id="order-links-wrapper">
 				<div id="order-label">Order by:</div>
 			    <div id="order-clicks">
@@ -108,7 +112,8 @@
 
 			<div class="clear"></div>
 
-            <div id="links-wrapper">
+
+                        <div id="links-wrapper">
 
 			<!-- List of generated URLs goes here -->
 				
@@ -116,7 +121,7 @@
  				<div class="link-history"> 
 					<h2><a href="{{item['longUrl']}}">{{item['title']}}</a></h2>
 					<strong>Transmuted on: </strong>{{item['timeStamp']}}<br>
-					<strong>Times clicked:</strong> {{item['clickCount']}}<br>
+					<strong>Times clicked: </strong> {{item['clickCount']}}<br>
 					<a href="./short/{{item['shortUrl']}}" class="minified">{{item['shortUrl']}}</a><br>
  					<span class="delete">Delete</span>
 				</div>
@@ -137,32 +142,43 @@
             #welcome-wrapper {display: none;}
           </style>
         {% endif %}
-
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<script src="static/js/main.js"></script>
-	<script src="static/bootstrap/js/bootstrap.min.js"></script>
+</body>
+	<script src="./static/js/main.js"></script>
         <script>
-		$('#ascending-click-count').on('click', function(){
-			
+
+		
+		$('#ascending-click-count').on('click', function(){       	
+			clearLinkHistory();
+			order("CLICK_COUNT", "ASC");
 		});
 		
-		$('#descending-click-count').on('click', function(){
-		
+		$('#descending-click-count').on('click', function(){	
+			clearLinkHistory();
+			order("CLICK_COUNT", "DESC");
 		});
 
-		$('#ascending-time').on('click', function(){
-		
+		$('#ascending-time').on('click', function(){	
+			clearLinkHistory();
+			order("TIME_STAMP", "ASC");
 		});
 
 		$('#descending-time').on('click', function(){
-		
+			clearLinkHistory();
+			order("TIME_STAMP", "DESC");
 		});
 
 			
+		function order(column, order_by){
+			$.post("./order", 
+				{col: column, order: order_by},
+				function(data){
+					createLinkHistory(data);
+			});
+		}		
 		
                 $("#logout").click(function(e){
-			$("#signup-wrapper").hide();//css('visibility', 'hidden');
-			$("#welcome-wrapper").hide();//css('visibility', 'hidden');
+			$("#signup-wrapper").hide();
+			$("#welcome-wrapper").hide();
 			logout();
 			e.preventDefault();
 		});
@@ -177,35 +193,49 @@
 					$(".link-history").each(function(){
 					    this.remove();
 					});
-                         		$("#username").text("");
-                                        $("input[name='password']").val('');
-                                        $("input[name='username']").val('');
-                                        $("#login-wrapper").show();
 			});
+                         
+			$("#username").text("");
+                        $("input[name='password']").val('');
+                        $("input[name='username']").val('');
+                        $("#login-wrapper").show();
+		
 			return false;
 		}
 		
-		$(".delete").click(function(){
+		$(".delete").click(function(e){
 			shortUrl = $(this).siblings('.minified').html();
 			console.log(shortUrl);
-			$(this).parent().remove();	
+			$(this).parent().remove();
+			//delete();
 			$.post("./delete",
 				{ short_url: shortUrl },
 				function(data){
 					console.log(data);
 			});
-			return false;
-		
+
+			e.preventDefault();	
 		});
-			
+		/*
+		function delete(){
+			$.post("./delete",
+				{ short_url: shortUrl },
+				function(data){
+					console.log(data);
+			});
+			return false;	
+		}*/
+	
 		$("#toggleLogin").click(function(){
 			$("#signup-wrapper").hide();//css('visibility', 'hidden');
-			$("#login-wrapper").show();			
+			$("#login-wrapper").show();				
+			$("#error-message").text("");
 		});
 		
 		$("#toggleLoginRegister").click(function(){
 			$("#login-wrapper").hide();
 			$("#signup-wrapper").show();
+			$("#error-message").text("");
 		});
 
 		$("#signup").on('submit',function(e){
@@ -222,9 +252,16 @@
 				function(data){
 					console.log(data);
 					console.log(data.username);
-					$("#username").text(data.username);
-					$("#signup-wrapper").hide();
-					$("#welcome-wrapper").show();
+					if(data.success == true){
+						$("#username").text(data.username);
+						$("#signup-wrapper").hide();
+						$("#welcome-wrapper").show();
+						$("#error-message").text("");
+					}
+					else {
+						console.log(data.reason);
+						$("#error-message").text(data.reason);
+					}
 			});
 			return false;
 		}
@@ -238,47 +275,76 @@
 
 	        	$.post("./login",
 				$("#login").serialize(),
-				function(data){
-					console.log(data);
-					//add users links to page 
-					console.log(data.links);
-  					for (var i=0; i < data.links.length; i++) {
-						console.log(data.links[i]);
-						appendLinkToList(data.links[i]);
+				function(data){ 
+					
+				        if(data.success == true) {
+					        createLinkHistory(data);
+						$("#username").text(data.username);
+						$("#error-message").text("");
+						$("#login-wrapper").hide();
+						$("#welcome-wrapper").show();
+					}				
+					else {
+						$("#error-message").text(data.reason);
 					}
-					$("#username").text(data.username);
-					$("#login-wrapper").hide();
-					$("#welcome-wrapper").show();
 			});
+
+	
 			return false;
 		}
+
+		function createLinkHistory(data){
+
+			console.log(data);
+			//add users links to page 
+			//console.log(data.links);
+  			for (var i=0; i < data.links.length; i++) {
+				console.log(data.links[i]);
+				appendLinkToList(data.links[i]);
+			}
+		}		
 		
 		$("#url-shorten").on('submit',function(e){
  			addShortUrl();
-			$("#long-url").val("");
 			e.preventDefault();
+			
+			//randomize the short path after 
+			$("#short-url").val(makeid());
 		});
 
-                function addShortUrl(){
-				if (validate()==true) {
+        function addShortUrl(){
+			    validateVal = validate();
 			        	$.post("./shorts",
 							$("#url-shorten").serialize(),
 							function(data){
 								console.log(data);
-								appendLinkToList(data);
+								if(data.success == true){
+									appendLinkToList(data);
+								}
 							}
 						);
-				}
+				$("#long-url").val("");
 			return false;
 		}
 
 		function appendLinkToList(data){
 			console.log(data);
-			var detailsBlock = "<h2><a href='" + data.longUrl + "'>" + data.longUrl + "</a></h2><strong>Transmuted on: </strong>" + data.timeStamp + "<br><strong>Times clicked:</strong>" + data.clickCount + "<br><a href='./short/" + data.shortUrl + "' class=minified>" + data.shortUrl + "</a><br><span class='delete'>Delete</span>"; 
+			var detailsBlock = "<div class='link-history'><h2><a href='" + data.longUrl + "'>" + data.page_title + "</a></h2><strong>Transmuted on: </strong>" + data.timeStamp + "<br><strong>Times clicked:</strong>" + data.clickCount + "<br><a href='./short/" + data.shortUrl + "' class=minified>" + data.shortUrl + "</a><br><span class='delete'>Delete</span></div>"; 
 
-			$("#links-wrapper").append("<div class='link-history'></div>");
-			curLinkHistory = $(".link-history").first();
-			curLinkHistory.prepend(detailsBlock);
+/* 			curLinkHistory = $(".link-history").first(); */
+			$('#links-wrapper').prepend(detailsBlock);
+			$(".delete").click(function(){
+				shortUrl = $(this).siblings('.minified').html();
+				console.log(shortUrl);
+				$(this).parent().remove();	
+				$.post("./delete",
+					{ short_url: shortUrl },
+					function(data){
+						console.log(data);
+				});
+				return false;
+			
+			});
 		}
 
 		function clearLinkHistory(){
@@ -286,6 +352,14 @@
 				$(this).remove();
 			});
 		}
+		
+
+
+    $('#toggleLoginRegister').click(function() {
+    	$('#login').hide();
+    });
+
+		
 	</script>
-</body>
+
 </html>

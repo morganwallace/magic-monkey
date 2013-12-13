@@ -82,7 +82,7 @@ def signup():
          return resp
      else:
          app.logger.debug("Username already exists")
-         resp = make_response(jsonify(success=False))
+         resp = make_response(jsonify(success=False, reason="Username already exists, choose another username"))
          return resp
 
 
@@ -122,10 +122,10 @@ def login():
              return resp
          else:
              app.logger.debug("password not found")
-             return make_response(jsonify(success=False, reason="bad password"))
+             return make_response(jsonify(success=False, reason="Password does not match our records"))
      else:
          app.logger.debug("username not found in database")
-         return make_response(jsonify(success=False, reason="bad username"))
+         return make_response(jsonify(success=False, reason="Username does not match our records"))
 
 ####
 # Logout
@@ -177,7 +177,19 @@ def setLoginStatus(userId,loginStatus):
    db.commit()
 
 def dbLinksToDict(userId,col="TIME_STAMP", order="DESC" ):
-   cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s ORDER BY %s %s """, [userId,col,order]);
+
+   if order == "DESC":
+       if col == "TIME_STAMP":
+          cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s ORDER BY TIME_STAMP DESC""", userId)
+       else:
+          cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s ORDER BY CLICK_COUNT DESC""", userId)
+   else:
+        if col ==  "TIME_STAMP":
+          cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s ORDER BY TIME_STAMP ASC""", userId)
+        else:
+          cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s ORDER BY CLICK_COUNT ASC""", userId)
+   
+
    app.logger.debug(cursor._executed)
    db.commit()
    rows = cursor.fetchall()
@@ -187,9 +199,10 @@ def dbLinksToDict(userId,col="TIME_STAMP", order="DESC" ):
        rowDummy['shortUrl'] = row[1];
        rowDummy['longUrl'] = row[2];
        rowDummy['clickCount'] = row[3];
-       rowDummy['timeStamp'] = row[4].strftime("%Y-%d-%m %H:%M:%S")
-       app.logger.debug(rowDummy)
-       app.logger.debug(row)
+       rowDummy['timeStamp'] = row[4].strftime("%b %d, %Y at %I:%M %p")
+       rowDummy['title'] = row[5]
+#        app.logger.debug(rowDummy)
+#        app.logger.debug(row)
        links.append(rowDummy) 
    #jsonLinks = json.dumps(links) 
    app.logger.debug(links)   
@@ -244,7 +257,20 @@ def incrementClickCountDB(shortUrl):
     cursor.execute("""UPDATE LINKS SET  CLICK_COUNT = CLICK_COUNT + 1 WHERE SHORT_URL = %s""", shortUrl)
     db.commit()
 
-
+@app.route('/order', methods=['POST'])
+def orderLinks():
+     if 'userId' in request.cookies:
+     	userId = request.cookies['userId'] 
+     	col = request.form['col']
+     	order = request.form['order']
+     	jsonResponse = {}
+     	jsonResponse['links'] =  dbLinksToDict(userId, col, order)
+     	jsonResponse['success'] = True
+     	resp = Response(json.dumps(jsonResponse), mimetype='application/json')
+     	return resp       
+     else:
+	resp = make_response(jsonify(success=False))
+        return resp
 ####
 # Delete route
 #
