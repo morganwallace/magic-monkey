@@ -188,6 +188,7 @@ def dbLinksToDict(userId,col="TIME_STAMP", order="DESC" ):
        rowDummy['longUrl'] = row[2];
        rowDummy['clickCount'] = row[3];
        rowDummy['timeStamp'] = row[4].strftime("%Y-%d-%m %H:%M:%S")
+       rowDummy['title'] = row[5]
        app.logger.debug(rowDummy)
        app.logger.debug(row)
        links.append(rowDummy) 

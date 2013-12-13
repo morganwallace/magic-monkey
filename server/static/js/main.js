@@ -26,15 +26,18 @@ function validate() {
             $("#long-url").parent().addClass('has-error alert alert-danger');
             error=true;
 		}
-		else{
-			//good - long url has more than 0 chars
-			$("#long-url").parent().removeClass('has-error alert alert-danger');
+		else{ //good - long url has more than 0 chars
+			
+			//make sure that the long url has http:// otherwise it appends to people.ischool
+			if (longurl.substring(0, 6)!="http://"){
+				$("#long-url").val("http://"+longurl);
+			}
+/* 			$("#long-url").parent().removeClass('has-error alert alert-danger'); */
 		}
 
 
         if (error === true){
-        alert("test2")
-	        return false
+	        return false;
         }
         
 }
@@ -91,7 +94,7 @@ $(document).ready(function() {
 	//$("#signup-wrapper").hide();
 	//$("#login-wrapper").show();
 /* 	$("#url-shorten").submit(validate); */
-        $("#short-url").val(makeshort)
-        console.log("ready!");
+        $("#short-url").val(makeshort);
+        
         geturl();
 });
