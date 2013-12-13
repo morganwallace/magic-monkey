@@ -132,23 +132,35 @@
 	<script src="./static/js/main.js"></script>
 	<script src="./static/bootstrap/js/bootstrap.min.js"></script>
         <script>
-		$('#ascending-click-count').on('click', function(){
-			
+		
+		$('#ascending-click-count').on('click', function(){       	
+			clearLinkHistory();
+			order("CLICK_COUNT", "ASC");
 		});
 		
-		$('#descending-click-count').on('click', function(){
-		
+		$('#descending-click-count').on('click', function(){	
+			clearLinkHistory();
+			order("CLICK_COUNT", "DESC");
 		});
 
-		$('#ascending-time').on('click', function(){
-		
+		$('#ascending-time').on('click', function(){	
+			clearLinkHistory();
+			order("TIME_STAMP", "ASC");
 		});
 
 		$('#descending-time').on('click', function(){
-		
+			clearLinkHistory();
+			order("TIME_STAMP", "DESC");
 		});
 
 			
+		function order(column, order_by){
+			$.post("./order", 
+				{col: column, order: order_by},
+				function(data){
+					createLinkHistory(data)
+			});
+		}		
 		
                 $("#logout").click(function(e){
 			$("#signup-wrapper").hide();//css('visibility', 'hidden');
@@ -228,20 +240,27 @@
 
 	        	$.post("./login",
 				$("#login").serialize(),
-				function(data){
-					console.log(data);
-					//add users links to page 
-					console.log(data.links);
-  					for (var i=0; i < data.links.length; i++) {
-						console.log(data.links[i]);
-						appendLinkToList(data.links[i]);
-					}
-					$("#username").text(data.username);
-					$("#login-wrapper").hide();
-					$("#welcome-wrapper").show();
+				function(data){ 
+					createLinkHistory(data)			
 			});
+
+			$("#username").text(data.username);
+			$("#login-wrapper").hide();
+			$("#welcome-wrapper").show();
+		
 			return false;
 		}
+
+		function createLinkHistory(data){
+
+			console.log(data);
+			//add users links to page 
+			//console.log(data.links);
+  			for (var i=0; i < data.links.length; i++) {
+				console.log(data.links[i]);
+				appendLinkToList(data.links[i]);
+			}
+		}		
 		
 		$("#url-shorten").on('submit',function(e){
  			addShortUrl();

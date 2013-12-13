@@ -177,7 +177,19 @@ def setLoginStatus(userId,loginStatus):
    db.commit()
 
 def dbLinksToDict(userId,col="TIME_STAMP", order="DESC" ):
-   cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s ORDER BY %s %s """, [userId,col,order]);
+
+   if order == "DESC":
+       if col == "TIME_STAMP":
+          cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s ORDER BY TIME_STAMP DESC""", userId)
+       else:
+          cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s ORDER BY CLICK_COUNT DESC""", userId)
+   else:
+        if col ==  "TIME_STAMP":
+          cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s ORDER BY TIME_STAMP ASC""", userId)
+        else:
+          cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s ORDER BY CLICK_COUNT ASC""", userId)
+   
+
    app.logger.debug(cursor._executed)
    db.commit()
    rows = cursor.fetchall()
@@ -244,7 +256,20 @@ def incrementClickCountDB(shortUrl):
     cursor.execute("""UPDATE LINKS SET  CLICK_COUNT = CLICK_COUNT + 1 WHERE SHORT_URL = %s""", shortUrl)
     db.commit()
 
-
+@app.route('/order', methods=['POST'])
+def orderLinks():
+     if 'userId' in request.cookies:
+     	userId = request.cookies['userId'] 
+     	col = request.form['col']
+     	order = request.form['order']
+     	jsonResponse = {}
+     	jsonResponse['links'] =  dbLinksToDict(userId, col, order)
+     	jsonResponse['success'] = True
+     	resp = Response(json.dumps(jsonResponse), mimetype='application/json')
+     	return resp       
+     else:
+	resp = make_response(jsonify(success=False))
+        return resp
 ####
 # Delete route
 #
