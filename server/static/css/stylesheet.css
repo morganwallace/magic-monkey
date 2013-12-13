@@ -490,6 +490,89 @@ form input[type="button"]:hover {
 #long-url {outline: none;}
 #short-url {outline: none;}
 
+
+/* Order Links */
+
+#order-links-wrapper {
+	display: block;
+	height: 40px;
+	margin: 20px 0;
+	padding-top: 30px;
+	position: relative;
+}
+
+#order-links-wrapper button {
+	background-color:transparent;
+	border: none;
+	cursor: pointer;
+	margin-right: 10px;
+}
+
+#order-label {
+	color: #3d220e;
+	font-family: magicschoolone, cursive;
+	font-size: 2.3em;
+	left: 0;
+	position: absolute;
+	top: 33px;
+}
+
+#order-clicks {
+	display: block;
+	left: 140px;
+	position: absolute;
+	width: 180px;
+}
+
+.sorting-label {
+	color: #3d220e;
+	font-family: magicschoolone, cursive;
+	font-size: 3em;
+	left: 100px;
+	position: absolute;
+	top: -10px;
+}
+
+#descending-click-count {
+	background-image: url('../img/sort_down.svg');
+	background-repeat: no-repeat;
+	height: 32px;
+	float: left;
+	width: 37px;
+}
+
+#ascending-click-count {
+	background-image: url('../img/sort_up.svg');
+	background-repeat: no-repeat;
+	float: left;
+	height: 32px;
+	width: 37px;
+}
+
+#order-age {
+	display: block;
+	float: right;
+	position: absolute;
+	right: 0;
+	width: 150px;
+}
+
+#descending-time {
+	background-image: url('../img/sort_down.svg');
+	background-repeat: no-repeat;
+	height: 32px;
+	float: left;
+	width: 37px;
+}
+
+#ascending-time {
+	background-image: url('../img/sort_up.svg');
+	background-repeat: no-repeat;
+	height: 32px;
+	float: left;
+	width: 37px;
+}
+
 /* Minified Links */
 
 .link-history {

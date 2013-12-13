@@ -4,9 +4,9 @@
 	<meta charset="UTF-8">
 	<title>Magic Monkey Minifier</title>
 	<link rel="icon" href="../static/img/favicon.ico">
-	<link rel="shortcut icon" href="../static/img/favicon.ico">
-	<link rel="stylesheet" type="text/css" href="./static/css/reset.css">
-	<link rel="stylesheet" type="text/css" href="./static/css/stylesheet.css">
+	<link rel="shortcut icon" href="static/img/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="static/css/stylesheet.css">
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="../static/js/mmm.js"></script>
         
@@ -20,7 +20,7 @@
 			<input type="password" name="password" placeholder="Password">
                         <input type="hidden" name="form_type" value="signup">
 			<input type="submit" value="Sign Up">
-		        <div id="account">Already have an account <span id="toggleLogin">Login here.</span></div>
+		        <div id="account">Already have an account? <span id="toggleLogin">Log in here.</span></div>
 		    </form>
                 </div>
 
@@ -30,7 +30,7 @@
 			<input type="password" name="password" placeholder="Password">
                         <input type="hidden" name="form_type" value="login">
 			<input type="submit" value="Log In">
-			<div id="no-account">Don't have an account yet? <span id="toggleLoginRegister">Create one here.</span></div>
+			<div id="no-account">Don't have an account yet? <span id="toggleLoginRegister">Sign up here.</span></div>
 		    </form>
  		</div>               
  
@@ -92,13 +92,23 @@
 			</form>
 			<div class="clear"></div>
 			<div id="order-links-wrapper">
-			    <p>Order by: </p>
-			    <button id="ascending-click-count" type='button'>ASC Click Count</button>
-			    <button id="descending-click-count" type='button'>DESC Click count</button>
-			    <button id="ascending-time" type='button'>Most Recent Last</button>
-			    <button id="decenting-time" type='button'>Most Recent First</button>
+				<div id="order-label">Order by:</div>
+			    <div id="order-clicks">
+			    	<button id="ascending-click-count" type='button'>
+			   		<button id="descending-click-count" type='button'>
+			   		<div class="sorting-label">Clicks</div>
+			    </div>
+
+			    <div id="order-age">
+			    	<button id="ascending-time" type='button'>
+					<button id="descending-time" type='button'>
+					<div class="sorting-label">Age</div>
+			    </div>
 			</div>
-                        <div id="links-wrapper">
+
+			<div class="clear"></div>
+
+            <div id="links-wrapper">
 
 			<!-- List of generated URLs goes here -->
 				
@@ -129,8 +139,8 @@
         {% endif %}
 
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<script src="./static/js/main.js"></script>
-	<script src="./static/bootstrap/js/bootstrap.min.js"></script>
+	<script src="static/js/main.js"></script>
+	<script src="static/bootstrap/js/bootstrap.min.js"></script>
         <script>
 		$('#ascending-click-count').on('click', function(){
 			
