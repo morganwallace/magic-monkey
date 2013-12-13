@@ -340,7 +340,7 @@ def shorten_url():
             if checkUniqueShortUrl(short_url):
 				# insert url guys to mysql database
 				addNewLinkToDB(user_id, short_url, long_url, click_count, timestamp) 
-				return jsonify(success=True, shortUrl=short_url, longUrl=long_url, timeStamp=timestamp, clickCount=click_count, page_title=title)
+				return jsonify(success=True, shortUrl=short_url, longUrl=long_url, timeStamp=timestamp, clickCount=click_count, title=title)
             else:
                 return jsonify(success=False, reason="short url not unique")
         else:
