@@ -22,7 +22,6 @@ function validate() {
             
         if(longurl.length === 0){
             //error
-/*             alert("la") */
             console.log("Full URL must not be empty");
             $("#long-url").parent().addClass('has-error alert alert-danger');
             error=true;
@@ -33,21 +32,22 @@ function validate() {
 		}
 
 
-        if (error == true){
+        if (error === true){
+        alert("test2")
 	        return false
         }
         
 }
 
 function validate_password(){
-	alert($("input[name=password").val().length);
+/* 	alert($("input[name=password").val().length); */
 /*
 	if (len($("input[name=password").val())<6){
 		alert("your password is too short")
 		return false
 	}
 */
-	return false
+/* 	return false */
 }
 
 //automatically create a shortened version of the url
@@ -90,7 +90,7 @@ $(document).ready(function() {
         //$("#welcome-wrapper").hide();
 	//$("#signup-wrapper").hide();
 	//$("#login-wrapper").show();
-	$("#url-shorten").submit(validate);
+/* 	$("#url-shorten").submit(validate); */
         $("#short-url").val(makeshort)
         console.log("ready!");
         geturl();

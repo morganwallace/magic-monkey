@@ -97,7 +97,7 @@
 				
 				{% for item in links %}
  				<div class="link-history"> 
-					<h2><a href="{{item['longUrl']}}">{{item['longUrl']}}</a></h2>
+					<h2><a href="{{item['longUrl']}}">{{item['title']}}</a></h2>
 					<strong>Transmuted on: </strong>{{item['timeStamp']}}<br>
 					<strong>Times clicked:</strong> {{item['clickCount']}}<br>
 					<a href="./short/{{item['shortUrl']}}" class="minified">{{item['shortUrl']}}</a><br>
@@ -227,13 +227,15 @@
 		});
 
                 function addShortUrl(){
-
-	        	$.post("./shorts",
-				$("#url-shorten").serialize(),
-				function(data){
-					console.log(data);
-					appendLinkToList(data);
-			});
+				if (validate()==true) {
+			        	$.post("./shorts",
+							$("#url-shorten").serialize(),
+							function(data){
+								console.log(data);
+								appendLinkToList(data);
+							}
+						);
+				}
 			return false;
 		}
 
