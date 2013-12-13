@@ -21,7 +21,7 @@ Compress(app)
 bcrypt = Bcrypt(app)
 # gzip = Gzip(app)
 
-# app.debug = True
+#app.debug = True
 db=MySQLdb.connect(host="localhost",user="url_shortener",
                   passwd="4w8in43",db="url_shortener")
 cursor = db.cursor()

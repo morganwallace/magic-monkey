@@ -317,6 +317,9 @@
 								if(data.success == true){
 									appendLinkToList(data);
 								}
+								else{
+									$("#error-message").text("You must sign up for an account to shorten urls");
+								}
 							}
 						);
 				$("#long-url").val("");
@@ -325,7 +328,7 @@
 
 		function appendLinkToList(data){
 			console.log(data);
-			var detailsBlock = "<div class='link-history'><h2><a target="_blank" href='" + data.longUrl + "'>" + data.title + "</a></h2><strong>Transmuted on: </strong>" + data.timeStamp + "<br><strong>Times clicked:</strong><span class='click_count'>" + data.clickCount + "</span><br><a class='short_click' target="_blank" href='./short/" + data.shortUrl + "' class=minified>" + data.shortUrl + "</a><br><span class='delete'>Delete</span></div>"; 
+			var detailsBlock = "<div class='link-history'><h2><a target='_blank' href='" + data.longUrl + "'>" + data.title + "</a></h2><strong>Transmuted on: </strong>" + data.timeStamp + "<br><strong>Times clicked:</strong><span class='click_count'>" + data.clickCount + "</span><br><a class='short_click' target='_blank' href='./short/" + data.shortUrl + "' class=minified>" + data.shortUrl + "</a><br><span class='delete'>Delete</span></div>"; 
 
 /* 			curLinkHistory = $(".link-history").first(); */
 			$('#links-wrapper').prepend(detailsBlock);
@@ -342,9 +345,7 @@
 			
 			});
 
-			$(".short_click).click(function(){
 				
-			})
 		}
 
 		function clearLinkHistory(){
