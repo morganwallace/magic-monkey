@@ -117,10 +117,10 @@
 				
 				{% for item in links %}
  				<div class="link-history"> 
-					<h2><a href="{{item['longUrl']}}">{{item['title']}}</a></h2>
+					<h2><a target="_blank" href="{{item['longUrl']}}">{{item['title']}}</a></h2>
 					<strong>Transmuted on: </strong>{{item['timeStamp']}}<br>
-					<strong>Times clicked: </strong> {{item['clickCount']}}<br>
-					<a href="./short/{{item['shortUrl']}}" class="minified">{{item['shortUrl']}}</a><br>
+					<strong>Times clicked: </strong><span class='click_count'> {{item['clickCount']}}</span><br>
+					<a target="_blank" href="./short/{{item['shortUrl']}}" class="minified">{{item['shortUrl']}}</a><br>
  					<span class="delete">Delete</span>
 				</div>
 				{% endfor %}
@@ -325,7 +325,7 @@
 
 		function appendLinkToList(data){
 			console.log(data);
-			var detailsBlock = "<div class='link-history'><h2><a href='" + data.longUrl + "'>" + data.page_title + "</a></h2><strong>Transmuted on: </strong>" + data.timeStamp + "<br><strong>Times clicked:</strong>" + data.clickCount + "<br><a href='./short/" + data.shortUrl + "' class=minified>" + data.shortUrl + "</a><br><span class='delete'>Delete</span></div>"; 
+			var detailsBlock = "<div class='link-history'><h2><a target="_blank" href='" + data.longUrl + "'>" + data.title + "</a></h2><strong>Transmuted on: </strong>" + data.timeStamp + "<br><strong>Times clicked:</strong><span class='click_count'>" + data.clickCount + "</span><br><a class='short_click' target="_blank" href='./short/" + data.shortUrl + "' class=minified>" + data.shortUrl + "</a><br><span class='delete'>Delete</span></div>"; 
 
 /* 			curLinkHistory = $(".link-history").first(); */
 			$('#links-wrapper').prepend(detailsBlock);
@@ -341,6 +341,10 @@
 				return false;
 			
 			});
+
+			$(".short_click).click(function(){
+				
+			})
 		}
 
 		function clearLinkHistory(){
