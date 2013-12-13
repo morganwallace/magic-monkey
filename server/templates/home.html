@@ -7,8 +7,7 @@
 	<link rel="shortcut icon" href="../static/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="./static/css/reset.css">
 	<link rel="stylesheet" type="text/css" href="./static/css/stylesheet.css">
-	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="../static/js/mmm.js"></script>
+	
         
 </head>
 
@@ -101,7 +100,8 @@
 					<h2><a href="{{item['longUrl']}}">{{item['longUrl']}}</a></h2>
 					<strong>Transmuted on: </strong>{{item['timeStamp']}}<br>
 					<strong>Times clicked:</strong> {{item['clickCount']}}<br>
-					<a href="./short/{{item['shortUrl']}}" class="minified">/{{item['shortUrl']}}</a>
+					<a href="./short/{{item['shortUrl']}}" class="minified">{{item['shortUrl']}}</a><br>
+ 					<span class="delete">Delete</span>
 				</div>
 				{% endfor %}
 			</div>		
@@ -120,7 +120,8 @@
             #welcome-wrapper {display: none;}
           </style>
         {% endif %}
-
+</body>
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="./static/js/main.js"></script>
 	<script src="./static/bootstrap/js/bootstrap.min.js"></script>
@@ -150,6 +151,19 @@
 			});
 			return false;
 		}
+		
+		$(".delete").click(function(){
+			shortUrl = $(this).siblings('.minified').html();
+			console.log(shortUrl);
+			$(this).parent().remove();	
+			$.post("./delete",
+				{ short_url: shortUrl },
+				function(data){
+					console.log(data);
+			});
+			return false;
+		
+		});
 			
 		$("#toggleLogin").click(function(){
 			$("#signup-wrapper").hide();//css('visibility', 'hidden');
@@ -208,6 +222,7 @@
 		
 		$("#url-shorten").on('submit',function(e){
  			addShortUrl();
+			$("#long-url").val("");
 			e.preventDefault();
 		});
 
@@ -224,13 +239,25 @@
 
 		function appendLinkToList(data){
 			console.log(data);
-			var detailsBlock = "<h2><a href='" + data.longUrl + "'>" + data.longUrl + "</a></h2><strong>Transmuted on: </strong>" + data.timeStamp + "<br><strong>Times clicked:</strong>" + data.clickCount + "<br><a href='./short/" + data.shortUrl + "' class=minified>" + data.shortUrl + "</a>"; 
+			var detailsBlock = "<div class='link-history'><h2><a href='" + data.longUrl + "'>" + data.longUrl + "</a></h2><strong>Transmuted on: </strong>" + data.timeStamp + "<br><strong>Times clicked:</strong>" + data.clickCount + "<br><a href='./short/" + data.shortUrl + "' class=minified>" + data.shortUrl + "</a><br><span class='delete'>Delete</span></div>"; 
 
-			$("#links-wrapper").append("<div class='link-history'></div>");
-			curLinkHistory = $(".link-history").first();
-			curLinkHistory.append(detailsBlock);
+/* 			curLinkHistory = $(".link-history").first(); */
+			$('#links-wrapper').prepend(detailsBlock);
 		}
 
+		function clearLinkHistory(){
+			$(".link-history").each(function(){
+				$(this).remove();
+			});
+		}
+		
+
+
+    $('#toggleLoginRegister').click(function() {
+    	$('#login').hide();
+    });
+
+		
 	</script>
-</body>
+
 </html>
