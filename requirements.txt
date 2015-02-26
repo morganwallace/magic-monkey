@@ -12,7 +12,6 @@ Werkzeug==0.9.4
 heroku==0.1.4
 itsdangerous==0.23
 lxml==3.2.4
-nltk==2.0.4
 py-bcrypt==0.4
 python-dateutil==1.5
 requests==2.2.1
