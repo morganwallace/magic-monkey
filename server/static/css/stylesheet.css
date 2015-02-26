@@ -623,3 +623,8 @@ form input[type="button"]:hover {
 	color: red;
 	margin: auto;
 }
+.delete{
+	cursor: hand;
+	cursor: pointer;
+	
+}

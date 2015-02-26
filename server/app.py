@@ -65,12 +65,13 @@ def signup():
          
      username = str(MySQLdb.escape_string(request.form['username']))
      password = str(MySQLdb.escape_string(request.form['password']))
-
+     app.logger.debug(password)
      #check if username exists
      app.logger.debug(userNameExists(username))
      if not userNameExists(username):
          #create new row in table USERS 
          pw_hash = bcrypt.generate_password_hash(password)     
+         app.logger.debug(pw_hash)
          addNewUserToDB(username, pw_hash, 1)
          app.logger.debug("Signup successful")
          
@@ -105,9 +106,10 @@ def login():
      db.commit()
 
      row = cursor.fetchone()
-     app.logger.debug(row) 
+
      if row:
          pw_hash = row[2]
+         app.logger.debug(row[2]) 
          #check if password matches
          if bcrypt.check_password_hash(pw_hash, password): 
          # app.logger.debug(pw_hash)
