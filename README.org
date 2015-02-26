@@ -1,4 +1,5 @@
 * Web Architecture 253 :slide:
+  + virtual environment required :: run this command `$ virtualenv venv && source venv/bin/activate && pip install -r requirements.txt`
   + Description :: Understanding the web's core technologies from user-facing (HTML, CSS) to underlying (TCP/IP).  At the end of the course students will have an overview of what happens between typing an address in a browser and interacting with the web page.  We'll leverage industry accepted technologies to implement a simple web app.
   + Grading :: Homework (30%), midterm (30%), project (40%). 
   + Instructor :: Jim Blomo <jblomo@ischool>
