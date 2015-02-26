@@ -1,0 +1,129 @@
+ * Running on http://127.0.0.1:63040/
+ * Running on http://127.0.0.1:63040/
+127.0.0.1 - - [30/Jan/2014 16:32:41] "GET /home HTTP/1.1" 200 -
+127.0.0.1 - - [30/Jan/2014 16:32:41] "GET /static/css/reset.css HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:41] "GET /static/css/stylesheet.css HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:44] "GET /static/js/main.js HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:44] "GET /static/img/scroll_bottom.png HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:44] "GET /static/img/scroll_content.png HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:44] "GET /static/img/sort_down.svg HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:44] "GET /static/img/sort_up.svg HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:44] "GET /static/img/randomize.svg HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:44] "GET /static/fonts/magicschoolone.otf HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:44] "GET /static/img/alacazam.svg HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:47] "GET /static/img/monkey_1.png HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:47] "GET /static/img/monkey_2.png HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:47] "GET /static/img/runes.png HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:47] "GET /static/img/tarotDevil.png HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:47] "GET /static/img/tarotDeath.png HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:47] "GET /static/img/tail.png HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:47] "GET /static/img/candle_1.png HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:47] "GET /static/img/candle_2.png HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:47] "GET /static/img/candle_3.png HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:47] "GET /static/img/candle_4.png HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:47] "GET /static/img/candle_5.png HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:32:47] "GET /static/img/candle_6.png HTTP/1.1" 304 -
+ * Running on http://127.0.0.1:63040/
+127.0.0.1 - - [30/Jan/2014 16:34:56] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [30/Jan/2014 16:34:56] "GET /static/css/reset.css HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:34:56] "GET /static/css/stylesheet.css HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:34:56] "GET /static/js/main.js HTTP/1.1" 304 -
+127.0.0.1 - - [30/Jan/2014 16:34:56] "GET /static/fonts/magicschoolone.otf HTTP/1.1" 304 -
+127.0.0.1 - - [06/Feb/2014 12:38:05] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:05] "GET /static/css/reset.css HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:05] "GET /static/css/stylesheet.css HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:05] "GET /static/js/main.js HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:05] "GET /static/img/scroll_bottom.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:05] "GET /static/img/scroll_content.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:05] "GET /static/img/sort_down.svg HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:05] "GET /static/img/sort_up.svg HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:05] "GET /static/img/randomize.svg HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:05] "GET /static/fonts/magicschoolone.otf HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:05] "GET /static/img/alacazam.svg HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:05] "GET /static/img/monkey_2.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:05] "GET /static/img/monkey_1.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:05] "GET /static/img/runes.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:05] "GET /static/img/tarotDevil.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:06] "GET /static/img/tarotDeath.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:06] "GET /static/img/tail.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:06] "GET /static/img/candle_1.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:06] "GET /static/img/candle_2.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:06] "GET /static/img/candle_3.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:06] "GET /static/img/candle_4.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:06] "GET /static/img/candle_5.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:06] "GET /static/img/candle_6.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:38:06] "GET /static/img/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:10] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:10] "GET /static/css/reset.css HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:11] "GET /static/js/main.js HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:11] "GET /static/css/stylesheet.css HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:11] "GET /static/img/candle_1.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:11] "GET /static/img/candle_2.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:11] "GET /static/img/candle_3.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:11] "GET /static/img/candle_4.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:11] "GET /static/fonts/magicschoolone.otf HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:11] "GET /static/img/tail.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:11] "GET /static/img/candle_5.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:11] "GET /static/img/candle_6.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:11] "GET /static/img/tarotDeath.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:11] "GET /static/img/tarotDevil.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:11] "GET /static/img/runes.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:11] "GET /static/img/monkey_1.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:11] "GET /static/img/monkey_2.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:12] "GET /static/img/scroll_content.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:12] "GET /static/img/alacazam.svg HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:12] "GET /static/img/randomize.svg HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:12] "GET /static/img/sort_up.svg HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:12] "GET /static/img/sort_down.svg HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:12] "GET /static/img/scroll_bottom.png HTTP/1.1" 200 -
+127.0.0.1 - - [06/Feb/2014 12:42:13] "GET /static/img/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [08/Feb/2014 05:31:28] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [08/Feb/2014 05:34:18] "GET /static/css/stylesheet.css HTTP/1.1" 200 -
+127.0.0.1 - - [08/Feb/2014 05:34:20] "GET /static/css/reset.css HTTP/1.1" 200 -
+127.0.0.1 - - [08/Feb/2014 05:34:20] "GET /static/js/main.js HTTP/1.1" 200 -
+127.0.0.1 - - [08/Feb/2014 05:36:52] "GET /login HTTP/1.1" 405 -
+127.0.0.1 - - [08/Feb/2014 05:37:37] "GET /order HTTP/1.1" 405 -
+127.0.0.1 - - [08/Feb/2014 05:38:23] "GET /shorts HTTP/1.1" 405 -
+127.0.0.1 - - [08/Feb/2014 05:44:21] "GET /signup HTTP/1.1" 405 -
+127.0.0.1 - - [08/Feb/2014 05:47:41] "GET /delete HTTP/1.1" 405 -
+127.0.0.1 - - [08/Feb/2014 05:48:48] "GET /logout HTTP/1.1" 405 -
+127.0.0.1 - - [08/Feb/2014 13:11:09] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [08/Feb/2014 17:43:31] "HEAD / HTTP/1.1" 500 -
+127.0.0.1 - - [10/Feb/2014 15:36:56] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [10/Feb/2014 15:40:14] "GET /static/css/reset.css HTTP/1.1" 200 -
+127.0.0.1 - - [10/Feb/2014 15:40:14] "GET /static/css/stylesheet.css HTTP/1.1" 200 -
+127.0.0.1 - - [12/Feb/2014 07:00:17] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [13/Feb/2014 01:31:42] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [13/Feb/2014 01:39:46] "GET /static/css/reset.css HTTP/1.1" 200 -
+127.0.0.1 - - [13/Feb/2014 01:39:46] "GET /static/css/stylesheet.css HTTP/1.1" 200 -
+127.0.0.1 - - [13/Feb/2014 05:46:28] "GET /login HTTP/1.1" 405 -
+127.0.0.1 - - [14/Feb/2014 03:28:32] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Feb/2014 14:47:29] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Feb/2014 14:50:20] "GET /static/css/reset.css HTTP/1.1" 200 -
+127.0.0.1 - - [14/Feb/2014 14:50:21] "GET /static/css/stylesheet.css HTTP/1.1" 200 -
+127.0.0.1 - - [15/Feb/2014 13:18:08] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [15/Feb/2014 20:26:29] "HEAD / HTTP/1.1" 500 -
+127.0.0.1 - - [15/Feb/2014 21:43:37] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [15/Feb/2014 21:49:55] "GET /static/css/stylesheet.css HTTP/1.1" 200 -
+127.0.0.1 - - [15/Feb/2014 21:49:55] "GET /static/css/reset.css HTTP/1.1" 200 -
+127.0.0.1 - - [18/Feb/2014 00:10:51] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [18/Feb/2014 01:17:58] "GET /static/css/reset.css HTTP/1.1" 200 -
+127.0.0.1 - - [18/Feb/2014 01:17:59] "GET /static/css/stylesheet.css HTTP/1.1" 200 -
+127.0.0.1 - - [18/Feb/2014 19:18:55] "GET /static/css/stylesheet.css HTTP/1.1" 200 -
+127.0.0.1 - - [19/Feb/2014 06:53:11] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [19/Feb/2014 11:02:45] "GET /static/css/reset.css HTTP/1.1" 200 -
+127.0.0.1 - - [19/Feb/2014 12:40:03] "GET /static/css/reset.css HTTP/1.1" 200 -
+127.0.0.1 - - [19/Feb/2014 12:40:03] "GET /static/js/main.js HTTP/1.1" 200 -
+127.0.0.1 - - [19/Feb/2014 12:40:04] "GET /static/css/stylesheet.css HTTP/1.1" 200 -
+Traceback (most recent call last):
+  File "app.py", line 12, in <module>
+    from flask.ext.compress import Compress
+  File "/usr/lib/python2.7/site-packages/flask/exthook.py", line 86, in load_module
+    raise ImportError('No module named %s' % fullname)
+ImportError: No module named flask.ext.compress
+Traceback (most recent call last):
+  File "app.py", line 12, in <module>
+    from flask.ext.compress import Compress
+  File "/usr/lib/python2.7/site-packages/flask/exthook.py", line 86, in load_module
+    raise ImportError('No module named %s' % fullname)
+ImportError: No module named flask.ext.compress

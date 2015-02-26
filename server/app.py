@@ -96,11 +96,11 @@ def signup():
 def login():
      username = str(MySQLdb.escape_string(request.form['username']))
      password = str(MySQLdb.escape_string(request.form['password']))
-
+     app.logger.debug(password)
      app.logger.debug("login button clicked")
      #check for existing user record in table USERS 
      
-     cursor.execute("""SELECT * FROM USERS WHERE USER_NAME = %s""", username )
+     cursor.execute("""SELECT * FROM USERS WHERE USER_NAME = %s""", (username,))
      app.logger.debug(cursor._executed)
      db.commit()
 
@@ -110,6 +110,9 @@ def login():
          pw_hash = row[2]
          #check if password matches
          if bcrypt.check_password_hash(pw_hash, password): 
+         # app.logger.debug(pw_hash)
+         # app.logger.debug(bcrypt.generate_password_hash(password))
+         # if pw_hash==bcrypt.generate_password_hash(password):
              app.logger.debug("password found")
              setLoginStatus(str(row[0]), 1)
              jsonResponse = {}
@@ -155,7 +158,7 @@ def userNameExists(username):
        return False    
  
 def getUsername(userId):
-    cursor.execute("""SELECT USER_NAME FROM USERS WHERE USER_ID = %s""", userId)
+    cursor.execute("""SELECT USER_NAME FROM USERS WHERE USER_ID = %s""", (userId,))
     db.commit()
     username = cursor.fetchone()
     return username[0]
@@ -167,7 +170,7 @@ def getUserId(username):
     return userId[0]
 
 def getLoginStatus(userId):
-   cursor.execute("""SELECT LOGGED_IN FROM USERS WHERE USER_ID = %s""", userID)
+   cursor.execute("""SELECT LOGGED_IN FROM USERS WHERE USER_ID = %s""", (userID,))
    db.commit()
    loginStatus = cursor.fetchone()
    return loginStatus 
@@ -180,14 +183,14 @@ def dbLinksToDict(userId,col="TIME_STAMP", order="DESC" ):
 
    if order == "DESC":
        if col == "TIME_STAMP":
-          cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s ORDER BY TIME_STAMP DESC""", userId)
+          cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s ORDER BY TIME_STAMP DESC""", (userId,))
        else:
-          cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s ORDER BY CLICK_COUNT DESC""", userId)
+          cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s ORDER BY CLICK_COUNT DESC""", (userId,))
    else:
         if col ==  "TIME_STAMP":
-          cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s ORDER BY TIME_STAMP ASC""", userId)
+          cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s ORDER BY TIME_STAMP ASC""", (userId,))
         else:
-          cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s ORDER BY CLICK_COUNT ASC""", userId)
+          cursor.execute("""SELECT * FROM LINKS WHERE USER_ID = %s ORDER BY CLICK_COUNT ASC""", (userId,))
    
 
    app.logger.debug(cursor._executed)
@@ -234,7 +237,7 @@ def addNewLinkToDB(userId, shortUrl, longUrl, clickCount, timeStamp):
         db.commit()   
 
 def checkUniqueShortUrl(shortUrl):
-    cursor.execute("""SELECT SHORT_URL FROM LINKS WHERE SHORT_URL = %s""", shortUrl)
+    cursor.execute("""SELECT SHORT_URL FROM LINKS WHERE SHORT_URL = %s""", (shortUrl,))
     db.commit()
     check = cursor.fetchone()
     if check:
@@ -243,7 +246,7 @@ def checkUniqueShortUrl(shortUrl):
        return True#short url is unique 
 
 def deleteLinkFromDB(shortUrl):
-    cursor.execute("""DELETE FROM LINKS WHERE SHORT_URL = %s""",shortUrl)
+    cursor.execute("""DELETE FROM LINKS WHERE SHORT_URL = %s""", (shortUrl,))
     db.commit()
     app.logger.debug(cursor._execute)
 
@@ -254,7 +257,7 @@ def addNewUserToDB( username, password, loggedIn):
          
 
 def incrementClickCountDB(shortUrl):
-    cursor.execute("""UPDATE LINKS SET  CLICK_COUNT = CLICK_COUNT + 1 WHERE SHORT_URL = %s""", shortUrl)
+    cursor.execute("""UPDATE LINKS SET  CLICK_COUNT = CLICK_COUNT + 1 WHERE SHORT_URL = %s""", (shortUrl,))
     db.commit()
 
 @app.route('/order', methods=['POST'])
@@ -288,7 +291,7 @@ def delete():
 @app.route('/short/<name>', methods=['GET'])
 def lengthen_url(name):
     """Redirects to long url or Nothing"""
-    cursor.execute("""SELECT LONG_URL FROM LINKS WHERE SHORT_URL = %s""", name)
+    cursor.execute("""SELECT LONG_URL FROM LINKS WHERE SHORT_URL = %s""", (name,))
     db.commit() 
     long_url = cursor.fetchone()
 
