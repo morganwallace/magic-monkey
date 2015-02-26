@@ -7,7 +7,7 @@ import operator
 from flask import request, url_for, abort, jsonify, Flask, Response, make_response
 from os import environ
 from flaskext.bcrypt import Bcrypt
-from flask.ext.sqlalchemy import SQLAlchemy
+# from flask.ext.sqlalchemy import SQLAlchemy
 # from flask.ext.gzip import Gzip
 from flask.ext.compress import Compress
 import MySQLdb
@@ -21,9 +21,9 @@ Compress(app)
 bcrypt = Bcrypt(app)
 # gzip = Gzip(app)
 
-#app.debug = True
-db=MySQLdb.connect(host="localhost",user="url_shortener",
-                  passwd="4w8in43",db="url_shortener")
+app.debug = True
+db=MySQLdb.connect(host="sql3.freemysqlhosting.net",user="sql368787",
+                  passwd="aY1!uB9!",db="sql368787",port=3306)
 cursor = db.cursor()
 
 
@@ -145,7 +145,7 @@ def logout():
 
 
 def userNameExists(username):
-    cursor.execute("""SELECT * FROM USERS WHERE USER_NAME = %s""", username)
+    cursor.execute("""SELECT * FROM USERS WHERE USER_NAME = %s""", (username,))
     app.logger.debug(cursor._executed)
     db.commit()
     row = cursor.fetchall()
@@ -161,7 +161,7 @@ def getUsername(userId):
     return username[0]
 
 def getUserId(username):
-    cursor.execute("""SELECT USER_ID FROM USERS WHERE USER_NAME = %s""", username)
+    cursor.execute("""SELECT USER_ID FROM USERS WHERE USER_NAME = %s""", (username,))
     db.commit()
     userId = cursor.fetchone()
     return userId[0]
@@ -351,4 +351,4 @@ def shorten_url():
 
 
 if __name__ == "__main__":
-     app.run(port=int(environ['FLASK_PORT']))
+     app.run()
